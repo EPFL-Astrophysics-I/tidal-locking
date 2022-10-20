@@ -16,10 +16,34 @@ public class OrbitSimulation : Simulation
     [SerializeField] private Vector3 initPosition1 = Vector3.left;
     [SerializeField] private Vector3 initVelocity1 = Vector3.up;
 
+    private bool _body1IsSquashed;
+
+    public bool body1IsSquashed {
+        get {return _body1IsSquashed;}
+        set {
+            if (_body1IsSquashed!=value){
+                _body1IsSquashed = value;
+                OnBodySquashed(this.body1, this._body1IsSquashed);
+            }
+        }
+    }
+
     [Header("Body2 Parameters")]
     [SerializeField] private GameObject moonPrefab;
     [SerializeField] private Vector3 initPosition2 = Vector3.right;
-    [SerializeField] private Vector3 initVelocity2 = Vector3.down;                          
+    [SerializeField] private Vector3 initVelocity2 = Vector3.down; 
+
+    private bool _body2IsSquashed;    
+
+    public bool body2IsSquashed {
+        get {return _body2IsSquashed;}
+        set {
+            if (_body2IsSquashed!=value){
+                _body2IsSquashed = value;
+                OnBodySquashed(this.body2, this._body2IsSquashed);
+            }
+        }
+    }                     
 
     // References to the actual transforms held in TwoBodyPrefabs
     private Transform body1;
@@ -78,6 +102,32 @@ public class OrbitSimulation : Simulation
         //xHat = Quaternion.AngleAxis(-initTheta, zHat) * r.normalized;
         xHat = -r.normalized;
         yHat = Vector3.Cross(zHat, xHat);
+    }
+
+    private void OnBodySquashed(Transform body, bool squashFlag) {
+        if (body) {
+            Debug.Log("Change scale");
+            // ERROR IF TOO FAST
+            Vector3 squashFactor = new Vector3(1f, 2f, 2f);
+            if (squashFlag) {
+                squashFactor = new Vector3(1f, 0.5f, 0.5f);
+            }
+            StartCoroutine(LerpScale(body, squashFactor, 1f));
+        }
+    }
+
+    IEnumerator LerpScale(Transform body, Vector3 squashFactor, float lerpTime) {
+        float time = 0;
+        Vector3 startScale = body.localScale;
+        Vector3 targetScale = Vector3.Scale(body.localScale, squashFactor);
+
+        while (time < lerpTime) {
+            time += Time.deltaTime;
+            body.localScale = Vector3.Lerp(startScale, targetScale, time/lerpTime);
+            yield return null;
+        }
+
+        body.localScale = targetScale;
     }
 
     private void FixedUpdate()

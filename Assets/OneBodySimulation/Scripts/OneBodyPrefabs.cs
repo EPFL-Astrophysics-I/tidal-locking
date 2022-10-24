@@ -5,32 +5,32 @@ using UnityEngine;
 public class OneBodyPrefabs : MonoBehaviour
 {
     [Header("Prefabs")]
-    public GameObject earthPrefab;
-    public GameObject moonPrefab;
+    [SerializeField] private GameObject earthPrefab;
+    [SerializeField] private GameObject moonPrefab;
+    [SerializeField] private GameObject moonOrbitPrefab;
 
     [HideInInspector] public CelestialBody earth;
     [HideInInspector] public CelestialBody moon;
+    [HideInInspector] public CircularOrbit moonOrbit;
 
     public void InstantiatePrefabs()
     {
         if (earthPrefab)
         {
-            GameObject go = Instantiate(earthPrefab, transform);
-            if (!go.transform.TryGetComponent(out earth))
-            {
-                Debug.LogWarning(go.name + " does not have a CelestialBody component");
-            }
-            go.name = "Earth";
+            earth = Instantiate(earthPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<CelestialBody>();
+            earth.gameObject.name = "Earth";
         }
 
         if (moonPrefab)
         {
-            GameObject go = Instantiate(moonPrefab, transform);
-            if (!go.transform.TryGetComponent(out moon))
-            {
-                Debug.LogWarning(go.name + " does not have a CelestialBody component");
-            }
-            go.name = "Moon";
+            moon = Instantiate(moonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<CelestialBody>();
+            moon.gameObject.name = "Moon";
+        }
+
+        if (moonOrbitPrefab)
+        {
+            moonOrbit = Instantiate(moonOrbitPrefab, transform).GetComponent<CircularOrbit>();
+            moonOrbit.gameObject.name = "Moon Orbit";
         }
     }
 

@@ -10,7 +10,6 @@ public class OneBodySimulation : Simulation
     public int numSubsteps = 100;
     public bool resetAfterOnePeriod = true;
     private UnitTime unitTime = UnitTime.Day;
-
     // Earth Radius to big
     // Moon Radius ?
     private UnitLength unitLength = UnitLength.Test;
@@ -38,22 +37,30 @@ public class OneBodySimulation : Simulation
     private float moonDistance;
     private CelestialBody moon; 
 
-    [Header("Prefabs")]
-    public GameObject earthPrefab = default;
-    public GameObject moonPrefab = default;
-
+    /* ************************************************************* */
     // Timer for resetting the simulation after one orbital period
     private float resetTimer;
-
     // Gravitational constant
     private float _newtonG;
     public float NewtonG => (_newtonG != 0) ? _newtonG : Units.NewtonG(unitTime, unitLength, unitMass);
-
     // Orbital period
     public float Period => 2 * Mathf.PI * Mathf.Sqrt(Mathf.Pow(moonDistance, 3) / NewtonG / Units.EarthMass(unitMass));
+    /* ************************************************************* */
+
+    public bool simIsStationary;
+
+    /* ************************************************************* */
+    private OneBodyPrefabs prefabs;
 
     private void Awake()
     {
+        /* From Unity doc:
+         Awake is used to initialize any variables or game state before the game starts.
+         Awake is called only once during the lifetime of the script instance.
+         Awake is always called before any Start functions.
+        */
+
+
         // Awake function because you need to recompute some values
         // if you change units parameters for exemple in the slideController.
         //      If unitTime, unitLength, unitMass we can put this in the Start function.
@@ -61,43 +68,49 @@ public class OneBodySimulation : Simulation
         // Create CelestialBodies and assign their properties
         //Reset();
 
+        if (!TryGetComponent(out prefabs))
+        {
+            Debug.LogWarning("No OneBodyPrefab component found.");
+            return;
+        }
+
+        prefabs.InstantiatePrefabs();
+
         // Compute Newton's constant only once
         _newtonG = NewtonG;
     }
 
     private void Start()
     {
+        /*
+         use Start to pass any information back and forth
+        */
+
         resetTimer = 0;
 
-        // Earth
-        if (earthPrefab != null)
+        earth = prefabs.earth;
+        if (earth)
         {
-            if (earth == null)
-            {
-                earth = Instantiate(earthPrefab, initEarthPosition, Quaternion.identity, transform).GetComponent<CelestialBody>();
-                earth.gameObject.name = "Earth";
-            }
             earth.Position = initEarthPosition;
             earth.Mass = EarthMass(unitMass);
             earth.SetRadius(radiusScale * EarthRadius(unitLength));
             earth.RotationPeriod = EarthRotationPeriod(unitTime);
         }
 
-        // Moon
-        if (moonPrefab != null)
+        moon = prefabs.moon;
+        if (earth)
         {
-            if (moon == null)
-            {
-                moon = Instantiate(moonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<CelestialBody>();
-                moon.gameObject.name = "Moon";
-            }
             moon.Position = earth.Position + LunarDistance(unitLength) * Vector3.right;
             moon.Mass = LunarMass(unitMass);
             moon.SetRadius(radiusScale * LunarRadius(unitLength));
             initMoonPosition = moon.Position;
             moonDistance = (moon.Position - earth.Position).magnitude;
             moon.RotationPeriod = Period;
-            //moon.IsSquashed = moonIsSquashed;
+        }
+
+        CircularOrbit moonOrbit = prefabs.moonOrbit;
+        if (moonOrbit) {
+            moonOrbit.DrawOrbit(initEarthPosition, LunarDistance(unitLength), 100);
         }
     }
 
@@ -105,6 +118,12 @@ public class OneBodySimulation : Simulation
     {
         if (paused)
         {
+            return;
+        }
+
+        if (simIsStationary)
+        {
+            DragMoonAlongOrbit();
             return;
         }
 
@@ -152,5 +171,10 @@ public class OneBodySimulation : Simulation
         float r = vectorR.magnitude;
         Vector3 position = new Vector3(r * Mathf.Cos(theta), 0, r * Mathf.Sin(theta));
         moon.Position = earth.Position + position;
+    }
+
+    private void DragMoonAlongOrbit()
+    {
+
     }
 }

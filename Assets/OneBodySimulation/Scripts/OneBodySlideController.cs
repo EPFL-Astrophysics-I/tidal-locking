@@ -6,11 +6,13 @@ public class OneBodySlideController : SimulationSlideController
 {
     [Header("Parameters")]
     [SerializeField] private bool moonIsSquashed;
+    [SerializeField] private bool simIsStationary;
 
     // Start is called before the first frame update
     public override void InitializeSlide()
     {
         OneBodySimulation sim = simulation as OneBodySimulation;
         sim.MoonIsSquashed = moonIsSquashed;
+        sim.simIsStationary = simIsStationary;
     }
 }

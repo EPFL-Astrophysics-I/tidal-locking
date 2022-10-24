@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 139644079}
   - component: {fileID: 139644080}
   m_Layer: 0
-  m_Name: Earth Moon Schematic
+  m_Name: Earth Moon Schematic Prev
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239,6 +239,160 @@ MonoBehaviour:
   orbitPrefab: {fileID: 2471346202470714811, guid: ec4c9727630c4e34aae51dd65aac02bf,
     type: 3}
   stationary: 1
+--- !u!1 &145436746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 145436747}
+  - component: {fileID: 145436750}
+  - component: {fileID: 145436749}
+  - component: {fileID: 145436748}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &145436747
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145436746}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1467228495}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 120}
+  m_SizeDelta: {x: 600, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &145436748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145436746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e4e5353cd93d8428783217559de020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  languageToggle: {fileID: 1098925803}
+  tmpUI: {fileID: 145436749}
+  FR: "Comme pour les forces de mar\xE9e vues dans les applications pr\xE9c\xE9dentes,
+    les forces gravitationnelles de la Terre ont d\xE9form\xE9 la Lune."
+  EN: As with the tidal forces seen in previous applications, the Earth's gravitational
+    forces deformed the Moon.
+--- !u!114 &145436749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145436746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: As with the tidal forces seen in previous applications, the Earth's gravitational
+    forces deformed the Moon.
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 350cfcf20da78478f9197161ac83b480, type: 2}
+  m_sharedMaterial: {fileID: -1129015340585624399, guid: 350cfcf20da78478f9197161ac83b480,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 20
+  m_fontSizeBase: 20
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &145436750
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145436746}
+  m_CullTransparentMesh: 0
 --- !u!1 &430499573
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,6 +805,159 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &550344254
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 550344255}
+  - component: {fileID: 550344258}
+  - component: {fileID: 550344257}
+  - component: {fileID: 550344256}
+  m_Layer: 5
+  m_Name: TextBelow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &550344255
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550344254}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1884251638}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -120}
+  m_SizeDelta: {x: 600, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &550344256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550344254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e4e5353cd93d8428783217559de020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  languageToggle: {fileID: 1098925803}
+  tmpUI: {fileID: 550344257}
+  FR: La Lune tourne autour de la Terre et de son centre de masse avec des vitesses
+    inconnues.
+  EN: The Moon is rotating around the Earth and its center of mass with unknown velocities.
+--- !u!114 &550344257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550344254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: The Moon is rotating around the Earth and its center of mass with unknown
+    velocities.
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 350cfcf20da78478f9197161ac83b480, type: 2}
+  m_sharedMaterial: {fileID: -1129015340585624399, guid: 350cfcf20da78478f9197161ac83b480,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 20
+  m_fontSizeBase: 20
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &550344258
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550344254}
+  m_CullTransparentMesh: 0
 --- !u!224 &553839831 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7881695423490027984, guid: af2d025e90b344683a7e337c915926e9,
@@ -705,9 +1012,7 @@ MonoBehaviour:
   resetAfterOnePeriod: 1
   timeScale: 1
   earthIsRotating: 1
-  earthIsDeforming: 0
   moonIsRotating: 1
-  moonIsDeforming: 0
   earthPrefab: {fileID: 2043717623570022050, guid: b1a22c74910d29649a7980a8b66d2129,
     type: 3}
   moonPrefab: {fileID: 6721142307822740879, guid: b743da0e83b6488408713bc7ff5bb4f5,
@@ -763,7 +1068,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1dadf0551ff640b9984655554c1417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundColor: {r: 1, g: 1, b: 1, a: 0}
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   colorTransitionTime: 0.5
   position: {x: 0, y: 50, z: 0}
   lookAt: {x: 0, y: 0, z: 0}
@@ -1096,6 +1401,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 981766826}
   m_CullTransparentMesh: 0
+--- !u!1 &1012715053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1012715054}
+  - component: {fileID: 1012715055}
+  m_Layer: 0
+  m_Name: Earth Moon Schematic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1012715054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012715053}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.2815497, y: 0, z: 1.1309563}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1777213032}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1012715055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012715053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fedf58dd04ddca1489d2f518f65358f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paused: 0
+  numSubsteps: 100
+  resetAfterOnePeriod: 1
+  timeScale: 1
+  earthIsRotating: 1
+  moonIsRotating: 1
+  earthPrefab: {fileID: 2043717623570022050, guid: b1a22c74910d29649a7980a8b66d2129,
+    type: 3}
+  moonPrefab: {fileID: 1315578000504876477, guid: a54dccd73d1579540b097f41cd83105a,
+    type: 3}
 --- !u!224 &1054878523 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1001247658841754028, guid: 3186cec9a2c954ee08ff552192383797,
@@ -1241,7 +1599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1dadf0551ff640b9984655554c1417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0.49019608}
   colorTransitionTime: 0.5
   position: {x: 0, y: 5, z: -60}
   lookAt: {x: 0, y: 5, z: 0}
@@ -1604,6 +1962,123 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383142147}
   m_CullTransparentMesh: 0
+--- !u!1 &1467228494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1467228495}
+  - component: {fileID: 1467228498}
+  - component: {fileID: 1467228497}
+  - component: {fileID: 1467228496}
+  m_Layer: 5
+  m_Name: Slide 6
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1467228495
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467228494}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1628030512}
+  - {fileID: 145436747}
+  m_Father: {fileID: 2866597030137718180}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1467228496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467228494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaaf0b8614dbd814092c93e27eabd00f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoPlay: 1
+  simulation: {fileID: 625014118}
+  moonIsSquashed: 1
+--- !u!114 &1467228497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467228494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1dadf0551ff640b9984655554c1417d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  colorTransitionTime: 0.5
+  position: {x: 0, y: 5, z: -30}
+  lookAt: {x: 0, y: 0, z: 0}
+  moveTime: 1
+  orthographic: 0
+  fieldOfView: 20
+  pivotPoint: {x: 0, y: 0, z: 0}
+  canRotateX: 0
+  canRotateY: 0
+  canZoom: 0
+  scrollScaleFactor: 0.1
+  minZoom: 5
+  maxZoom: 50
+  rotationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!225 &1467228498
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467228494}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1540933396
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,7 +2092,7 @@ GameObject:
   - component: {fileID: 1540933399}
   - component: {fileID: 1540933398}
   m_Layer: 5
-  m_Name: Slide 6
+  m_Name: Slide 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1636,7 +2111,7 @@ RectTransform:
   m_Children:
   - {fileID: 1755308411}
   m_Father: {fileID: 2866597030137718180}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1670,7 +2145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1dadf0551ff640b9984655554c1417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundColor: {r: 1, g: 1, b: 1, a: 0}
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   colorTransitionTime: 0.5
   position: {x: 0, y: 0, z: 30}
   lookAt: {x: 0, y: 0, z: 0}
@@ -1720,6 +2195,159 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!1 &1628030511
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1628030512}
+  - component: {fileID: 1628030515}
+  - component: {fileID: 1628030514}
+  - component: {fileID: 1628030513}
+  m_Layer: 5
+  m_Name: TextBelow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1628030512
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628030511}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1467228495}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -120}
+  m_SizeDelta: {x: 600, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1628030513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628030511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e4e5353cd93d8428783217559de020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  languageToggle: {fileID: 1098925803}
+  tmpUI: {fileID: 1628030514}
+  FR: La Lune tourne autour de la Terre et de son centre de masse avec des vitesses
+    inconnues.
+  EN: The Moon is rotating around the Earth and its center of mass with unknown velocities.
+--- !u!114 &1628030514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628030511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: The Moon is rotating around the Earth and its center of mass with unknown
+    velocities.
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 350cfcf20da78478f9197161ac83b480, type: 2}
+  m_sharedMaterial: {fileID: -1129015340585624399, guid: 350cfcf20da78478f9197161ac83b480,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 20
+  m_fontSizeBase: 20
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1628030515
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628030511}
+  m_CullTransparentMesh: 0
 --- !u!1 &1755308410
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,6 +2499,160 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1755308410}
   m_CullTransparentMesh: 0
+--- !u!1 &1761360409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1761360410}
+  - component: {fileID: 1761360413}
+  - component: {fileID: 1761360412}
+  - component: {fileID: 1761360411}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1761360410
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761360409}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1884251638}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 120}
+  m_SizeDelta: {x: 600, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1761360411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761360409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e4e5353cd93d8428783217559de020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  languageToggle: {fileID: 1098925803}
+  tmpUI: {fileID: 1761360412}
+  FR: "Comme pour les forces de mar\xE9e vues dans les applications pr\xE9c\xE9dentes,
+    les forces gravitationnelles de la Terre ont d\xE9form\xE9 la Lune."
+  EN: As with the tidal forces seen in previous applications, the Earth's gravitational
+    forces deformed the Moon.
+--- !u!114 &1761360412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761360409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: As with the tidal forces seen in previous applications, the Earth's gravitational
+    forces deformed the Moon.
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 350cfcf20da78478f9197161ac83b480, type: 2}
+  m_sharedMaterial: {fileID: -1129015340585624399, guid: 350cfcf20da78478f9197161ac83b480,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 20
+  m_fontSizeBase: 20
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1761360413
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761360409}
+  m_CullTransparentMesh: 0
 --- !u!1 &1777213031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1903,6 +2685,7 @@ Transform:
   - {fileID: 139644079}
   - {fileID: 92010549}
   - {fileID: 625014117}
+  - {fileID: 1012715054}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1971,7 +2754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1dadf0551ff640b9984655554c1417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundColor: {r: 1, g: 1, b: 1, a: 0}
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   colorTransitionTime: 0.5
   position: {x: 0, y: 0, z: 30}
   lookAt: {x: 0, y: 0, z: 0}
@@ -2068,6 +2851,123 @@ MonoBehaviour:
   cubePrefab: {fileID: 8353341680133322408, guid: 5a20eba35b0ba4adbbf50bda878cc759,
     type: 3}
   cubeIsSpinning: 0
+--- !u!1 &1884251637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1884251638}
+  - component: {fileID: 1884251641}
+  - component: {fileID: 1884251640}
+  - component: {fileID: 1884251639}
+  m_Layer: 5
+  m_Name: Slide 7
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1884251638
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884251637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 550344255}
+  - {fileID: 1761360410}
+  m_Father: {fileID: 2866597030137718180}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1884251639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884251637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaaf0b8614dbd814092c93e27eabd00f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoPlay: 1
+  simulation: {fileID: 1012715055}
+  moonIsSquashed: 0
+--- !u!114 &1884251640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884251637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1dadf0551ff640b9984655554c1417d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
+  colorTransitionTime: 0.5
+  position: {x: 0, y: 30, z: 0}
+  lookAt: {x: 0, y: 0, z: 0}
+  moveTime: 1
+  orthographic: 0
+  fieldOfView: 20
+  pivotPoint: {x: 0, y: 0, z: 0}
+  canRotateX: 0
+  canRotateY: 0
+  canZoom: 0
+  scrollScaleFactor: 0.1
+  minZoom: 5
+  maxZoom: 50
+  rotationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!225 &1884251641
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884251637}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1959666312
 GameObject:
   m_ObjectHideFlags: 0
@@ -2103,8 +3003,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -110}
-  m_SizeDelta: {x: 400, y: 50}
+  m_AnchoredPosition: {x: 0, y: 60}
+  m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1959666314
 MonoBehaviour:
@@ -2120,8 +3020,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   languageToggle: {fileID: 1098925803}
   tmpUI: {fileID: 1959666315}
-  FR: Le cube tourne maintenant.
-  EN: The cube is rotating now.
+  FR: "La th\xE9orie la plus convaincante sur l'origine de la Lune est celle du \"Big
+    Splash\". Un corps de la taille de Mars appel\xE9 Th\xE9ia serait entr\xE9 en
+    collision avec la Terre. Ainsi, la cro\xFBte de la jeune plan\xE8te aurait \xE9t\xE9
+    projet\xE9e dans l'espace. Cet anneau de d\xE9bris aurait fini par se rassembler
+    pour former un satellite naturel : la Lune. La rotation et l'orbite initiales
+    de la Lune n'\xE9taient donc certainement pas synchronis\xE9es avec celles de
+    la Terre."
+  EN: 'The most convincing theory on the origin of the Moon is the "Big Splash".
+    A body the size of Mars called Theia would have collided with the Earth. Thus
+    the crust of the young planet would have been projected into space. This ring
+    of debris would have ended up gathering to form a natural satellite: the Moon.
+    Therefore the initial spin and orbit of the Moon were certainly not in synchronization
+    with the Earth. '
 --- !u!114 &1959666315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2141,7 +3052,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The cube is rotating now.
+  m_text: 'The most convincing theory on the origin of the Moon is the "Big Splash".
+    A body the size of Mars called Theia would have collided with the Earth. Thus
+    the crust of the young planet would have been projected into space. This ring
+    of debris would have ended up gathering to form a natural satellite: the Moon.
+    Therefore the initial spin and orbit of the Moon were certainly not in synchronization
+    with the Earth. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 350cfcf20da78478f9197161ac83b480, type: 2}
   m_sharedMaterial: {fileID: -1129015340585624399, guid: 350cfcf20da78478f9197161ac83b480,
@@ -2151,8 +3067,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2272,8 +3188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoPlay: 1
   simulation: {fileID: 625014118}
-  body1IsSquashed: 0
-  body2IsSquashed: 0
+  moonIsSquashed: 0
 --- !u!114 &2116169443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2286,10 +3201,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1dadf0551ff640b9984655554c1417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundColor: {r: 1, g: 1, b: 1, a: 0}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 1}
   colorTransitionTime: 0.5
-  position: {x: 0, y: 0, z: 30}
-  lookAt: {x: 0, y: 0, z: 0}
+  position: {x: 0, y: 5, z: -30}
+  lookAt: {x: 0, y: 2.5, z: 0}
   moveTime: 1
   orthographic: 0
   fieldOfView: 20
@@ -2632,6 +3547,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7881695425109618372, guid: af2d025e90b344683a7e337c915926e9,
+        type: 3}
+      propertyPath: lightActiveColor.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7881695425474045023, guid: af2d025e90b344683a7e337c915926e9,
         type: 3}
       propertyPath: m_IsActive
@@ -2828,6 +3748,8 @@ RectTransform:
   - {fileID: 818912408}
   - {fileID: 1832834242}
   - {fileID: 2116169441}
+  - {fileID: 1467228495}
+  - {fileID: 1884251638}
   - {fileID: 1540933397}
   m_Father: {fileID: 333518955822707937}
   m_RootOrder: 0
@@ -2915,7 +3837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1dadf0551ff640b9984655554c1417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  backgroundColor: {r: 0, g: 0, b: 0, a: 1}
   colorTransitionTime: 0.5
   position: {x: 0, y: 0, z: -40}
   lookAt: {x: 0, y: 0, z: 0}
@@ -3335,7 +4257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1dadf0551ff640b9984655554c1417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundColor: {r: 1, g: 1, b: 1, a: 0}
+  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
   colorTransitionTime: 0.5
   position: {x: 0, y: 2, z: -40}
   lookAt: {x: 0, y: 2, z: 0}

@@ -5,15 +5,12 @@ using UnityEngine;
 public class OneBodySlideController : SimulationSlideController
 {
     [Header("Parameters")]
-
-    [SerializeField] private bool body1IsSquashed;
-    [SerializeField] private bool body2IsSquashed;
+    [SerializeField] private bool moonIsSquashed;
 
     // Start is called before the first frame update
     public override void InitializeSlide()
     {
         OneBodySimulation sim = simulation as OneBodySimulation;
-        //sim.body1IsSquashed = body1IsSquashed;
-        //sim.body2IsSquashed = body2IsSquashed;
+        sim.MoonIsSquashed = moonIsSquashed;
     }
 }

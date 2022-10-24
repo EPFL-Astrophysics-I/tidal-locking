@@ -17,7 +17,7 @@ public static class Units
 
     // Unit options
     public enum UnitTime { Year, Month, Day }
-    public enum UnitLength { AU, SolarRadius, EarthRadius }
+    public enum UnitLength { AU, SolarRadius, EarthRadius, Test }
     public enum UnitMass { SolarMass, EarthMass }
 
     public static float NewtonG(UnitTime unitTime, UnitLength unitLength, UnitMass unitMass)
@@ -42,6 +42,10 @@ public static class Units
         else if (unitLength == UnitLength.EarthRadius)
         {
             l = r_earth_SI;
+        }
+        else if (unitLength == UnitLength.Test)
+        {
+            l = earth_to_moon_SI/8f;
         }
 
         // Mass
@@ -88,6 +92,9 @@ public static class Units
             case UnitLength.SolarRadius:
                 result = r_earth_SI / r_sun_SI;
                 break;
+            case UnitLength.Test:
+                result = r_earth_SI / earth_to_moon_SI * 8f;
+                break;
             default:
                 break;
         }
@@ -117,6 +124,9 @@ public static class Units
                 break;
             case UnitLength.SolarRadius:
                 result = r_moon_SI / r_sun_SI;
+                break;
+            case UnitLength.Test:
+                result = r_moon_SI / earth_to_moon_SI * 8f;
                 break;
             default:
                 break;
@@ -154,6 +164,9 @@ public static class Units
                 break;
             case UnitLength.SolarRadius:
                 result = earth_to_moon_SI / r_sun_SI;
+                break;
+            case UnitLength.Test:
+                result = earth_to_moon_SI / earth_to_moon_SI * 8f;
                 break;
             default:
                 break;

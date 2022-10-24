@@ -13,24 +13,30 @@ public class OneBodySimulation : Simulation
 
     // Earth Radius to big
     // Moon Radius ?
-    private UnitLength unitLength = UnitLength.EarthRadius;
+    private UnitLength unitLength = UnitLength.Test;
     private UnitMass unitMass = UnitMass.EarthMass;
     public float timeScale = 1;
+    private float radiusScale = 8;
 
     [Header("Earth Parameters")]
     public bool earthIsRotating = false;
-    public bool earthIsDeforming = false;
     private Vector3 initEarthPosition = Vector3.zero;
-    private float earthRadius = 1;
-    private float earthMass = 1;
     private CelestialBody earth;
 
-    [Header("Moon Parameters")]
+    [Header("Moon Parameters")] 
     public bool moonIsRotating = true;
-    public bool moonIsDeforming = false;
+    public bool MoonIsSquashed {
+        get {return moon.IsSquashed;}
+        set {
+            // moon needs to be init, use Prefabs script ?
+            if (moon!=null) {
+                moon.IsSquashed = value;
+            }
+        }
+    }
     private Vector3 initMoonPosition;
     private float moonDistance;
-    private CelestialBody moon;
+    private CelestialBody moon; 
 
     [Header("Prefabs")]
     public GameObject earthPrefab = default;
@@ -44,7 +50,7 @@ public class OneBodySimulation : Simulation
     public float NewtonG => (_newtonG != 0) ? _newtonG : Units.NewtonG(unitTime, unitLength, unitMass);
 
     // Orbital period
-    public float Period => 2 * Mathf.PI * Mathf.Sqrt(Mathf.Pow(moonDistance, 3) / NewtonG / earthMass);
+    public float Period => 2 * Mathf.PI * Mathf.Sqrt(Mathf.Pow(moonDistance, 3) / NewtonG / Units.EarthMass(unitMass));
 
     private void Awake()
     {
@@ -61,8 +67,38 @@ public class OneBodySimulation : Simulation
 
     private void Start()
     {
-        Reset();
-        Debug.Log(unitLength);
+        resetTimer = 0;
+
+        // Earth
+        if (earthPrefab != null)
+        {
+            if (earth == null)
+            {
+                earth = Instantiate(earthPrefab, initEarthPosition, Quaternion.identity, transform).GetComponent<CelestialBody>();
+                earth.gameObject.name = "Earth";
+            }
+            earth.Position = initEarthPosition;
+            earth.Mass = EarthMass(unitMass);
+            earth.SetRadius(radiusScale * EarthRadius(unitLength));
+            earth.RotationPeriod = EarthRotationPeriod(unitTime);
+        }
+
+        // Moon
+        if (moonPrefab != null)
+        {
+            if (moon == null)
+            {
+                moon = Instantiate(moonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<CelestialBody>();
+                moon.gameObject.name = "Moon";
+            }
+            moon.Position = earth.Position + LunarDistance(unitLength) * Vector3.right;
+            moon.Mass = LunarMass(unitMass);
+            moon.SetRadius(radiusScale * LunarRadius(unitLength));
+            initMoonPosition = moon.Position;
+            moonDistance = (moon.Position - earth.Position).magnitude;
+            moon.RotationPeriod = Period;
+            //moon.IsSquashed = moonIsSquashed;
+        }
     }
 
     private void FixedUpdate()
@@ -116,42 +152,5 @@ public class OneBodySimulation : Simulation
         float r = vectorR.magnitude;
         Vector3 position = new Vector3(r * Mathf.Cos(theta), 0, r * Mathf.Sin(theta));
         moon.Position = earth.Position + position;
-    }
-
-    public void Reset()
-    {
-        resetTimer = 0;
-
-        // Earth
-        if (earthPrefab != null)
-        {
-            if (earth == null)
-            {
-                Debug.Log("INIT");
-                earth = Instantiate(earthPrefab, initEarthPosition, Quaternion.identity, transform).GetComponent<CelestialBody>();
-                //earth.gameObject.name = "Earth";
-            }
-            Debug.Log(earth);
-            earth.Position = initEarthPosition;
-            earth.Mass = EarthMass(unitMass);
-            earth.SetRadius(earthRadius * EarthRadius(unitLength));
-            earth.RotationPeriod = EarthRotationPeriod(unitTime);
-        }
-
-        // Moon
-        if (moonPrefab != null)
-        {
-            if (moon == null)
-            {
-                moon = Instantiate(moonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<CelestialBody>();
-                //moon.gameObject.name = "Moon";
-            }
-            moon.Position = earth.Position + LunarDistance(unitLength) * Vector3.right;
-            moon.Mass = LunarMass(unitMass);
-            moon.SetRadius(earthRadius * LunarRadius(unitLength));
-            initMoonPosition = moon.Position;
-            moonDistance = (moon.Position - earth.Position).magnitude;
-            moon.RotationPeriod = Period;
-        }
     }
 }

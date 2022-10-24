@@ -8,6 +8,20 @@ public class CelestialBody : MonoBehaviour
 
     private float radius = 1f;
 
+    // Use methods instead of property ? Whats is the convention ?
+    private bool isSquashed = false;
+    public bool IsSquashed
+    {
+        get { return isSquashed; }
+        set 
+        { 
+            if (isSquashed!=value) {
+                isSquashed = value;
+                OnSquashed();
+            }
+        }
+    }
+
     // Quantities of motion
     public Vector3 Position
     {
@@ -49,5 +63,28 @@ public class CelestialBody : MonoBehaviour
     public void SetRotation(Vector3 rotation)
     {
         transform.rotation = Quaternion.Euler(rotation);
+    }
+
+    private void OnSquashed() {
+        // ERROR IF TOO FAST ?
+        Vector3 squashFactor = new Vector3(1f, 2f, 2f);
+        if (isSquashed) {
+            squashFactor = new Vector3(1f, 0.5f, 0.5f);
+        }
+        StartCoroutine(LerpScale(transform, squashFactor, 1f));
+    }
+
+    IEnumerator LerpScale(Transform body, Vector3 squashFactor, float lerpTime) {
+        float time = 0;
+        Vector3 startScale = body.localScale;
+        Vector3 targetScale = Vector3.Scale(body.localScale, squashFactor);
+
+        while (time < lerpTime) {
+            time += Time.deltaTime;
+            body.localScale = Vector3.Lerp(startScale, targetScale, time/lerpTime);
+            yield return null;
+        }
+
+        body.localScale = targetScale;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using static Units;
 
@@ -52,6 +53,13 @@ public class OneBodySimulation : Simulation
     /* ************************************************************* */
     private OneBodyPrefabs prefabs;
 
+    /* ************ Mouse Clicks & Drag **************************** */
+    private Camera mainCamera;
+    private bool draggingPoint;
+    private Vector2 centerOfRotation;
+    private float screenClickAngle;
+    private float moonStartAngle;
+
     private void Awake()
     {
         /* From Unity doc:
@@ -78,6 +86,9 @@ public class OneBodySimulation : Simulation
 
         // Compute Newton's constant only once
         _newtonG = NewtonG;
+
+        mainCamera = Camera.main;
+        draggingPoint = false;
     }
 
     private void Start()
@@ -113,6 +124,13 @@ public class OneBodySimulation : Simulation
             moonOrbit.DrawOrbit(initEarthPosition, LunarDistance(unitLength), 100);
         }
     }
+    private void Update()
+    {
+        if (simIsStationary)
+        {
+            DragMoonAlongOrbit();
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -123,7 +141,6 @@ public class OneBodySimulation : Simulation
 
         if (simIsStationary)
         {
-            DragMoonAlongOrbit();
             return;
         }
 
@@ -175,6 +192,56 @@ public class OneBodySimulation : Simulation
 
     private void DragMoonAlongOrbit()
     {
+        if(Input.GetMouseButtonDown(0)) {
+            //Debug.Log("OnGameObject");
 
+            // Do not need z component as the camera is "looking down",
+            // simulation is in the plan (X, Y)
+            Vector2 moonPositionInScreen = mainCamera.WorldToScreenPoint(moon.Position);
+            //moonPositionInScreen.z = 0;
+            //Debug.Log("Moon Screen Pos:" + moonPositionInScreen);
+            Vector2 mousePositionOnClick = Input.mousePosition;
+            //mousePositionInScreen.z = 0;
+            //Debug.Log("Mouse Screen Pos:" + mousePositionOnClick);
+            centerOfRotation = mainCamera.WorldToScreenPoint(earth.Position);
+
+            // Vector from moon center to mouse position
+            Vector2 distance = mousePositionOnClick - moonPositionInScreen;
+            float distanceMag = distance.magnitude;
+
+            //float range = moon.transform.localScale.z - moon.transform.localScale.z*0.1f;
+            // Temp because moon radius is too small until now:
+            float range = moon.transform.localScale.z*20;
+
+            //Debug.Log("range: " + range + " distance: " + distanceMag);
+            // Check that the mouse click is in the center of the moon
+            if (-range < distanceMag && distanceMag < range) {
+                moonStartAngle = Mathf.Atan2(moon.Position.y, moon.Position.x);
+                draggingPoint = true;                
+            }
+        }
+
+        if (Input.GetMouseButton(0) && draggingPoint)
+        {
+            // Get mouse position and displacement
+            Vector2 currentMousePosition = Input.mousePosition;
+            Vector2 screenDisplacement = currentMousePosition - centerOfRotation;
+            float deltaAngle = Mathf.Atan2(screenDisplacement.y, screenDisplacement.x);
+
+            // Compute new position
+            Vector3 vectorR = moon.Position - earth.Position;
+            float r = vectorR.magnitude;
+            float pointNewX = r * Mathf.Cos(moonStartAngle + deltaAngle);
+            float pointNewY = r * Mathf.Sin(moonStartAngle + deltaAngle);
+            Vector3 position = new Vector3(pointNewX, 0, pointNewY);
+
+            // Assign new position
+            moon.Position = earth.Position + position;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            draggingPoint = false;
+        }
     }
 }

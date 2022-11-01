@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class CircularOrbit : MonoBehaviour
 {
-    public Color color = Color.black;
+    public Color color;
     [Range(0, 5)]
     public float lineWidth = 0.1f;
     public Vector3 planeNormal = Vector3.up;

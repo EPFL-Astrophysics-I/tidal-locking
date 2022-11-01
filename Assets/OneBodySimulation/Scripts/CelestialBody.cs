@@ -5,7 +5,6 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class CelestialBody : MonoBehaviour
 {
-
     private float radius = 1f;
 
     // Use methods instead of property ? Whats is the convention ?

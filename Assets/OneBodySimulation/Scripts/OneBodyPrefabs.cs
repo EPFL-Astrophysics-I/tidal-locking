@@ -6,12 +6,19 @@ public class OneBodyPrefabs : MonoBehaviour
 {
     [Header("Prefabs")]
     [SerializeField] private GameObject earthPrefab;
+    [SerializeField] private GameObject earthVarInEquation;
     [SerializeField] private GameObject moonPrefab;
     [SerializeField] private GameObject moonOrbitPrefab;
+    [SerializeField] private GameObject vectorCenterPrefab;
+
+    [Header("Lights")]
+    [SerializeField] private List<GameObject> listLightPrefabs;
 
     [HideInInspector] public CelestialBody earth;
     [HideInInspector] public CelestialBody moon;
     [HideInInspector] public CircularOrbit moonOrbit;
+    [HideInInspector] public Vector moonCenterVec;
+    [HideInInspector] public List<Light> listLights;
 
     public void InstantiatePrefabs()
     {
@@ -19,6 +26,16 @@ public class OneBodyPrefabs : MonoBehaviour
         {
             earth = Instantiate(earthPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<CelestialBody>();
             earth.gameObject.name = "Earth";
+
+            if(earthVarInEquation) {
+                OnOverLink link;
+                if (!earth.gameObject.TryGetComponent<OnOverLink>( out link))
+                {
+                    Debug.LogWarning("OnOver this object will not colorized any image (No OnOverLink component).");
+                    return;
+                }
+                link.SetImage(earthVarInEquation);
+            }
         }
 
         if (moonPrefab)
@@ -32,7 +49,17 @@ public class OneBodyPrefabs : MonoBehaviour
             moonOrbit = Instantiate(moonOrbitPrefab, transform).GetComponent<CircularOrbit>();
             moonOrbit.gameObject.name = "Moon Orbit";
         }
+
+        if (vectorCenterPrefab)
+        {
+            moonCenterVec = Instantiate(moonOrbitPrefab, transform).GetComponent<Vector>();
+            moonCenterVec.gameObject.name = "Vector from moon center to earth center";
+        }
+
+        foreach (GameObject lightPrefab in listLightPrefabs)
+        {
+            Light light = Instantiate(lightPrefab, transform).GetComponent<Light>();
+            listLights.Add(light);
+        }
     }
-
-
 }

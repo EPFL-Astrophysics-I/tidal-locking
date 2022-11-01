@@ -5,6 +5,7 @@ using UnityEngine;
 public class OneBodySlideController : SimulationSlideController
 {
     [Header("Parameters")]
+    [SerializeField] private float radiusScale;
     [SerializeField] private bool moonIsSquashed;
     [SerializeField] private bool simIsStationary;
 
@@ -14,5 +15,6 @@ public class OneBodySlideController : SimulationSlideController
         OneBodySimulation sim = simulation as OneBodySimulation;
         sim.MoonIsSquashed = moonIsSquashed;
         sim.simIsStationary = simIsStationary;
+        sim.radiusScale = radiusScale;
     }
 }

@@ -7,6 +7,7 @@ using static Units;
 
 public class OneBodySimulation : Simulation
 {
+    /* ************************************************************* */
     [Header("Simulation Properties")]
     public int numSubsteps = 100;
     public bool resetAfterOnePeriod = true;
@@ -17,11 +18,13 @@ public class OneBodySimulation : Simulation
     private UnitMass unitMass = UnitMass.EarthMass;
     public float timeScale = 1;
     [HideInInspector] public float radiusScale = 10;
+    /* ************************************************************* */
 
     [Header("Earth Parameters")]
     public bool earthIsRotating = false;
     private Vector3 initEarthPosition = Vector3.zero;
     private CelestialBody earth;
+    /* ************************************************************* */
 
     [Header("Moon Parameters")] 
     public bool moonIsRotating = true;
@@ -33,12 +36,14 @@ public class OneBodySimulation : Simulation
             if (moon!=null) {
                 moon.IsSquashed = value;
             }
-            moonSquashed = true;
+            moonSquashed = value;
         }
     }
     private Vector3 initMoonPosition;
     private float moonDistance;
     private CelestialBody moon; 
+    private PointOnBody moonPointLeft;
+    private PointOnBody moonPointRight;
 
     /* ************************************************************* */
     // Timer for resetting the simulation after one orbital period
@@ -61,11 +66,11 @@ public class OneBodySimulation : Simulation
     private bool draggingEdgeMoon;
     private Vector2 centerOfRotation;
     private Vector2 centerOfSpin;
-    private float screenClickAngle;
     private float moonStartAngle;
     private float mouseStartAngle;
-    private float viewportClickAngle;
     private Vector3 moonStartSpin;
+    /* ************************************************************* */
+
     private void Awake()
     {
         /* From Unity doc:
@@ -126,6 +131,12 @@ public class OneBodySimulation : Simulation
             moonDistance = (moon.Position - earth.Position).magnitude;
             moon.RotationPeriod = Period;
             MoonIsSquashed = moonSquashed;
+        }
+
+        moonPointRight = prefabs.moonPointRight;
+        if (moonPointRight)
+        {
+            setMoonPointPosition(moonPointRight);
         }
 
         CircularOrbit moonOrbit = prefabs.moonOrbit;
@@ -279,12 +290,14 @@ public class OneBodySimulation : Simulation
 
                 // Assign new position
                 moon.Position = earth.Position + position;
+                setMoonPointPosition(moonPointRight);
             } else {
                 
                 Vector2 screenDisplacement = currentMousePosition - centerOfSpin;
                 float deltaAngle = Mathf.Atan2(screenDisplacement.y, screenDisplacement.x) * Mathf.Rad2Deg;
 
                 moon.transform.eulerAngles = moonStartSpin + Vector3.down * (deltaAngle - mouseStartAngle);
+                setMoonPointPosition(moonPointRight);
             }
         }
 
@@ -293,5 +306,13 @@ public class OneBodySimulation : Simulation
             draggingMoonCenter = false;
             draggingEdgeMoon = false;
         }
+    }
+
+    private void setMoonPointPosition(PointOnBody point)
+    {
+        float spinAngle = moon.transform.eulerAngles.y * Mathf.Deg2Rad;
+        float moonRadiusX = moon.transform.localScale.x;
+
+        point.SetPosition(moon.Position, -spinAngle, moonRadiusX);
     }
 }

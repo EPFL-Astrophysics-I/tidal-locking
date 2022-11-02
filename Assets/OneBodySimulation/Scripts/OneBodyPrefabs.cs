@@ -9,6 +9,7 @@ public class OneBodyPrefabs : MonoBehaviour
     [SerializeField] private GameObject earthVarInEquation;
     [SerializeField] private GameObject moonPrefab;
     [SerializeField] private GameObject moonOrbitPrefab;
+    [SerializeField] private GameObject moonInfPoint;
     [SerializeField] private GameObject vectorCenterPrefab;
 
     [Header("Lights")]
@@ -16,6 +17,8 @@ public class OneBodyPrefabs : MonoBehaviour
 
     [HideInInspector] public CelestialBody earth;
     [HideInInspector] public CelestialBody moon;
+    [HideInInspector] public PointOnBody moonPointRight;
+    [HideInInspector] public PointOnBody moonPointLeft;
     [HideInInspector] public CircularOrbit moonOrbit;
     [HideInInspector] public Vector moonCenterVec;
     [HideInInspector] public List<Light> listLights;
@@ -42,6 +45,15 @@ public class OneBodyPrefabs : MonoBehaviour
         {
             moon = Instantiate(moonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<CelestialBody>();
             moon.gameObject.name = "Moon";
+        }
+
+        if (moonInfPoint)
+        {
+            moonPointRight = Instantiate(moonInfPoint, Vector3.zero, Quaternion.identity, transform).GetComponent<PointOnBody>();
+            moonPointRight.gameObject.name = "dm point right";
+
+            moonPointLeft = Instantiate(moonInfPoint, Vector3.zero, Quaternion.identity, transform).GetComponent<PointOnBody>();
+            moonPointLeft.gameObject.name = "dm point left";
         }
 
         if (moonOrbitPrefab)

@@ -22,13 +22,11 @@ public class ImageColorManager : MonoBehaviour
     }
     public void ColorVar()
     {
-        Debug.Log("Color Image " + image.color + " new:" + overColor);
         image.color = overColor;
     }
 
     public void RestoreColor()
     {
-        Debug.Log("Restore Color");
         image.color = color;
     }
 }

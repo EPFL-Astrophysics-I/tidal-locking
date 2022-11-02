@@ -17,7 +17,6 @@ public class OnOverLink : MonoBehaviour
     }
     void OnMouseEnter()
     {
-        Debug.Log("Mouse enter on GameObject.");
         if(image) {
             image.ColorVar();
         }
@@ -26,8 +25,6 @@ public class OnOverLink : MonoBehaviour
     void OnMouseExit()
     {
         //The mouse is no longer hovering over the GameObject so output this message each frame
-        Debug.Log("Mouse is no longer on GameObject.");
-
         if(image) {
             image.RestoreColor();
         }

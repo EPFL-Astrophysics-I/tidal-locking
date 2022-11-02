@@ -66,9 +66,9 @@ public class CelestialBody : MonoBehaviour
 
     private void OnSquashed() {
         // ERROR IF TOO FAST ?
-        Vector3 squashFactor = new Vector3(1f, 2f, 2f);
+        Vector3 squashFactor = new Vector3(1f, 1.6f, 1.6f);
         if (isSquashed) {
-            squashFactor = new Vector3(1f, 0.5f, 0.5f);
+            squashFactor = new Vector3(1f, 0.625f, 0.625f);
         }
         StartCoroutine(LerpScale(transform, squashFactor, 1f));
     }

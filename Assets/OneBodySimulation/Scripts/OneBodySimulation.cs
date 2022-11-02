@@ -25,13 +25,15 @@ public class OneBodySimulation : Simulation
 
     [Header("Moon Parameters")] 
     public bool moonIsRotating = true;
+
+    private bool moonSquashed = false;
     public bool MoonIsSquashed {
         get {return moon.IsSquashed;}
         set {
-            // moon needs to be init, use Prefabs script ?
             if (moon!=null) {
                 moon.IsSquashed = value;
             }
+            moonSquashed = true;
         }
     }
     private Vector3 initMoonPosition;
@@ -61,8 +63,9 @@ public class OneBodySimulation : Simulation
     private Vector2 centerOfSpin;
     private float screenClickAngle;
     private float moonStartAngle;
-    private float spinAngleOffset;
+    private float mouseStartAngle;
     private float viewportClickAngle;
+    private Vector3 moonStartSpin;
     private void Awake()
     {
         /* From Unity doc:
@@ -114,7 +117,7 @@ public class OneBodySimulation : Simulation
         }
 
         moon = prefabs.moon;
-        if (earth)
+        if (moon)
         {
             moon.Position = earth.Position + LunarDistance(unitLength) * Vector3.right;
             moon.Mass = LunarMass(unitMass);
@@ -122,6 +125,7 @@ public class OneBodySimulation : Simulation
             initMoonPosition = moon.Position;
             moonDistance = (moon.Position - earth.Position).magnitude;
             moon.RotationPeriod = Period;
+            MoonIsSquashed = moonSquashed;
         }
 
         CircularOrbit moonOrbit = prefabs.moonOrbit;
@@ -249,7 +253,8 @@ public class OneBodySimulation : Simulation
             else if ((-outerRangeMag <= distanceMag && distanceMag < -innerRangeMag) ||
                      (innerRangeMag < distanceMag && distanceMag <= outerRangeMag)) 
             {
-                spinAngleOffset = (Mathf.Atan2(transform.right.y, transform.right.x) - Mathf.Atan2(distance.y, distance.x)) * Mathf.Rad2Deg;
+                mouseStartAngle = Mathf.Atan2(distance.y, distance.x) * Mathf.Rad2Deg;
+                moonStartSpin = moon.transform.eulerAngles;
                 draggingEdgeMoon = true; 
             }
         }
@@ -267,10 +272,6 @@ public class OneBodySimulation : Simulation
                 // Compute new position
                 Vector3 vectorR = moon.Position - earth.Position;
                 float r = vectorR.magnitude;
-                
-                //float r = LunarDistance(unitLength);
-
-                //Debug.Log("angle:" +  (deltaAngle) * Mathf.Rad2Deg + " oncli k : " + moonStartAngle + " r: " + r);
 
                 float pointNewX = r * Mathf.Cos(deltaAngle);
                 float pointNewY = r * Mathf.Sin(deltaAngle);
@@ -282,18 +283,8 @@ public class OneBodySimulation : Simulation
                 
                 Vector2 screenDisplacement = currentMousePosition - centerOfSpin;
                 float deltaAngle = Mathf.Atan2(screenDisplacement.y, screenDisplacement.x) * Mathf.Rad2Deg;
-                moon.transform.eulerAngles = Vector3.down * (deltaAngle + spinAngleOffset);
 
-                //deltaAngle = deltaAngle - moon.transform.rotation.x;
-                // draggingEdgeMoon is true
-
-                //Quaternion mouseRot = Quaternion.AngleAxis(deltaAngle, Vector3.up);
-                //Quaternion newRot = mouseRot * Quaternion.Inverse(moon.transform.rotation);
-                //moon.transform.rotation = mouseRot;
-
-                //moon.IncrementRotation(deltaAngle * Vector3.up);
-
-                //prevMousePos = currentMousePosition;
+                moon.transform.eulerAngles = moonStartSpin + Vector3.down * (deltaAngle - mouseStartAngle);
             }
         }
 

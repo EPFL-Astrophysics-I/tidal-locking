@@ -20,6 +20,29 @@ public static class Units
     public enum UnitLength { AU, SolarRadius, EarthRadius, EarthMoonDistance, Test }
     public enum UnitMass { SolarMass, EarthMass }
 
+    public static float getUnitLength(UnitLength unitLength)
+    {
+        float l = au_SI;
+        if (unitLength == UnitLength.SolarRadius)
+        {
+            l = r_sun_SI;
+        }
+        else if (unitLength == UnitLength.EarthRadius)
+        {
+            l = r_earth_SI;
+        }
+        else if (unitLength == UnitLength.EarthMoonDistance)
+        {
+            l = earth_to_moon_SI;
+        }
+        else if (unitLength == UnitLength.Test)
+        {
+            l = earth_to_moon_SI/8f;
+        }
+
+        return l;
+    }
+
     public static float NewtonG(UnitTime unitTime, UnitLength unitLength, UnitMass unitMass)
     {
         // Time

@@ -8,6 +8,7 @@ using static Units;
 public class OneBodySimulation : Simulation
 {
     /* ************************************************************* */
+
     [Header("Simulation Properties")]
     public int numSubsteps = 100;
     public bool resetAfterOnePeriod = true;
@@ -18,12 +19,16 @@ public class OneBodySimulation : Simulation
     private UnitMass unitMass = UnitMass.EarthMass;
     public float timeScale = 1;
     [HideInInspector] public float radiusScale = 10;
+
+    public Vector3 vectorScale = new Vector3(1000f, 1000f, 1000f);
+
     /* ************************************************************* */
 
     [Header("Earth Parameters")]
     public bool earthIsRotating = false;
     private Vector3 initEarthPosition = Vector3.zero;
     private CelestialBody earth;
+
     /* ************************************************************* */
 
     [Header("Moon Parameters")] 
@@ -44,6 +49,12 @@ public class OneBodySimulation : Simulation
     private CelestialBody moon; 
     private PointOnBody moonPointLeft;
     private PointOnBody moonPointRight;
+
+    /* ************************************************************* */
+    // Arrow parameters
+    private Arrow vectorMoonCenter;
+    private Arrow vectorMoonLeft;
+    private Arrow vectorMoonRight;
 
     /* ************************************************************* */
     // Timer for resetting the simulation after one orbital period
@@ -134,25 +145,18 @@ public class OneBodySimulation : Simulation
         }
 
         moonPointRight = prefabs.moonPointRight;
-        if (moonPointRight)
-        {
-            setMoonPointPosition(moonPointRight);
-        }
+        moonPointLeft = prefabs.moonPointLeft;
+        setMoonPointPosition();
 
         CircularOrbit moonOrbit = prefabs.moonOrbit;
         if (moonOrbit) {
             moonOrbit.DrawOrbit(initEarthPosition, LunarDistance(unitLength), 100);
         }
 
-        Vector moonCenterVec = prefabs.moonCenterVec;
-        if (moonCenterVec) {
-            moonCenterVec.TailPosition = moon.Position;
-            //Vector2 pointPosition = sim.point.position - sim.earthPosition;
-            //float angle = Mathf.Atan2(pointPosition.y, pointPosition.x);
-            //Vector3 tide = tidalMagnitude * (2 * Mathf.Cos(angle) * Vector3.right - Mathf.Sin(angle) * Vector3.up);
-            moonCenterVec.HeadPosition = earth.Position;
-            moonCenterVec.Redraw();
-        }
+        vectorMoonCenter = prefabs.moonCenterVec;
+        vectorMoonLeft = prefabs.moonLeftVec;
+        vectorMoonRight = prefabs.moonRightVec;
+        setGravitationalVectors();
     }
     private void Update()
     {
@@ -191,6 +195,8 @@ public class OneBodySimulation : Simulation
         for (int i = 1; i <= numSubsteps; i++)
         {
             StepForward(substep);
+            //setGravitationalVectors();
+            //setMoonPointPosition();
         }
 
         if (earthIsRotating)
@@ -290,14 +296,16 @@ public class OneBodySimulation : Simulation
 
                 // Assign new position
                 moon.Position = earth.Position + position;
-                setMoonPointPosition(moonPointRight);
+                setMoonPointPosition();
+                setGravitationalVectors();
             } else {
                 
                 Vector2 screenDisplacement = currentMousePosition - centerOfSpin;
                 float deltaAngle = Mathf.Atan2(screenDisplacement.y, screenDisplacement.x) * Mathf.Rad2Deg;
 
                 moon.transform.eulerAngles = moonStartSpin + Vector3.down * (deltaAngle - mouseStartAngle);
-                setMoonPointPosition(moonPointRight);
+                setMoonPointPosition();
+                setGravitationalVectors();
             }
         }
 
@@ -308,11 +316,58 @@ public class OneBodySimulation : Simulation
         }
     }
 
-    private void setMoonPointPosition(PointOnBody point)
+    private void setMoonPointPosition()
     {
-        float spinAngle = moon.transform.eulerAngles.y * Mathf.Deg2Rad;
-        float moonRadiusX = moon.transform.localScale.x;
+        if (moonPointRight)
+        {
+            float spinAngle = moon.transform.eulerAngles.y * Mathf.Deg2Rad;
+            float moonRadiusX = moon.transform.localScale.x/2;
 
-        point.SetPosition(moon.Position, -spinAngle, moonRadiusX);
+            moonPointRight.SetPosition(moon.Position, -spinAngle, moonRadiusX);
+        }
+
+        if (moonPointLeft)
+        {
+            float spinAngle = moon.transform.eulerAngles.y * Mathf.Deg2Rad;
+            float moonRadiusX = moon.transform.localScale.x/2;
+
+            moonPointLeft.SetPosition(moon.Position, -spinAngle, -moonRadiusX);
+        }
+    }
+
+    private void setGravitationalVectors()
+    {
+        if (vectorMoonCenter) {
+            vectorMoonCenter.transform.position = moon.Position;
+            Vector3 vectorR = moon.Position - earth.Position;
+            Vector3 gravForce = (- NewtonG * earth.Mass * moon.Mass / (moonDistance * moonDistance)) * (vectorR.normalized);
+            gravForce = gravForce*400f;
+            //gravForce = gravForce*Units.getUnitLength(unitLength);
+            vectorMoonCenter.SetComponents(gravForce);
+        }
+
+        if (vectorMoonRight) {
+            Vector3 position = moonPointRight.transform.position;
+            vectorMoonRight.transform.position = position;
+            Vector3 vectorR = position - earth.Position;
+            float r_dm = vectorR.sqrMagnitude;
+            float dm = moon.Mass*1f;
+            Vector3 gravForce = (- NewtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
+            gravForce = gravForce*400f;
+            //gravForce = gravForce*Units.getUnitLength(unitLength);
+            vectorMoonRight.SetComponents(gravForce);
+        }
+
+        if (vectorMoonLeft) {
+            Vector3 position = moonPointLeft.transform.position;
+            vectorMoonLeft.transform.position = position;
+            Vector3 vectorR = position - earth.Position;
+            float r_dm = vectorR.sqrMagnitude;
+            float dm = moon.Mass*1f;
+            Vector3 gravForce = (- NewtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
+            gravForce = gravForce*400f;
+            //gravForce = gravForce*Units.getUnitLength(unitLength);
+            vectorMoonLeft.SetComponents(gravForce);
+        }
     }
 }

@@ -10,7 +10,9 @@ public class OneBodyPrefabs : MonoBehaviour
     [SerializeField] private GameObject moonPrefab;
     [SerializeField] private GameObject moonOrbitPrefab;
     [SerializeField] private GameObject moonInfPoint;
-    [SerializeField] private GameObject vectorCenterPrefab;
+    [SerializeField] private GameObject moonCenterVecPrefab;
+    [SerializeField] private GameObject moonLeftVecPrefab;
+    [SerializeField] private GameObject moonRightVecPrefab;
 
     [Header("Lights")]
     [SerializeField] private List<GameObject> listLightPrefabs;
@@ -20,7 +22,9 @@ public class OneBodyPrefabs : MonoBehaviour
     [HideInInspector] public PointOnBody moonPointRight;
     [HideInInspector] public PointOnBody moonPointLeft;
     [HideInInspector] public CircularOrbit moonOrbit;
-    [HideInInspector] public Vector moonCenterVec;
+    [HideInInspector] public Arrow moonCenterVec;
+    [HideInInspector] public Arrow moonLeftVec;
+    [HideInInspector] public Arrow moonRightVec;
     [HideInInspector] public List<Light> listLights;
 
     public void InstantiatePrefabs()
@@ -62,10 +66,22 @@ public class OneBodyPrefabs : MonoBehaviour
             moonOrbit.gameObject.name = "Moon Orbit";
         }
 
-        if (vectorCenterPrefab)
+        if (moonCenterVecPrefab)
         {
-            moonCenterVec = Instantiate(moonOrbitPrefab, transform).GetComponent<Vector>();
+            moonCenterVec = Instantiate(moonCenterVecPrefab, transform).GetComponent<Arrow>();
             moonCenterVec.gameObject.name = "Vector from moon center to earth center";
+        }
+
+        if (moonLeftVecPrefab)
+        {
+            moonLeftVec = Instantiate(moonLeftVecPrefab, transform).GetComponent<Arrow>();
+            moonLeftVec.gameObject.name = "Vector from moon dm left to earth center";
+        }
+
+        if (moonRightVecPrefab)
+        {
+            moonRightVec = Instantiate(moonRightVecPrefab, transform).GetComponent<Arrow>();
+            moonRightVec.gameObject.name = "Vector from moon dm right to earth center";
         }
 
         foreach (GameObject lightPrefab in listLightPrefabs)

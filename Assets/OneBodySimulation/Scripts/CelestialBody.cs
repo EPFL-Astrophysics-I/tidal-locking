@@ -6,8 +6,11 @@ using UnityEngine;
 public class CelestialBody : MonoBehaviour
 {
     private float radius = 1f;
+    private Vector3 squashedScale;
+    private Vector3 normalScale;
 
     // Use methods instead of property ? Whats is the convention ?
+    private Vector3 squashFactor = new Vector3(1.6f, 1f, 1f);
     private bool isSquashed = false;
     public bool IsSquashed
     {
@@ -37,11 +40,17 @@ public class CelestialBody : MonoBehaviour
     {
         this.radius = radius;
         transform.localScale = 2 * this.radius * Vector3.one;
+
+        normalScale =  transform.localScale;
+        squashedScale = Vector3.Scale(transform.localScale, squashFactor);
     }
 
     public void SetScale(Vector3 scale)
     {
         transform.localScale = scale;
+
+        normalScale =  transform.localScale;
+        squashedScale = Vector3.Scale(transform.localScale, squashFactor);
     }
 
     public void Translate(Vector3 displacement)
@@ -66,17 +75,17 @@ public class CelestialBody : MonoBehaviour
 
     private void OnSquashed() {
         // ERROR IF TOO FAST ?
-        Vector3 squashFactor = new Vector3(1f, 1.6f, 1.6f);
         if (isSquashed) {
-            squashFactor = new Vector3(1f, 0.625f, 0.625f);
+            StartCoroutine(LerpScale(transform, squashedScale, 1f));
+        } else {
+            StartCoroutine(LerpScale(transform, normalScale, 1f));
         }
-        StartCoroutine(LerpScale(transform, squashFactor, 1f));
     }
 
-    IEnumerator LerpScale(Transform body, Vector3 squashFactor, float lerpTime) {
+    IEnumerator LerpScale(Transform body, Vector3 scale, float lerpTime) {
         float time = 0;
         Vector3 startScale = body.localScale;
-        Vector3 targetScale = Vector3.Scale(body.localScale, squashFactor);
+        Vector3 targetScale = scale;
 
         while (time < lerpTime) {
             time += Time.deltaTime;

@@ -8,6 +8,7 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private float radiusScale;
     [SerializeField] private bool moonIsSquashed;
     [SerializeField] private bool simIsStationary;
+    [SerializeField] private float moonPeriodFactor;
 
     // Start is called before the first frame update
     public override void InitializeSlide()
@@ -16,5 +17,6 @@ public class OneBodySlideController : SimulationSlideController
         sim.MoonIsSquashed = moonIsSquashed;
         sim.simIsStationary = simIsStationary;
         sim.radiusScale = radiusScale;
+        sim.MoonPeriodFactor = moonPeriodFactor;
     }
 }

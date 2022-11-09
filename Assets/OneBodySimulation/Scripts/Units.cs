@@ -14,10 +14,11 @@ public static class Units
     public static float year_SI = 31556952f;             // s
     public static float month_SI = year_SI / 12f;        // s
     public static float day_SI = 86400f;                 // s
+    public static float earth_to_moon_factor = 6f;
 
     // Unit options
     public enum UnitTime { Year, Month, Day }
-    public enum UnitLength { AU, SolarRadius, EarthRadius, EarthMoonDistance, Test }
+    public enum UnitLength { AU, SolarRadius, EarthRadius, EarthMoonDistance, EarthMoonDistanceFactor }
     public enum UnitMass { SolarMass, EarthMass }
 
     public static float getUnitLength(UnitLength unitLength)
@@ -35,9 +36,9 @@ public static class Units
         {
             l = earth_to_moon_SI;
         }
-        else if (unitLength == UnitLength.Test)
+        else if (unitLength == UnitLength.EarthMoonDistanceFactor)
         {
-            l = earth_to_moon_SI/8f;
+            l = earth_to_moon_SI/earth_to_moon_factor;
         }
 
         return l;
@@ -70,9 +71,9 @@ public static class Units
         {
             l = earth_to_moon_SI;
         }
-        else if (unitLength == UnitLength.Test)
+        else if (unitLength == UnitLength.EarthMoonDistanceFactor)
         {
-            l = earth_to_moon_SI/8f;
+            l = earth_to_moon_SI/earth_to_moon_factor;
         }
 
         // Mass
@@ -122,8 +123,8 @@ public static class Units
             case UnitLength.EarthMoonDistance:
                 result = r_earth_SI / earth_to_moon_SI;
                 break;
-            case UnitLength.Test:
-                result = r_earth_SI / earth_to_moon_SI * 8f;
+            case UnitLength.EarthMoonDistanceFactor:
+                result = r_earth_SI / earth_to_moon_SI * earth_to_moon_factor;
                 break;
             default:
                 break;
@@ -158,8 +159,8 @@ public static class Units
             case UnitLength.EarthMoonDistance:
                 result = r_moon_SI / earth_to_moon_SI;
                 break;
-            case UnitLength.Test:
-                result = r_moon_SI / earth_to_moon_SI * 8f;
+            case UnitLength.EarthMoonDistanceFactor:
+                result = r_moon_SI / earth_to_moon_SI * earth_to_moon_factor;
                 break;
             default:
                 break;
@@ -201,8 +202,8 @@ public static class Units
             case UnitLength.EarthMoonDistance:
                 result = 1;
                 break;
-            case UnitLength.Test:
-                result = earth_to_moon_SI / earth_to_moon_SI * 8f;
+            case UnitLength.EarthMoonDistanceFactor:
+                result = earth_to_moon_factor;
                 break;
             default:
                 break;

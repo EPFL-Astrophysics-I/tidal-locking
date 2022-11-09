@@ -15,11 +15,9 @@ public class OneBodySimulation : Simulation
     private UnitTime unitTime = UnitTime.Day;
     // Earth Radius to big
     // Moon Radius ?
-    private UnitLength unitLength = UnitLength.Test;
+    private UnitLength unitLength = UnitLength.EarthMoonDistanceFactor;
     private UnitMass unitMass = UnitMass.EarthMass;
     public float timeScale = 1;
-    [HideInInspector] public float radiusScale = 10;
-
     public Vector3 vectorScale = new Vector3(1000f, 1000f, 1000f);
 
     /* ************************************************************* */
@@ -33,17 +31,6 @@ public class OneBodySimulation : Simulation
 
     [Header("Moon Parameters")] 
     public bool moonIsRotating = true;
-
-    private bool moonSquashed = false;
-    public bool MoonIsSquashed {
-        get {return moon.IsSquashed;}
-        set {
-            if (moon!=null) {
-                moon.IsSquashed = value;
-            }
-            moonSquashed = value;
-        }
-    }
     private Vector3 initMoonPosition;
     private float moonDistance;
     private CelestialBody moon; 
@@ -64,9 +51,47 @@ public class OneBodySimulation : Simulation
     public float NewtonG => (_newtonG != 0) ? _newtonG : Units.NewtonG(unitTime, unitLength, unitMass);
     // Orbital period
     public float Period => 2 * Mathf.PI * Mathf.Sqrt(Mathf.Pow(moonDistance, 3) / NewtonG / Units.EarthMass(unitMass));
-    /* ************************************************************* */
 
-    public bool simIsStationary;
+    /* ************************************************************* */
+    /* *** Parameters changed by SlideController */
+    //[HideInInspector] public bool simIsStationary { get; set; } = false;
+    public bool simIsStationary = false;
+    [HideInInspector] public float radiusScale = 10;
+    private bool moonSquashed = false;
+    public bool MoonIsSquashed {
+        get {
+            if (moon!=null)
+                return moon.IsSquashed;
+            else
+                return moonSquashed;
+        }
+        set {
+            moonSquashed = value;
+            if (moon!=null) {
+                moon.IsSquashed = value;
+            }
+        }
+    }
+
+    private float moonPeriodFactor;
+    public float MoonPeriodFactor {
+        get {return moonPeriodFactor;}
+        set {
+            moonPeriodFactor = value;
+            if (moon!=null) {
+                moon.RotationPeriod = Period * value;
+                if (value==1) {
+                    // Reset rotation of the moon
+                    // Keep the same face toward the earth,
+                    // Otherwise from moonPeriodFactor != 1 to moonPeriodFactor = 1
+                    // The face of the moon will not be the same.
+                    moon.transform.rotation = Quaternion.identity;
+                    float deltaAngle = timeScale * resetTimer * 360 / moon.RotationPeriod;
+                    moon.IncrementRotation(deltaAngle * Vector3.down);
+                }
+            }
+        }
+    }
 
     /* ************************************************************* */
     private OneBodyPrefabs prefabs;
@@ -115,6 +140,40 @@ public class OneBodySimulation : Simulation
         draggingEdgeMoon = false;
     }
 
+    /* ************************************************************* */
+    /* For Interaction purpose */
+
+    public void ChangeMoonPeriod(float periodFactor)
+    {
+        moon.RotationPeriod = Period*periodFactor;
+    }
+    public void ToggleStationaryFlag()
+    {
+        simIsStationary = !simIsStationary;
+    }
+
+    public void ResetSimulation()
+    {
+        resetTimer = 0;
+
+        if (earth)
+        {
+            earth.Position = initEarthPosition;
+            earth.RotationPeriod = EarthRotationPeriod(unitTime);
+        }
+
+        if (moon)
+        {
+            moon.Position = earth.Position + LunarDistance(unitLength) * Vector3.right;
+            initMoonPosition = moon.Position;
+            moonDistance = (moon.Position - earth.Position).magnitude;
+        }
+
+        setMoonPointPosition();
+        setGravitationalVectors();
+    }
+    /* ************************************************************* */
+
     private void Start()
     {
         /*
@@ -122,6 +181,9 @@ public class OneBodySimulation : Simulation
         */
 
         resetTimer = 0;
+
+        Debug.Log("START SIMULATION");
+        Debug.Log(moonPeriodFactor);
 
         earth = prefabs.earth;
         if (earth)
@@ -140,7 +202,7 @@ public class OneBodySimulation : Simulation
             moon.SetRadius(radiusScale * LunarRadius(unitLength));
             initMoonPosition = moon.Position;
             moonDistance = (moon.Position - earth.Position).magnitude;
-            moon.RotationPeriod = Period;
+            moon.RotationPeriod = Period * moonPeriodFactor;
             MoonIsSquashed = moonSquashed;
         }
 
@@ -210,6 +272,9 @@ public class OneBodySimulation : Simulation
             float deltaAngle = timeScale * Time.fixedDeltaTime * 360 / moon.RotationPeriod;
             moon.IncrementRotation(deltaAngle * Vector3.down);
         }
+
+        setMoonPointPosition();
+        setGravitationalVectors();
     }
 
     private void StepForward(float deltaTime)

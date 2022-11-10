@@ -19,4 +19,11 @@ public class OneBodySlideController : SimulationSlideController
         sim.radiusScale = radiusScale;
         sim.MoonPeriodFactor = moonPeriodFactor;
     }
+
+    public void SetMoonPeriodFactor(float newfactor) {
+        // Function useful for the button in the slide 2
+        // So when transitioning slide2 to slide 1 and after slide1 to slide2, we keep
+        // the moon period according the button configuration and not the initialization by the Slide Controller.
+        moonPeriodFactor = newfactor;
+    }
 }

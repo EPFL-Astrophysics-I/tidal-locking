@@ -47,7 +47,7 @@ public class OneBodyPrefabs : MonoBehaviour
 
         if (moonPrefab)
         {
-            moon = Instantiate(moonPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<CelestialBody>();
+            moon = Instantiate(moonPrefab, Vector3.zero, Quaternion.Euler(0, 180, 0), transform).GetComponent<CelestialBody>();
             moon.gameObject.name = "Moon";
         }
 

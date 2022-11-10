@@ -85,7 +85,7 @@ public class OneBodySimulation : Simulation
                     // Keep the same face toward the earth,
                     // Otherwise from moonPeriodFactor != 1 to moonPeriodFactor = 1
                     // The face of the moon will not be the same.
-                    moon.transform.rotation = Quaternion.identity;
+                    moon.transform.rotation = Quaternion.Euler(0, 180, 0);
                     float deltaAngle = timeScale * resetTimer * 360 / moon.RotationPeriod;
                     moon.IncrementRotation(deltaAngle * Vector3.down);
                 }

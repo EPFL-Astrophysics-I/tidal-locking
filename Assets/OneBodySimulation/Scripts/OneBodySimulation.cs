@@ -182,9 +182,6 @@ public class OneBodySimulation : Simulation
 
         resetTimer = 0;
 
-        Debug.Log("START SIMULATION");
-        Debug.Log(moonPeriodFactor);
-
         earth = prefabs.earth;
         if (earth)
         {

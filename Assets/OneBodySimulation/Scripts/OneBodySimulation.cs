@@ -42,6 +42,7 @@ public class OneBodySimulation : Simulation
     private Arrow vectorMoonCenter;
     private Arrow vectorMoonLeft;
     private Arrow vectorMoonRight;
+    private LineRenderer lineEarthMoon;
 
     /* ************************************************************* */
     // Timer for resetting the simulation after one orbital period
@@ -203,6 +204,11 @@ public class OneBodySimulation : Simulation
             MoonIsSquashed = moonSquashed;
         }
 
+        lineEarthMoon = prefabs.lineEarthMoon;
+        if (lineEarthMoon) {
+            DrawLineEarthMoon();
+        }
+
         moonPointRight = prefabs.moonPointRight;
         moonPointLeft = prefabs.moonPointLeft;
         setMoonPointPosition();
@@ -234,6 +240,10 @@ public class OneBodySimulation : Simulation
 
         if (simIsStationary)
         {
+            if (Time.fixedDeltaTime <= moon.squashTimer) {
+                setMoonPointPosition();
+                setGravitationalVectors();
+            }
             return;
         }
 
@@ -270,6 +280,7 @@ public class OneBodySimulation : Simulation
             moon.IncrementRotation(deltaAngle * Vector3.down);
         }
 
+        DrawLineEarthMoon();
         setMoonPointPosition();
         setGravitationalVectors();
     }
@@ -347,7 +358,6 @@ public class OneBodySimulation : Simulation
                 Vector2 screenDisplacement = currentMousePosition - centerOfRotation;
                 float deltaAngle = Mathf.Atan2(screenDisplacement.y, screenDisplacement.x);
                 
-                
                 // Compute new position
                 Vector3 vectorR = moon.Position - earth.Position;
                 float r = vectorR.magnitude;
@@ -358,8 +368,10 @@ public class OneBodySimulation : Simulation
 
                 // Assign new position
                 moon.Position = earth.Position + position;
+
                 setMoonPointPosition();
                 setGravitationalVectors();
+                DrawLineEarthMoon();
             } else {
                 
                 Vector2 screenDisplacement = currentMousePosition - centerOfSpin;
@@ -384,7 +396,6 @@ public class OneBodySimulation : Simulation
         {
             float spinAngle = moon.transform.eulerAngles.y * Mathf.Deg2Rad;
             float moonRadiusX = moon.transform.localScale.x/2;
-
             moonPointRight.SetPosition(moon.Position, -spinAngle, moonRadiusX);
         }
 
@@ -430,6 +441,27 @@ public class OneBodySimulation : Simulation
             gravForce = gravForce*400f;
             //gravForce = gravForce*Units.getUnitLength(unitLength);
             vectorMoonLeft.SetComponents(gravForce);
+        }
+    }
+
+    private void DrawLineEarthMoon() {
+        if (lineEarthMoon) {
+            lineEarthMoon.SetPositions(new Vector3[] {
+                earth.Position,
+                moon.Position
+            });
+        }
+    }
+
+    public void SetVectorDMactivation(bool toggle) {
+        if (vectorMoonLeft) {
+            GameObject go = vectorMoonLeft.gameObject;
+            go.SetActive(toggle);
+        }
+
+        if (vectorMoonRight) {
+            GameObject go = vectorMoonRight.gameObject;
+            go.SetActive(toggle);
         }
     }
 }

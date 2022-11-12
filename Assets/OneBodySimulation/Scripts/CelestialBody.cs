@@ -5,6 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class CelestialBody : MonoBehaviour
 {
+    public float squashTimer = 1f;
     private float radius = 1f;
     private Vector3 squashedScale;
     private Vector3 normalScale;
@@ -76,9 +77,9 @@ public class CelestialBody : MonoBehaviour
     private void OnSquashed() {
         // ERROR IF TOO FAST ?
         if (isSquashed) {
-            StartCoroutine(LerpScale(transform, squashedScale, 1f));
+            StartCoroutine(LerpScale(transform, squashedScale, squashTimer));
         } else {
-            StartCoroutine(LerpScale(transform, normalScale, 1f));
+            StartCoroutine(LerpScale(transform, normalScale, squashTimer));
         }
     }
 

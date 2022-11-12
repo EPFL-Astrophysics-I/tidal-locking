@@ -13,6 +13,7 @@ public class OneBodyPrefabs : MonoBehaviour
     [SerializeField] private GameObject moonCenterVecPrefab;
     [SerializeField] private GameObject moonLeftVecPrefab;
     [SerializeField] private GameObject moonRightVecPrefab;
+    [SerializeField] private GameObject lineEarthMoonPrefab;
 
     [Header("Lights")]
     [SerializeField] private List<GameObject> listLightPrefabs;
@@ -25,7 +26,11 @@ public class OneBodyPrefabs : MonoBehaviour
     [HideInInspector] public Arrow moonCenterVec;
     [HideInInspector] public Arrow moonLeftVec;
     [HideInInspector] public Arrow moonRightVec;
+    [HideInInspector] public LineRenderer lineEarthMoon;
     [HideInInspector] public List<Light> listLights;
+
+    private Color32 moonLeftVecColor = new Color32(128, 96, 50, 255);
+    private Color32 moonRightVecColor = new Color32(66, 128, 90, 255);
 
     public void InstantiatePrefabs()
     {
@@ -76,12 +81,21 @@ public class OneBodyPrefabs : MonoBehaviour
         {
             moonLeftVec = Instantiate(moonLeftVecPrefab, transform).GetComponent<Arrow>();
             moonLeftVec.gameObject.name = "Vector from moon dm left to earth center";
+            //moonLeftVec.color = moonLeftVecColor;
         }
 
         if (moonRightVecPrefab)
         {
             moonRightVec = Instantiate(moonRightVecPrefab, transform).GetComponent<Arrow>();
             moonRightVec.gameObject.name = "Vector from moon dm right to earth center";
+            //moonRightVec.color = moonRightVecColor;
+        }
+
+        if (lineEarthMoonPrefab)
+        {
+            lineEarthMoon = Instantiate(lineEarthMoonPrefab, transform).GetComponent<LineRenderer>();
+            lineEarthMoon.positionCount = 2;
+            //moonRightVec.color = moonRightVecColor;
         }
 
         foreach (GameObject lightPrefab in listLightPrefabs)

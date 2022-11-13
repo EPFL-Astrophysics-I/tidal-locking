@@ -10,6 +10,7 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private bool moonIsSquashed;
     [SerializeField] private bool simIsStationary;
     [SerializeField] private bool dragMoonIsAllowed;
+    [SerializeField] private bool AnimationInThreeSteps;
 
     [Header("Initial Condition")]
     [SerializeField] private bool useMoonCI;
@@ -25,6 +26,9 @@ public class OneBodySlideController : SimulationSlideController
         sim.radiusScale = radiusScale;
         sim.MoonPeriodFactor = moonPeriodFactor;
         sim.dragMoonIsAllowed = dragMoonIsAllowed;
+        sim.IsAnimationThreeSteps = AnimationInThreeSteps;
+
+        // 
 
         // CI:
         sim.useMoonCI = useMoonCI;
@@ -42,5 +46,10 @@ public class OneBodySlideController : SimulationSlideController
     public void SetMoonSquashed(bool newBool) {
         // Keep state of the interaction
         moonIsSquashed = newBool;
+    }
+
+    public void SetStationaryFlag(bool newBool) {
+        // Keep state of the interaction
+        simIsStationary = newBool;
     }
 }

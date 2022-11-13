@@ -19,7 +19,6 @@ public class OnOverLink : MonoBehaviour
     }
     void OnMouseEnter()
     {
-        Debug.Log("Enter");
         listImages.ForEach((image) => image.ColorVar());
     }
 

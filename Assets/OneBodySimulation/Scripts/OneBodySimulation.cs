@@ -19,6 +19,14 @@ public class OneBodySimulation : Simulation
     private UnitMass unitMass = UnitMass.EarthMass;
     public float timeScale = 1;
     public Vector3 vectorScale = new Vector3(1000f, 1000f, 1000f);
+    public bool IsAnimationThreeSteps;
+    private float timerAnimation;
+    private float timeStep1Animation = 3;
+    private float timeStep2Animation = 5;
+    private float timeStep3Animation = 1000;
+    private bool angleOffsetIsCompute = false;
+    private float angleLocked;
+    private float angleOffset;
 
     /* ************************************************************* */
 
@@ -165,6 +173,8 @@ public class OneBodySimulation : Simulation
     public void ResetSimulation()
     {
         resetTimer = 0;
+        timerAnimation = 0;
+        angleOffsetIsCompute = false;
 
         if (earth)
         {
@@ -177,8 +187,10 @@ public class OneBodySimulation : Simulation
             moon.Position = earth.Position + LunarDistance(unitLength) * Vector3.right;
             initMoonPosition = moon.Position;
             moonDistance = (moon.Position - earth.Position).magnitude;
+            moon.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
 
+        DrawLineEarthMoon();
         setMoonPointPosition();
         setGravitationalVectors();
     }
@@ -191,6 +203,7 @@ public class OneBodySimulation : Simulation
         */
 
         resetTimer = 0;
+        timerAnimation = 0;
 
         earth = prefabs.earth;
         if (earth)
@@ -274,6 +287,74 @@ public class OneBodySimulation : Simulation
             return;
         }
 
+        if (IsAnimationThreeSteps)
+        {
+            // Three Steps Animation for slide 5:
+            if (timerAnimation < timeStep1Animation) {
+                UpdateOneBodySimulation();
+                timerAnimation += Time.fixedDeltaTime;
+                return;
+            }
+
+            if (timerAnimation < timeStep1Animation+5f) {
+                if (!angleOffsetIsCompute) {
+                    StartCoroutine(LerpMoonRotation(5f));
+                    angleOffsetIsCompute = true;
+                }
+                /*
+                float substep = angleOffset / (timeStep2Animation * Time.fi);
+                Debug.Log(substep);
+                moon.IncrementRotation(substep * Vector3.down);
+
+                timerAnimation += Time.fixedDeltaTime;*/
+                timerAnimation += Time.fixedDeltaTime;
+                return;
+            }
+            angleOffsetIsCompute = false;
+            return;
+        }
+
+        UpdateOneBodySimulation();
+    }
+
+    IEnumerator LerpMoonRotation(float lerpTime) {
+        float time = 0;
+        //float startAngle = 180 + moon.transform.rotation.eulerAngles.y;
+        //Vector3 startVec = startAngle * Vector3.down;
+        Vector3 startVec = moon.transform.rotation.eulerAngles;
+
+        Vector3 targetVec;
+        targetVec = Quaternion.Euler(0, 180, 0).eulerAngles;
+        float deltaAngle = timeScale * resetTimer * 360 / Period;
+        targetVec += deltaAngle * Vector3.down;
+
+        /*
+        float targetAngle = timeScale * resetTimer * 360 / Period;
+        Vector3 targetVec;
+        if (startVec.y > targetAngle) {
+            targetVec = targetAngle * Vector3.down;
+        } else {
+            targetVec = targetAngle * Vector3.down;
+        }
+
+        targetVec += startVec;
+        */
+
+        Debug.Log(startVec + " to " + targetVec);
+
+        while (time < lerpTime) {
+            time += Time.fixedDeltaTime;
+            moon.SetRotation(Vector3.Lerp(startVec, targetVec, time/lerpTime));
+            setMoonPointPosition();
+            setGravitationalVectors();
+            
+            yield return null;
+        }
+
+        moon.SetRotation(targetVec);
+    }
+
+    private void UpdateOneBodySimulation() {
         if (resetAfterOnePeriod)
         {
             // Re-establish the system to exact initial positions after one period to avoid numerical errors

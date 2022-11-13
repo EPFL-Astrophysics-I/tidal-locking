@@ -71,7 +71,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 141791671
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 2, y: 1, z: 0}
@@ -155,7 +155,7 @@ MonoBehaviour:
   components: {x: 2, y: 1, z: 0}
   color: {r: 1, g: 0, b: 0, a: 1}
   lineWidth: 0.2
-  sortingOrder: 0
+  sortingOrder: 1
   headLR: {fileID: 1005540650713242818}
   headAngle: 45
 --- !u!1 &6885622249459920719
@@ -227,7 +227,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 141791671
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Positions:
   - {x: 1.7470177, y: 0.8735089, z: 0.28284273}
   - {x: 2, y: 1, z: 0}

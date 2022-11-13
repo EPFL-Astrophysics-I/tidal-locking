@@ -36,6 +36,10 @@ public class OneBodySimulation : Simulation
     private CelestialBody moon; 
     private PointOnBody moonPointLeft;
     private PointOnBody moonPointRight;
+    private List<PointOnBody> listPointOnMoon;
+    private bool listPointOnMoonIsEmpty = true;
+    private List<Arrow> listVectorOnMoon;
+    private int listVectorSize = 0;
 
     /* ************************************************************* */
     // Arrow parameters
@@ -94,11 +98,16 @@ public class OneBodySimulation : Simulation
         }
     }
 
+    public bool useMoonCI;
+    public float angleMoonOrbitInit;
+    public float angleMoonSpinInit;
+
     /* ************************************************************* */
     private OneBodyPrefabs prefabs;
 
     /* ************ Mouse Clicks & Drag **************************** */
     private Camera mainCamera;
+    public bool dragMoonIsAllowed;
     private bool draggingMoonCenter;
     private bool draggingEdgeMoon;
     private Vector2 centerOfRotation;
@@ -204,6 +213,14 @@ public class OneBodySimulation : Simulation
             MoonIsSquashed = moonSquashed;
         }
 
+        // USE CI :
+        if (useMoonCI) {
+            moon.Position = new Vector3(moonDistance * Mathf.Cos(angleMoonOrbitInit), 0, moonDistance * Mathf.Sin(angleMoonOrbitInit));
+            initMoonPosition = moon.Position;
+
+            moon.SetRotation(new Vector3(0, angleMoonSpinInit, 0));
+        }
+
         lineEarthMoon = prefabs.lineEarthMoon;
         if (lineEarthMoon) {
             DrawLineEarthMoon();
@@ -211,6 +228,11 @@ public class OneBodySimulation : Simulation
 
         moonPointRight = prefabs.moonPointRight;
         moonPointLeft = prefabs.moonPointLeft;
+
+        listPointOnMoon = prefabs.listPointOnMoon;
+        if (!(listPointOnMoon is null)) {
+            listPointOnMoonIsEmpty = false;
+        }
         setMoonPointPosition();
 
         CircularOrbit moonOrbit = prefabs.moonOrbit;
@@ -221,11 +243,16 @@ public class OneBodySimulation : Simulation
         vectorMoonCenter = prefabs.moonCenterVec;
         vectorMoonLeft = prefabs.moonLeftVec;
         vectorMoonRight = prefabs.moonRightVec;
+
+        listVectorOnMoon = prefabs.moonVectorList;
+        if (!(listVectorOnMoon is null)) {
+            listVectorSize = listVectorOnMoon.Count;
+        }
         setGravitationalVectors();
     }
     private void Update()
     {
-        if (simIsStationary)
+        if (simIsStationary && dragMoonIsAllowed)
         {
             DragMoonAlongOrbit();
         }
@@ -406,6 +433,25 @@ public class OneBodySimulation : Simulation
 
             moonPointLeft.SetPosition(moon.Position, -spinAngle, -moonRadiusX);
         }
+
+        if (!listPointOnMoonIsEmpty)
+        {
+            float substep = 180 * Mathf.Deg2Rad / (listPointOnMoon.Count-1);
+            for (int i = 0; i < listPointOnMoon.Count; i++) {
+                float spinAngle = moon.transform.eulerAngles.y * Mathf.Deg2Rad;
+                float moonRadiusX = moon.transform.localScale.x/2;
+                float moonRadiusZ = moon.transform.localScale.z/2;
+
+                float angleStep = substep * i;
+
+                float moonRadiusXZ = (moonRadiusX*moonRadiusZ);
+                float cos = Mathf.Cos(angleStep);
+                float sin = Mathf.Sin(angleStep);
+                moonRadiusXZ /= (Mathf.Sqrt(moonRadiusX*moonRadiusX*sin*sin + moonRadiusZ*moonRadiusZ*cos*cos));
+
+                listPointOnMoon[i].SetPosition(moon.Position, -(spinAngle+angleStep), -moonRadiusXZ);
+            }
+        }
     }
 
     private void setGravitationalVectors()
@@ -442,6 +488,21 @@ public class OneBodySimulation : Simulation
             //gravForce = gravForce*Units.getUnitLength(unitLength);
             vectorMoonLeft.SetComponents(gravForce);
         }
+
+        if (listVectorSize!=0)
+        {
+            for (int i = 0; i < listVectorSize; i++) {
+                Vector3 position = listPointOnMoon[i].transform.position;
+                listVectorOnMoon[i].transform.position = position;
+                Vector3 vectorR = position - earth.Position;
+                float r_dm = vectorR.sqrMagnitude;
+                float dm = moon.Mass*1f;
+                Vector3 gravForce = (- NewtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
+                gravForce = gravForce*300f;
+                //gravForce = gravForce*Units.getUnitLength(unitLength);
+                listVectorOnMoon[i].SetComponents(gravForce);
+            }
+        }
     }
 
     private void DrawLineEarthMoon() {
@@ -456,12 +517,19 @@ public class OneBodySimulation : Simulation
     public void SetVectorDMactivation(bool toggle) {
         if (vectorMoonLeft) {
             GameObject go = vectorMoonLeft.gameObject;
-            go.SetActive(toggle);
+            go.SetActive(!toggle);
         }
 
         if (vectorMoonRight) {
             GameObject go = vectorMoonRight.gameObject;
-            go.SetActive(toggle);
+            go.SetActive(!toggle);
+        }
+    }
+
+    public void SetVectorCMactivation(bool toggle) {
+        if (vectorMoonCenter) {
+            GameObject go = vectorMoonCenter.gameObject;
+            go.SetActive(!toggle);
         }
     }
 }

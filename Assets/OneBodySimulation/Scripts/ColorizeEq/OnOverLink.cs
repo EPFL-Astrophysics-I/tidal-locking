@@ -7,26 +7,25 @@ using UnityEngine;
  */
 public class OnOverLink : MonoBehaviour
 {
-    private ImageColorManager image;
+    private List<ImageColorManager> listImages = new List<ImageColorManager>();
 
     public void SetImage(GameObject go) {
-        if (!go.TryGetComponent<ImageColorManager>( out image)){
+        ImageColorManager colorManager;
+        if (!go.TryGetComponent<ImageColorManager>( out colorManager)){
             Debug.LogWarning("(No ImageColorManager component).");
             return;
         }
+        listImages.Add(colorManager);
     }
     void OnMouseEnter()
     {
-        if(image) {
-            image.ColorVar();
-        }
+        Debug.Log("Enter");
+        listImages.ForEach((image) => image.ColorVar());
     }
 
     void OnMouseExit()
     {
         //The mouse is no longer hovering over the GameObject so output this message each frame
-        if(image) {
-            image.RestoreColor();
-        }
+        listImages.ForEach((image) => image.RestoreColor());
     }
 }

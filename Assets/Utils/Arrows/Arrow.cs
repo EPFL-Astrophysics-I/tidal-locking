@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(LineRenderer))]
 public class Arrow : MonoBehaviour
@@ -14,6 +15,36 @@ public class Arrow : MonoBehaviour
     [Header("Head")]
     public LineRenderer headLR;
     [Range(0, 60)] public float headAngle = 45;
+
+    /*
+    // Add edge collider for Mouse Over
+    EdgeCollider2D edgeColliderHead;
+
+    void Start() {
+        if (!this.TryGetComponent<EdgeCollider2D>( out edgeColliderHead))
+        {
+            return;
+        }
+    }
+
+    void Update() {
+        SetEdgeColliders();
+    }
+
+    void SetEdgeColliders() {
+        if (edgeColliderHead) {
+            Vector2[] edges = new Vector2[bodyLR.positionCount];
+
+            for(int i = 0; i<bodyLR.positionCount; i++) {
+                Vector3 lrPoint = bodyLR.GetPosition(i);
+                edges[i] = new Vector2(lrPoint.x, lrPoint.z);
+                Vector2 originPos = new Vector2(this.transform.position.x, this.transform.position.z);
+                edges[i] += originPos;
+            }
+            edgeColliderHead.points = edges;
+        }
+    }*/
+    
 
     private void Awake()
     {

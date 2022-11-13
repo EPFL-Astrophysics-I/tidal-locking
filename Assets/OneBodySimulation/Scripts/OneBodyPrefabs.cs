@@ -6,14 +6,25 @@ public class OneBodyPrefabs : MonoBehaviour
 {
     [Header("Prefabs")]
     [SerializeField] private GameObject earthPrefab;
-    [SerializeField] private GameObject earthVarInEquation;
     [SerializeField] private GameObject moonPrefab;
     [SerializeField] private GameObject moonOrbitPrefab;
     [SerializeField] private GameObject moonInfPoint;
     [SerializeField] private GameObject moonCenterVecPrefab;
     [SerializeField] private GameObject moonLeftVecPrefab;
     [SerializeField] private GameObject moonRightVecPrefab;
+    [SerializeField] private GameObject moonPointVecPrefab;
     [SerializeField] private GameObject lineEarthMoonPrefab;
+
+    [Header("Multiple Points")]
+    [HideInInspector] public List<PointOnBody> listPointOnMoon;
+    [SerializeField] private int numberOfMoonPoints;
+    [HideInInspector] public List<Arrow> moonVectorList;
+    [SerializeField] private int numberOfVectors;
+
+    [Header("Variable in Equations")]
+    [SerializeField] private GameObject moonMassVarEquation;
+    [SerializeField] private List<GameObject> ListEarthMassEquation;
+    [SerializeField] private GameObject forceOnMoonCM;
 
     [Header("Lights")]
     [SerializeField] private List<GameObject> listLightPrefabs;
@@ -39,14 +50,12 @@ public class OneBodyPrefabs : MonoBehaviour
             earth = Instantiate(earthPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<CelestialBody>();
             earth.gameObject.name = "Earth";
 
-            if(earthVarInEquation) {
+            foreach (GameObject go in ListEarthMassEquation) {
                 OnOverLink link;
-                if (!earth.gameObject.TryGetComponent<OnOverLink>( out link))
+                if (earth.gameObject.TryGetComponent<OnOverLink>( out link))
                 {
-                    Debug.LogWarning("OnOver this object will not colorized any image (No OnOverLink component).");
-                    return;
+                    link.SetImage(go);
                 }
-                link.SetImage(earthVarInEquation);
             }
         }
 
@@ -54,6 +63,14 @@ public class OneBodyPrefabs : MonoBehaviour
         {
             moon = Instantiate(moonPrefab, Vector3.zero, Quaternion.Euler(0, 180, 0), transform).GetComponent<CelestialBody>();
             moon.gameObject.name = "Moon";
+
+            if(moonMassVarEquation) {
+                OnOverLink link;
+                if (moon.gameObject.TryGetComponent<OnOverLink>( out link))
+                {
+                    link.SetImage(moonMassVarEquation);
+                }
+            }
         }
 
         if (moonInfPoint)
@@ -75,6 +92,14 @@ public class OneBodyPrefabs : MonoBehaviour
         {
             moonCenterVec = Instantiate(moonCenterVecPrefab, transform).GetComponent<Arrow>();
             moonCenterVec.gameObject.name = "Vector from moon center to earth center";
+
+            if(forceOnMoonCM) {
+                OnOverLink link;
+                if (moonCenterVec.gameObject.TryGetComponent<OnOverLink>( out link))
+                {
+                    link.SetImage(forceOnMoonCM);
+                }
+            }
         }
 
         if (moonLeftVecPrefab)
@@ -102,6 +127,33 @@ public class OneBodyPrefabs : MonoBehaviour
         {
             Light light = Instantiate(lightPrefab, transform).GetComponent<Light>();
             listLights.Add(light);
+        }
+
+        // ****************************************
+        if (numberOfMoonPoints == numberOfVectors) {
+            if (moonPointVecPrefab)
+            {
+                moonVectorList = new List<Arrow>();
+
+                for (int i = 0; i < numberOfVectors; i++) {
+                    Arrow ar = Instantiate(moonPointVecPrefab, transform).GetComponent<Arrow>();
+                    ar.gameObject.name = "vector " + i;
+
+                    moonVectorList.Add(ar);
+                }
+            }
+
+            if (numberOfMoonPoints != 0)
+            {
+                listPointOnMoon = new List<PointOnBody>();
+
+                for (int i = 0; i < numberOfMoonPoints; i++) {
+                    PointOnBody pt = Instantiate(moonInfPoint, transform).GetComponent<PointOnBody>();
+                    pt.gameObject.name = "point " + i;
+
+                    listPointOnMoon.Add(pt);
+                }
+            }
         }
     }
 }

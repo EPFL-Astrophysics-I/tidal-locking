@@ -10,7 +10,9 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private bool moonIsSquashed;
     [SerializeField] private bool simIsStationary;
     [SerializeField] private bool dragMoonIsAllowed;
-    [SerializeField] private bool multipleVectorsActivation;
+    [SerializeField] private bool NotDisplayVectorsFromMoonCM;
+    [SerializeField] private bool NotDisplayVectorsFromMoonLR;
+    [SerializeField] private bool displayVectorsFromMoonPoints;
     [SerializeField] private bool AnimationInThreeSteps;
 
     [Header("Initial Condition")]
@@ -28,7 +30,13 @@ public class OneBodySlideController : SimulationSlideController
         sim.MoonPeriodFactor = moonPeriodFactor;
         sim.dragMoonIsAllowed = dragMoonIsAllowed;
         sim.IsAnimationThreeSteps = AnimationInThreeSteps;
-        sim.MultipleVectorsActivation = multipleVectorsActivation;
+
+        // We ask if vectors should not be drawn,
+        // to be consistent with the toggle interaction in slide 4.
+        sim.ActivationVectorsCM = NotDisplayVectorsFromMoonCM;
+        sim.ActivationVectorsLR = NotDisplayVectorsFromMoonLR;
+
+        sim.ActivationPointsOnMoon = displayVectorsFromMoonPoints;
 
         // 
 
@@ -53,5 +61,15 @@ public class OneBodySlideController : SimulationSlideController
     public void SetStationaryFlag(bool newBool) {
         // Keep state of the interaction
         simIsStationary = newBool;
+    }
+
+    public void SetActivationMoonVectorLR(bool newBool) {
+        // Keep state of the interaction
+        NotDisplayVectorsFromMoonLR = newBool;
+    }
+
+    public void SetActivationMoonVectorCM(bool newBool) {
+        // Keep state of the interaction
+        NotDisplayVectorsFromMoonCM = newBool;
     }
 }

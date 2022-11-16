@@ -41,28 +41,42 @@ public class OneBodySimulation : Simulation
     private Vector3 initMoonPosition;
     private float moonDistance;
     private CelestialBody moon; 
-    private PointOnBody moonPointLeft;
-    private PointOnBody moonPointRight;
-    private List<PointOnBody> listPointOnMoon;
-    private bool listPointOnMoonIsEmpty = true;
-    private List<Arrow> listVectorOnMoon;
-    private int listVectorSize = 0;
 
     /* ************************************************************* */
 
-    private bool multipleVectorsActivation = false;
-    public bool MultipleVectorsActivation {
+    private bool activationPointsOnMoon = false;
+    public bool ActivationPointsOnMoon {
         get {
-            return multipleVectorsActivation;
+            return activationPointsOnMoon;
         }
         set {
-            multipleVectorsActivation = value;
-            if (listVectorOnMoon!=null) {
-                prefabs.SetVectorListActivation(value);
-                if (value)
-                    prefabs.setMoonPointPosition();
-                    prefabs.setGravitationalVectors(NewtonG, moonDistance);
-            }
+            activationPointsOnMoon = value;
+            prefabs.SetPointsOnMoonActivation(value);
+            if (value)
+                prefabs.setMoonPointPosition();
+                prefabs.setGravitationalVectors(NewtonG, moonDistance);
+        }
+    }
+
+    private bool activationVectorsCM = false;
+    public bool ActivationVectorsCM {
+        get {
+            return activationVectorsCM;
+        }
+        set {
+            activationVectorsCM = value;
+            prefabs.SetVectorCMactivation(value);
+        }
+    }
+
+    private bool activationVectorsLR = false;
+    public bool ActivationVectorsLR {
+        get {
+            return activationVectorsLR;
+        }
+        set {
+            activationVectorsLR = value;
+            prefabs.SetVectorLRactivation(value);
         }
     }
 
@@ -216,13 +230,6 @@ public class OneBodySimulation : Simulation
             SetMoonInitialCondition();
         }
 
-        moonPointRight = prefabs.moonPointRight;
-        moonPointLeft = prefabs.moonPointLeft;
-
-        listPointOnMoon = prefabs.listPointOnMoon;
-        if (!(listPointOnMoon is null)) {
-            listPointOnMoonIsEmpty = false;
-        }
         prefabs.setMoonPointPosition();
 
         CircularOrbit moonOrbit = prefabs.moonOrbit;
@@ -230,11 +237,7 @@ public class OneBodySimulation : Simulation
             moonOrbit.DrawOrbit(initEarthPosition, LunarDistance(unitLength), 100);
         }
 
-        listVectorOnMoon = prefabs.moonVectorList;
-        if (!(listVectorOnMoon is null)) {
-            listVectorSize = listVectorOnMoon.Count;
-        }
-        prefabs.SetVectorListActivation(multipleVectorsActivation);
+        prefabs.SetPointsOnMoonActivation(activationPointsOnMoon);
         prefabs.setGravitationalVectors(NewtonG, moonDistance);
 
         prefabs.DrawLineEarthMoon();

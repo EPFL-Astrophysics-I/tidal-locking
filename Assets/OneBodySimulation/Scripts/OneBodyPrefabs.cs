@@ -8,7 +8,7 @@ public class OneBodyPrefabs : MonoBehaviour
     [SerializeField] private GameObject earthPrefab;
     [SerializeField] private GameObject moonPrefab;
     [SerializeField] private GameObject moonOrbitPrefab;
-    [SerializeField] private GameObject moonInfPoint;
+    [SerializeField] private GameObject pointOnMoon;
     [SerializeField] private GameObject moonCenterVecPrefab;
     [SerializeField] private GameObject moonLeftVecPrefab;
     [SerializeField] private GameObject moonRightVecPrefab;
@@ -18,8 +18,7 @@ public class OneBodyPrefabs : MonoBehaviour
     [Header("Multiple Points")]
     [HideInInspector] public List<PointOnBody> listPointOnMoon;
     [SerializeField] private int numberOfMoonPoints;
-    [HideInInspector] public List<Arrow> moonVectorList;
-    [SerializeField] private int numberOfVectors;
+    [HideInInspector] public List<Arrow> listVectorMoonPoint;
 
     [Header("Variable in Equations")]
     [SerializeField] private GameObject moonMassVarEquation;
@@ -73,12 +72,12 @@ public class OneBodyPrefabs : MonoBehaviour
             }
         }
 
-        if (moonInfPoint)
+        if (pointOnMoon)
         {
-            moonPointRight = Instantiate(moonInfPoint, Vector3.zero, Quaternion.identity, transform).GetComponent<PointOnBody>();
+            moonPointRight = Instantiate(pointOnMoon, Vector3.zero, Quaternion.identity, transform).GetComponent<PointOnBody>();
             moonPointRight.gameObject.name = "dm point right";
 
-            moonPointLeft = Instantiate(moonInfPoint, Vector3.zero, Quaternion.identity, transform).GetComponent<PointOnBody>();
+            moonPointLeft = Instantiate(pointOnMoon, Vector3.zero, Quaternion.identity, transform).GetComponent<PointOnBody>();
             moonPointLeft.gameObject.name = "dm point left";
         }
 
@@ -129,29 +128,27 @@ public class OneBodyPrefabs : MonoBehaviour
             listLights.Add(light);
         }
 
-        if (numberOfMoonPoints == numberOfVectors) {
-            if (moonPointVecPrefab)
-            {
-                moonVectorList = new List<Arrow>();
+        if (moonPointVecPrefab)
+        {
+            listVectorMoonPoint = new List<Arrow>();
 
-                for (int i = 0; i < numberOfVectors; i++) {
-                    Arrow ar = Instantiate(moonPointVecPrefab, transform).GetComponent<Arrow>();
-                    ar.gameObject.name = "vector " + i;
+            for (int i = 0; i < numberOfMoonPoints; i++) {
+                Arrow ar = Instantiate(moonPointVecPrefab, transform).GetComponent<Arrow>();
+                ar.gameObject.name = "vector " + i;
 
-                    moonVectorList.Add(ar);
-                }
+                listVectorMoonPoint.Add(ar);
             }
+        }
 
-            if (numberOfMoonPoints != 0)
-            {
-                listPointOnMoon = new List<PointOnBody>();
+        if (numberOfMoonPoints != 0)
+        {
+            listPointOnMoon = new List<PointOnBody>();
 
-                for (int i = 0; i < numberOfMoonPoints; i++) {
-                    PointOnBody pt = Instantiate(moonInfPoint, transform).GetComponent<PointOnBody>();
-                    pt.gameObject.name = "point " + i;
+            for (int i = 0; i < numberOfMoonPoints; i++) {
+                PointOnBody pt = Instantiate(pointOnMoon, transform).GetComponent<PointOnBody>();
+                pt.gameObject.name = "point " + i;
 
-                    listPointOnMoon.Add(pt);
-                }
+                listPointOnMoon.Add(pt);
             }
         }
     }
@@ -207,14 +204,14 @@ public class OneBodyPrefabs : MonoBehaviour
         {
             for (int i = 0; i < listVectorSize; i++) {
                 Vector3 position = listPointOnMoon[i].transform.position;
-                moonVectorList[i].transform.position = position;
+                listVectorMoonPoint[i].transform.position = position;
                 Vector3 vectorR = position - earth.Position;
                 float r_dm = vectorR.sqrMagnitude;
                 float dm = moon.Mass*1f;
                 Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
                 gravForce = gravForce*300f;
                 //gravForce = gravForce*Units.getUnitLength(unitLength);
-                moonVectorList[i].SetComponents(gravForce);
+                listVectorMoonPoint[i].SetComponents(gravForce);
             }
         }
     }
@@ -258,7 +255,7 @@ public class OneBodyPrefabs : MonoBehaviour
 
     /* ************************************************************* */
     // Functions to set the activation/visibility of prefabs elements.
-    public void SetVectorDMactivation(bool toggle) {
+    public void SetVectorLRactivation(bool toggle) {
         if (moonLeftVec) {
             GameObject go = moonLeftVec.gameObject;
             go.SetActive(!toggle);
@@ -277,10 +274,10 @@ public class OneBodyPrefabs : MonoBehaviour
         }
     }
 
-    public void SetVectorListActivation(bool toggle) {
+    public void SetPointsOnMoonActivation(bool toggle) {
         if (listPointOnMoon.Count!=0)
         {
-            moonVectorList.ForEach(vec => {
+            listVectorMoonPoint.ForEach(vec => {
                 vec.gameObject.SetActive(toggle);
             });
         }

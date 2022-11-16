@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3546433176806602439}
   - component: {fileID: 1419331738510290156}
   - component: {fileID: 2759795410715503869}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GravitationalVectorRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7172264346912438356}
   - component: {fileID: 1655523875752487020}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}

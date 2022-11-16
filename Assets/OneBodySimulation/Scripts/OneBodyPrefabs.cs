@@ -129,7 +129,6 @@ public class OneBodyPrefabs : MonoBehaviour
             listLights.Add(light);
         }
 
-        // ****************************************
         if (numberOfMoonPoints == numberOfVectors) {
             if (moonPointVecPrefab)
             {
@@ -154,6 +153,136 @@ public class OneBodyPrefabs : MonoBehaviour
                     listPointOnMoon.Add(pt);
                 }
             }
+        }
+    }
+
+    /* ************************************************************* */
+    // Functions to update elements.
+    public void DrawLineEarthMoon() {
+        if (lineEarthMoon) {
+            lineEarthMoon.SetPositions(new Vector3[] {
+                earth.Position,
+                moon.Position
+            });
+        }
+    }
+
+    public void setGravitationalVectors(float newtonG, float moonDistance)
+    {
+        if (moonCenterVec) {
+            moonCenterVec.transform.position = moon.Position;
+            Vector3 vectorR = moon.Position - earth.Position;
+            Vector3 gravForce = (- newtonG * earth.Mass * moon.Mass / (moonDistance * moonDistance)) * (vectorR.normalized);
+            gravForce = gravForce*400f;
+            //gravForce = gravForce*Units.getUnitLength(unitLength);
+            moonCenterVec.SetComponents(gravForce);
+        }
+
+        if (moonRightVec) {
+            Vector3 position = moonPointRight.transform.position;
+            moonRightVec.transform.position = position;
+            Vector3 vectorR = position - earth.Position;
+            float r_dm = vectorR.sqrMagnitude;
+            float dm = moon.Mass*1f;
+            Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
+            gravForce = gravForce*400f;
+            //gravForce = gravForce*Units.getUnitLength(unitLength);
+            moonRightVec.SetComponents(gravForce);
+        }
+
+        if (moonLeftVec) {
+            Vector3 position = moonPointLeft.transform.position;
+            moonLeftVec.transform.position = position;
+            Vector3 vectorR = position - earth.Position;
+            float r_dm = vectorR.sqrMagnitude;
+            float dm = moon.Mass*1f;
+            Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
+            gravForce = gravForce*400f;
+            //gravForce = gravForce*Units.getUnitLength(unitLength);
+            moonLeftVec.SetComponents(gravForce);
+        }
+
+        int listVectorSize = listPointOnMoon.Count;
+        if (listVectorSize!=0)
+        {
+            for (int i = 0; i < listVectorSize; i++) {
+                Vector3 position = listPointOnMoon[i].transform.position;
+                moonVectorList[i].transform.position = position;
+                Vector3 vectorR = position - earth.Position;
+                float r_dm = vectorR.sqrMagnitude;
+                float dm = moon.Mass*1f;
+                Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
+                gravForce = gravForce*300f;
+                //gravForce = gravForce*Units.getUnitLength(unitLength);
+                moonVectorList[i].SetComponents(gravForce);
+            }
+        }
+    }
+
+    public void setMoonPointPosition()
+    {
+        if (moonPointRight)
+        {
+            float spinAngle = moon.transform.eulerAngles.y * Mathf.Deg2Rad;
+            float moonRadiusX = moon.transform.localScale.x/2;
+            moonPointRight.SetPosition(moon.Position, -spinAngle, moonRadiusX);
+        }
+
+        if (moonPointLeft)
+        {
+            float spinAngle = moon.transform.eulerAngles.y * Mathf.Deg2Rad;
+            float moonRadiusX = moon.transform.localScale.x/2;
+
+            moonPointLeft.SetPosition(moon.Position, -spinAngle, -moonRadiusX);
+        }
+
+        if (listPointOnMoon.Count!=0)
+        {
+            float substep = 180 * Mathf.Deg2Rad / (listPointOnMoon.Count-1);
+            for (int i = 0; i < listPointOnMoon.Count; i++) {
+                float spinAngle = moon.transform.eulerAngles.y * Mathf.Deg2Rad;
+                float moonRadiusX = moon.transform.localScale.x/2;
+                float moonRadiusZ = moon.transform.localScale.z/2;
+
+                float angleStep = substep * i;
+
+                float moonRadiusXZ = (moonRadiusX*moonRadiusZ);
+                float cos = Mathf.Cos(angleStep);
+                float sin = Mathf.Sin(angleStep);
+                moonRadiusXZ /= (Mathf.Sqrt(moonRadiusX*moonRadiusX*sin*sin + moonRadiusZ*moonRadiusZ*cos*cos));
+
+                listPointOnMoon[i].SetPosition(moon.Position, -(spinAngle+angleStep), -moonRadiusXZ);
+            }
+        }
+    }
+
+    /* ************************************************************* */
+    // Functions to set the activation/visibility of prefabs elements.
+    public void SetVectorDMactivation(bool toggle) {
+        if (moonLeftVec) {
+            GameObject go = moonLeftVec.gameObject;
+            go.SetActive(!toggle);
+        }
+
+        if (moonRightVec) {
+            GameObject go = moonRightVec.gameObject;
+            go.SetActive(!toggle);
+        }
+    }
+
+    public void SetVectorCMactivation(bool toggle) {
+        if (moonCenterVec) {
+            GameObject go = moonCenterVec.gameObject;
+            go.SetActive(!toggle);
+        }
+    }
+
+    public void SetVectorListActivation(bool toggle) {
+        if (listPointOnMoon.Count!=0)
+        {
+            moonVectorList.ForEach(vec => {
+                vec.gameObject.SetActive(toggle);
+            });
         }
     }
 }

@@ -10,6 +10,7 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private bool moonIsSquashed;
     [SerializeField] private bool simIsStationary;
     [SerializeField] private bool dragMoonIsAllowed;
+    [SerializeField] private bool multipleVectorsActivation;
     [SerializeField] private bool AnimationInThreeSteps;
 
     [Header("Initial Condition")]
@@ -27,13 +28,14 @@ public class OneBodySlideController : SimulationSlideController
         sim.MoonPeriodFactor = moonPeriodFactor;
         sim.dragMoonIsAllowed = dragMoonIsAllowed;
         sim.IsAnimationThreeSteps = AnimationInThreeSteps;
+        sim.MultipleVectorsActivation = multipleVectorsActivation;
 
         // 
 
         // CI:
-        sim.useMoonCI = useMoonCI;
         sim.angleMoonOrbitInit = angleMoonOrbitInit;
         sim.angleMoonSpinInit = angleMoonSpinInit;
+        sim.UseMoonCI = useMoonCI;
     }
 
     public void SetMoonPeriodFactor(float newfactor) {

@@ -443,45 +443,43 @@ public class OneBodySimulation : Simulation
 
     IEnumerator LerpMoonRotationAlongBulge(float lerpTime) {
         float time = 0;
-        //float startAngle = 180 + moon.transform.rotation.eulerAngles.y;
-        //Vector3 startVec = startAngle * Vector3.down;
-        Vector3 startVec = moon.transform.rotation.eulerAngles;
 
-        Vector3 targetVec;
-        targetVec = Quaternion.Euler(0, 180, 0).eulerAngles;
         float deltaAngle = (timeScale * resetTimer * 360 / Period);
-        targetVec += deltaAngle * Vector3.down;
-
-        /*
-        float targetAngle = timeScale * resetTimer * 360 / Period;
-        Vector3 targetVec;
-        if (startVec.y > targetAngle) {
-            targetVec = targetAngle * Vector3.down;
-        } else {
-            targetVec = targetAngle * Vector3.down;
-        }
-
-        targetVec += startVec;
-        */
-
         float target = 180 - deltaAngle;
         float start = moon.transform.eulerAngles.y;
 
-        float substep = (target-start)/lerpTime*Time.fixedDeltaTime;
+        float substep;
+        if (moonPeriodFactor==1) {
+            substep=0;
+        }
+        else if (moonPeriodFactor>1) {
+            if (target<start && start<180) {
+                substep = (target-start)/lerpTime*Time.fixedDeltaTime;
+            } else {
+                substep = (360-start) + target;
+                substep = substep/lerpTime*Time.fixedDeltaTime;
+            }
+        } else {
+            if (target<start) {
+                substep = (360-start) + target;
+                substep = substep/lerpTime*Time.fixedDeltaTime;
+            } else {
+                substep = (target-start)/lerpTime*Time.fixedDeltaTime;
+            }
+        }
 
-        Debug.Log(startVec.y + " to " + target + " timer: " + timerAnimation);
-
-        float step = start;
+        //float step = start;
         while (time < lerpTime) {
             time += Time.fixedDeltaTime;
-            step += substep;
-            moon.SetRotation(new Vector3(0, step, 0));
+            //step += substep;
+            //moon.SetRotation(new Vector3(0, step, 0));
+            moon.IncrementRotation(new Vector3(0, substep, 0));
             prefabs.setMoonPointPosition();
             prefabs.setGravitationalVectors(NewtonG, moonDistance);
             
             yield return null;
         }
-        moon.SetRotation(targetVec);
+        moon.SetRotation(new Vector3(0, target, 0));
     }
 
     /* ************************************************************* */

@@ -13,8 +13,6 @@ public class OneBodySimulation : Simulation
     public int numSubsteps = 100;
     public bool resetAfterOnePeriod = true;
     private UnitTime unitTime = UnitTime.Day;
-    // Earth Radius to big
-    // Moon Radius ?
     private UnitLength unitLength = UnitLength.EarthMoonDistanceFactor;
     private UnitMass unitMass = UnitMass.EarthMass;
     public float timeScale = 1;
@@ -78,6 +76,17 @@ public class OneBodySimulation : Simulation
         set {
             activationVectorsLR = value;
             prefabs.SetVectorLRactivation(value);
+        }
+    }
+
+    private bool activationMoonOrbit = false;
+    public bool ActivationMoonOrbit {
+        get {
+            return activationMoonOrbit;
+        }
+        set {
+            activationMoonOrbit = value;
+            prefabs.SetMoonOrbitActivation(value);
         }
     }
 

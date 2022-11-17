@@ -266,20 +266,24 @@ public class OneBodyPrefabs : MonoBehaviour
             go.SetActive(!toggle);
         }
     }
-
     public void SetVectorCMactivation(bool toggle) {
         if (moonCenterVec) {
             GameObject go = moonCenterVec.gameObject;
             go.SetActive(!toggle);
         }
     }
-
     public void SetPointsOnMoonActivation(bool toggle) {
         if (listPointOnMoon.Count!=0)
         {
             listVectorMoonPoint.ForEach(vec => {
                 vec.gameObject.SetActive(toggle);
             });
+        }
+    }
+    public void SetMoonOrbitActivation(bool toggle) {
+        if (moonOrbit) {
+            GameObject go = moonOrbit.gameObject;
+            go.SetActive(toggle);
         }
     }
 }

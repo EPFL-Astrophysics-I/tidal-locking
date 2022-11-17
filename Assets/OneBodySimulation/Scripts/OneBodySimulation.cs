@@ -308,6 +308,8 @@ public class OneBodySimulation : Simulation
                 timerAnimation += timeScale * Time.fixedDeltaTime;
                 return;
             }
+            float periodSlowDownOffset = 1f - MoonPeriodFactor;
+            MoonPeriodFactor = MoonPeriodFactor + 0.1f*periodSlowDownOffset;
             angleOffsetIsCompute = false;
             timerAnimation = 0;
             return;

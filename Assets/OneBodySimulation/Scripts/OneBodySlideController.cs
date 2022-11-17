@@ -29,7 +29,6 @@ public class OneBodySlideController : SimulationSlideController
         sim.radiusScale = radiusScale;
         sim.MoonPeriodFactor = moonPeriodFactor;
         sim.dragMoonIsAllowed = dragMoonIsAllowed;
-        sim.IsAnimationThreeSteps = AnimationInThreeSteps;
 
         // We ask if vectors should not be drawn,
         // to be consistent with the toggle interaction in slide 4.
@@ -44,6 +43,11 @@ public class OneBodySlideController : SimulationSlideController
         sim.angleMoonOrbitInit = angleMoonOrbitInit;
         sim.angleMoonSpinInit = angleMoonSpinInit;
         sim.UseMoonCI = useMoonCI;
+
+        sim.IsAnimationThreeSteps = AnimationInThreeSteps;
+        //if (AnimationInThreeSteps) {
+        //    sim.ResetSimulation();
+        //}
     }
 
     public void SetMoonPeriodFactor(float newfactor) {

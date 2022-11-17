@@ -7067,7 +7067,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoPlay: 1
   simulation: {fileID: 1012715055}
-  radiusScale: 30
+  radiusScale: 22
   moonPeriodFactor: 1
   moonIsSquashed: 1
   simIsStationary: 1
@@ -7475,8 +7475,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1947321303}
   - component: {fileID: 1947321307}
-  - component: {fileID: 1947321304}
   - component: {fileID: 1947321305}
+  - component: {fileID: 1947321304}
   m_Layer: 5
   m_Name: Slide 6
   m_TagString: Untagged
@@ -7581,9 +7581,9 @@ MonoBehaviour:
   NotDisplayVectorsFromMoonLR: 0
   displayVectorsFromMoonPoints: 0
   AnimationInThreeSteps: 1
-  useMoonCI: 0
+  useMoonCI: 1
   angleMoonOrbitInit: 0
-  angleMoonSpinInit: 0
+  angleMoonSpinInit: 180
 --- !u!225 &1947321307
 CanvasGroup:
   m_ObjectHideFlags: 0

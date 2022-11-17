@@ -20,7 +20,7 @@ public class OneBodySimulation : Simulation
     public float timeScale = 1;
     public bool IsAnimationThreeSteps;
     private float timerAnimation;
-    private float timerOrbitMoon = 3;
+    private float timerOrbitMoon;
     private float timerLerpBulgeAxis = 5;
     private float timerLerpToCI = 5;
     private float timerIntervalSteps = 1;
@@ -242,6 +242,8 @@ public class OneBodySimulation : Simulation
         prefabs.setGravitationalVectors(NewtonG, moonDistance);
 
         prefabs.DrawLineEarthMoon();
+
+        timerOrbitMoon = Period / 10;
     }
 
     /* ************************************************************* */
@@ -312,8 +314,9 @@ public class OneBodySimulation : Simulation
             if (resetTimer >= Period)
             {
                 resetTimer = 0;
-                timerAnimation = 0;
-                moon.Position = initMoonPosition;
+                if (!IsAnimationThreeSteps) {
+                    moon.Position = initMoonPosition;
+                }
             }
 
             resetTimer += timeScale * Time.fixedDeltaTime;

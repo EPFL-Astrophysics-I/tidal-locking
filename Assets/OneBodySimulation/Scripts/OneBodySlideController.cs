@@ -10,11 +10,13 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private bool moonIsSquashed;
     [SerializeField] private bool simIsStationary;
     [SerializeField] private bool dragMoonIsAllowed;
+    [SerializeField] private bool dragMoonEdgesIsAllowed;
     [SerializeField] private bool NotDisplayVectorsFromMoonCM;
     [SerializeField] private bool NotDisplayVectorsFromMoonLR;
     [SerializeField] private bool displayVectorsFromMoonPoints;
     [SerializeField] private bool displayMoonOrbit;
     [SerializeField] private bool AnimationInThreeSteps;
+    [SerializeField] private bool oscillationMoonRotation;
 
     [Header("Initial Condition")]
     [SerializeField] private bool useMoonCI;
@@ -30,6 +32,7 @@ public class OneBodySlideController : SimulationSlideController
         sim.radiusScale = radiusScale;
         sim.MoonPeriodFactor = moonPeriodFactor;
         sim.dragMoonIsAllowed = dragMoonIsAllowed;
+        sim.dragMoonEdgesIsAllowed = dragMoonEdgesIsAllowed;
 
         // We ask if vectors should not be drawn,
         // to be consistent with the toggle interaction in slide 4.
@@ -47,6 +50,7 @@ public class OneBodySlideController : SimulationSlideController
         sim.UseMoonCI = useMoonCI;
 
         sim.IsAnimationThreeSteps = AnimationInThreeSteps;
+        sim.oscillationMoonRotation = oscillationMoonRotation;
         //if (AnimationInThreeSteps) {
         //    sim.ResetSimulation();
         //}

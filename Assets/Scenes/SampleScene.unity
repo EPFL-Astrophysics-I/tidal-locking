@@ -1434,8 +1434,6 @@ MonoBehaviour:
   angleMoonSpinInit: 0
   dragMoonIsAllowed: 0
   dragMoonEdgesIsAllowed: 0
-  dragMoonEdgesMinDeg: 0
-  dragMoonEdgesMaxDeg: 0
 --- !u!114 &625014119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2374,8 +2372,6 @@ MonoBehaviour:
   simIsStationary: 0
   dragMoonIsAllowed: 0
   dragMoonEdgesIsAllowed: 0
-  dragMoonEdgesMinDeg: 0
-  dragMoonEdgesMaxDeg: 360
   NotDisplayVectorsFromMoonCM: 0
   NotDisplayVectorsFromMoonLR: 0
   displayVectorsFromMoonPoints: 0
@@ -2751,7 +2747,7 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0.1
+          m_FloatArgument: 10
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -2762,7 +2758,7 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0.1
+          m_FloatArgument: 10
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -3136,8 +3132,6 @@ MonoBehaviour:
   angleMoonSpinInit: 0
   dragMoonIsAllowed: 0
   dragMoonEdgesIsAllowed: 0
-  dragMoonEdgesMinDeg: 0
-  dragMoonEdgesMaxDeg: 0
 --- !u!114 &1012715056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4542,8 +4536,6 @@ MonoBehaviour:
   simIsStationary: 0
   dragMoonIsAllowed: 0
   dragMoonEdgesIsAllowed: 0
-  dragMoonEdgesMinDeg: 0
-  dragMoonEdgesMaxDeg: 360
   NotDisplayVectorsFromMoonCM: 0
   NotDisplayVectorsFromMoonLR: 0
   displayVectorsFromMoonPoints: 0
@@ -7732,8 +7724,6 @@ MonoBehaviour:
   simIsStationary: 1
   dragMoonIsAllowed: 0
   dragMoonEdgesIsAllowed: 1
-  dragMoonEdgesMinDeg: 0
-  dragMoonEdgesMaxDeg: 360
   NotDisplayVectorsFromMoonCM: 1
   NotDisplayVectorsFromMoonLR: 0
   displayVectorsFromMoonPoints: 0
@@ -7894,8 +7884,6 @@ MonoBehaviour:
   simIsStationary: 1
   dragMoonIsAllowed: 0
   dragMoonEdgesIsAllowed: 0
-  dragMoonEdgesMinDeg: 0
-  dragMoonEdgesMaxDeg: 360
   NotDisplayVectorsFromMoonCM: 1
   NotDisplayVectorsFromMoonLR: 1
   displayVectorsFromMoonPoints: 1
@@ -8223,8 +8211,6 @@ MonoBehaviour:
   simIsStationary: 1
   dragMoonIsAllowed: 1
   dragMoonEdgesIsAllowed: 1
-  dragMoonEdgesMinDeg: 0
-  dragMoonEdgesMaxDeg: 360
   NotDisplayVectorsFromMoonCM: 0
   NotDisplayVectorsFromMoonLR: 0
   displayVectorsFromMoonPoints: 0
@@ -8409,8 +8395,6 @@ MonoBehaviour:
   simIsStationary: 0
   dragMoonIsAllowed: 1
   dragMoonEdgesIsAllowed: 1
-  dragMoonEdgesMinDeg: 0
-  dragMoonEdgesMaxDeg: 360
   NotDisplayVectorsFromMoonCM: 0
   NotDisplayVectorsFromMoonLR: 0
   displayVectorsFromMoonPoints: 0
@@ -9140,8 +9124,6 @@ MonoBehaviour:
   simIsStationary: 0
   dragMoonIsAllowed: 0
   dragMoonEdgesIsAllowed: 0
-  dragMoonEdgesMinDeg: 0
-  dragMoonEdgesMaxDeg: 360
   NotDisplayVectorsFromMoonCM: 0
   NotDisplayVectorsFromMoonLR: 0
   displayVectorsFromMoonPoints: 0

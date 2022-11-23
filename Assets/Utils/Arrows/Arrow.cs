@@ -55,6 +55,8 @@ public class Arrow : MonoBehaviour
 
     public void Redraw()
     {
+        bodyLR.sortingOrder = sortingOrder;
+        if (headLR) {headLR.sortingOrder = sortingOrder;}
         // Draw the body
         bodyLR.SetPositions(new Vector3[] { Vector3.zero, components });
 
@@ -64,8 +66,6 @@ public class Arrow : MonoBehaviour
         bodyLR.endWidth = width;
         bodyLR.startColor = color;
         bodyLR.endColor = color;
-
-        bodyLR.sortingOrder = sortingOrder;
 
         // Draw the head
         if (!headLR) return;

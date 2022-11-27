@@ -202,16 +202,20 @@ public class OneBodyPrefabs : MonoBehaviour
         int listVectorSize = listPointOnMoon.Count;
         if (listVectorSize!=0)
         {
+            Vector3 RAtCM = moon.Position - earth.Position;
+            Vector3 gravForceAtCM = (- newtonG * earth.Mass * moon.Mass / (moonDistance * moonDistance)) * (RAtCM.normalized);
+
             for (int i = 0; i < listVectorSize; i++) {
                 Vector3 position = listPointOnMoon[i].transform.position;
                 listVectorMoonPoint[i].transform.position = position;
+                
                 Vector3 vectorR = position - earth.Position;
                 float r_dm = vectorR.sqrMagnitude;
                 float dm = moon.Mass*1f;
                 Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
-                gravForce = gravForce*300f;
                 //gravForce = gravForce*Units.getUnitLength(unitLength);
-                listVectorMoonPoint[i].SetComponents(gravForce);
+                //listVectorMoonPoint[i].SetComponents(gravForce);
+                listVectorMoonPoint[i].SetComponents((gravForce-gravForceAtCM)*500);
             }
         }
     }
@@ -235,7 +239,7 @@ public class OneBodyPrefabs : MonoBehaviour
 
         if (listPointOnMoon.Count!=0)
         {
-            float substep = 180 * Mathf.Deg2Rad / (listPointOnMoon.Count-1);
+            float substep = 360 * Mathf.Deg2Rad / (listPointOnMoon.Count-1);
             for (int i = 0; i < listPointOnMoon.Count; i++) {
                 float spinAngle = moon.transform.eulerAngles.y * Mathf.Deg2Rad;
                 float moonRadiusX = moon.transform.localScale.x/2;

@@ -103,8 +103,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.5568628, g: 0.5568628, b: 0.5568628, a: 1}
-      key1: {r: 0.5568628, g: 0.5568628, b: 0.5568628, a: 1}
+      key0: {r: 0.5137255, g: 0.88235295, b: 0.70980394, a: 1}
+      key1: {r: 0.5137255, g: 0.88235295, b: 0.70980394, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -242,8 +242,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.5568628, g: 0.5568628, b: 0.5568628, a: 1}
-      key1: {r: 0.5568628, g: 0.5568628, b: 0.5568628, a: 1}
+      key0: {r: 0.5137255, g: 0.88235295, b: 0.70980394, a: 1}
+      key1: {r: 0.5137255, g: 0.88235295, b: 0.70980394, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -266,7 +266,7 @@ LineRenderer:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
+      m_Mode: 1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyLR: {fileID: 5965090600945300724}
   components: {x: 2, y: 1, z: 0}
-  color: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
+  color: {r: 0.513, g: 0.882, b: 0.709, a: 1}
   lineWidth: 0.05
   sortingOrder: 1
   headLR: {fileID: 6306062916368855156}

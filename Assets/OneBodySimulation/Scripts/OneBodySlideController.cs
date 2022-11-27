@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class OneBodySlideController : SimulationSlideController
 {
@@ -54,6 +55,12 @@ public class OneBodySlideController : SimulationSlideController
         //if (AnimationInThreeSteps) {
         //    sim.ResetSimulation();
         //}
+
+        
+    }
+
+    private void OnDisable() {
+        StopAllCoroutines();
     }
 
     public void SetMoonPeriodFactor(float newfactor) {

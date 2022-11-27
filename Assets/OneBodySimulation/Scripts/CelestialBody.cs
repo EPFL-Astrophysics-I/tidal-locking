@@ -22,6 +22,13 @@ public class CelestialBody : MonoBehaviour
                 isSquashed = value;
                 OnSquashed();
             }
+            else if (transform.localScale!=normalScale || transform.localScale!=squashedScale) {
+                // Coroutines are stopped when transitionning for one slide to another.
+                // Then if the squashed boolean changes between two slides,
+                // we have a coroutine, but if we click to next slide before the coroutine changes, we will not have the right scale.
+                // this condition ensure it is the case.
+                OnSquashed();
+            }
         }
     }
 

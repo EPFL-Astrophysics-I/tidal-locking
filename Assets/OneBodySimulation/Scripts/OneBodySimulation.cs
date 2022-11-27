@@ -151,6 +151,13 @@ public class OneBodySimulation : Simulation
         }
     }
 
+    public float getMoonPeriod() {
+        if (moon) {
+            return moon.RotationPeriod;
+        }
+        return 27.5f;
+    }
+
     private bool useMoonCI;
     public bool UseMoonCI {
         get {
@@ -425,11 +432,9 @@ public class OneBodySimulation : Simulation
     /* ************************************************************* */
     public void ResetSimulation()
     {
-
-        // <-- !!   TODO:
-        //          DISABLE RESET BUTTON oF SLIDE 6
-        //          WHEN the coroutine LerpMoonRotationAlongBulge is launch.
-        // !!-->
+        // Disable coroutine if we click reset during a LerpMoonRotationAlongBulge;
+        StopAllCoroutines();
+        MoonPeriodFactor = 1;
 
         resetTimer = 0;
         timerAnimation = 0;

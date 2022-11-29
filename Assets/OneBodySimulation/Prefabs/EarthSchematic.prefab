@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9136201137674816508}
   - component: {fileID: 4454081745454351187}
   - component: {fileID: 200725098630322855}
-  - component: {fileID: 6101570282367758661}
+  - component: {fileID: -6600228783526706767}
   m_Layer: 0
   m_Name: EarthSchematic
   m_TagString: Untagged
@@ -107,7 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3f3e3c2c27ee24496b3884b366ff61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6101570282367758661
+  squashTimer: 1
+--- !u!114 &-6600228783526706767
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,6 +117,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8210001909379508800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b37dfcf374e3a741928a6eb88e56cc1, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ba3f62c706be1e42958e337abc6fd4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursor: {fileID: 0}

@@ -57,7 +57,6 @@ public class LanguageToggle : MonoBehaviour, IPointerClickHandler
         {
             labelEN.color = inactive;
             labelFR.color = active;
-            Debug.Log(active);
             activeLanguage = ActiveLanguage.FR;
         }
         else

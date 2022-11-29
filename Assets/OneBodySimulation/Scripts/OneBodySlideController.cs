@@ -24,6 +24,10 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private float angleMoonOrbitInit;
     [SerializeField] private float angleMoonSpinInit;
 
+    [Header("FadeIn/Out UI")]
+
+    [SerializeField] private List<FadeOutUI> fadeOutUIList;
+
     // Start is called before the first frame update
     public override void InitializeSlide()
     {
@@ -56,7 +60,14 @@ public class OneBodySlideController : SimulationSlideController
         //    sim.ResetSimulation();
         //}
 
-        
+        fadeOutUIList.ForEach(ui => {
+            //ui.TriggerReset(0);
+            //ui.Reset();
+        });
+
+        fadeOutUIList.ForEach(ui => {
+            ui.TriggerFadeOut();
+        });
     }
 
     private void OnDisable() {

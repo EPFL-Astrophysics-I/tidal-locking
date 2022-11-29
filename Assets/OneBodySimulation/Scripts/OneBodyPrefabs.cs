@@ -50,8 +50,8 @@ public class OneBodyPrefabs : MonoBehaviour
             earth.gameObject.name = "Earth";
 
             foreach (GameObject go in ListEarthMassEquation) {
-                OnOverLink link;
-                if (earth.gameObject.TryGetComponent<OnOverLink>( out link))
+                MouseOverEvent link;
+                if (earth.gameObject.TryGetComponent<MouseOverEvent>( out link))
                 {
                     link.SetImage(go);
                 }
@@ -64,8 +64,8 @@ public class OneBodyPrefabs : MonoBehaviour
             moon.gameObject.name = "Moon";
 
             if(moonMassVarEquation) {
-                OnOverLink link;
-                if (moon.gameObject.TryGetComponent<OnOverLink>( out link))
+                MouseOverEvent link;
+                if (moon.gameObject.TryGetComponent<MouseOverEvent>( out link))
                 {
                     link.SetImage(moonMassVarEquation);
                 }
@@ -93,8 +93,8 @@ public class OneBodyPrefabs : MonoBehaviour
             moonCenterVec.gameObject.name = "Vector from moon center to earth center";
 
             if(forceOnMoonCM) {
-                OnOverLink link;
-                if (moonCenterVec.gameObject.TryGetComponent<OnOverLink>( out link))
+                MouseOverEvent link;
+                if (moonCenterVec.gameObject.TryGetComponent<MouseOverEvent>( out link))
                 {
                     link.SetImage(forceOnMoonCM);
                 }

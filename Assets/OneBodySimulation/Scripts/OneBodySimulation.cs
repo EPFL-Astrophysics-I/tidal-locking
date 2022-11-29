@@ -112,7 +112,9 @@ public class OneBodySimulation : Simulation
     /* *** Parameters changed by SlideController */
     //[HideInInspector] public bool simIsStationary { get; set; } = false;
     public bool simIsStationary = false;
+    private float stationaryTimer = 0;
     [HideInInspector] public float radiusScale = 10;
+    private bool moonSquashedHasChanged = false;
     private bool moonSquashed = false;
     public bool MoonIsSquashed {
         get {
@@ -125,6 +127,7 @@ public class OneBodySimulation : Simulation
             moonSquashed = value;
             if (moon!=null) {
                 moon.IsSquashed = value;
+                moonSquashedHasChanged = true;
                 //setMoonPointPosition();
                 //setGravitationalVectors();
             }
@@ -232,6 +235,7 @@ public class OneBodySimulation : Simulation
 
         resetTimer = 0;
         timerAnimation = 0;
+        stationaryTimer = 0;
 
         earth = prefabs.earth;
         if (earth)
@@ -287,7 +291,6 @@ public class OneBodySimulation : Simulation
                 DragMoonAlongOrbit();
         }
     }
-
     private void FixedUpdate()
     {
         if (paused)
@@ -297,10 +300,19 @@ public class OneBodySimulation : Simulation
 
         if (simIsStationary)
         {
-            if (Time.fixedDeltaTime <= moon.squashTimer) {
+            if (waitForMoonToCI) {
+                // Wait until Moon
+                return;
+            }
+            /*
+            if (stationaryTimer<0.1f) {
                 prefabs.setMoonPointPosition();
                 prefabs.setGravitationalVectors(NewtonG, moonDistance);
-            }
+                stationaryTimer+=Time.fixedDeltaTime;
+            }*/
+
+            prefabs.setMoonPointPosition();
+            prefabs.setGravitationalVectors(NewtonG, moonDistance);
 
             if (oscillationMoonRotation) {
                 //x = moon.transform.eulerAngles.y - 180; 
@@ -324,6 +336,7 @@ public class OneBodySimulation : Simulation
                 // Wait until Moon
                 return;
             }
+
             if (timerAnimation <= timerIntervalSteps) {
                 timerAnimation += timeScale * Time.fixedDeltaTime;
                 return;
@@ -500,6 +513,11 @@ public class OneBodySimulation : Simulation
             yield return null;
         }
         waitForMoonToCI = false;
+        if (oscillationMoonRotation) {
+            oscillationV = 0f;
+            oscillationX = 0f;
+            rot180Moon = true;
+        }
     }
 
     IEnumerator LerpMoonRotation(Vector3 start, Vector3 target, float lerpTime) {

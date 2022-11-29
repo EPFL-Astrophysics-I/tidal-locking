@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3042896206229029481}
   - component: {fileID: 630369151420602434}
   - component: {fileID: 4413875736217032787}
+  - component: {fileID: -8141780240647130926}
+  - component: {fileID: 2723791707467800003}
   m_Layer: 0
   m_Name: GravitationalVector
   m_TagString: Untagged
@@ -158,6 +160,33 @@ MonoBehaviour:
   sortingOrder: 2
   headLR: {fileID: 1005540650713242818}
   headAngle: 45
+--- !u!114 &-8141780240647130926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264021385404883600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ba3f62c706be1e42958e337abc6fd4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursor: {fileID: 0}
+--- !u!64 &2723791707467800003
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264021385404883600}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1 &6885622249459920719
 GameObject:
   m_ObjectHideFlags: 0

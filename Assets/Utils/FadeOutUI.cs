@@ -33,7 +33,7 @@ public class FadeOutUI : MonoBehaviour
         }
     }
 
-    private void Reset()
+    public void Reset()
     {
         StopAllCoroutines();
         canvasGroup.alpha = 1;

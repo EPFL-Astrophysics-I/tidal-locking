@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2690845036005288969}
   - component: {fileID: 1878627219773326359}
   - component: {fileID: 6403701408998288438}
-  - component: {fileID: 6401605117200330334}
+  - component: {fileID: -2465003321062342182}
   m_Layer: 0
   m_Name: MoonSchematic2
   m_TagString: Untagged
@@ -93,7 +93,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6403701408998288438
 MonoBehaviour:
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   squashTimer: 1
---- !u!114 &6401605117200330334
+--- !u!114 &-2465003321062342182
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,6 +117,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6446264102617305017}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b37dfcf374e3a741928a6eb88e56cc1, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ba3f62c706be1e42958e337abc6fd4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursor: {fileID: 0}

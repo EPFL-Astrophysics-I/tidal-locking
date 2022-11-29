@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class MouseOverEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] Texture2D cursor;
+    private Vector2 cursorOffset = new Vector2(14, 6);
     private List<ImageColorManager> listImages = new List<ImageColorManager>();
     public void SetImage(GameObject go) {
         //Debug.Log("Set image: " + go);
@@ -20,6 +21,7 @@ public class MouseOverEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         //Debug.Log("Cursor Entering " + name + " GameObject");
         //throw new System.NotImplementedException();
+        Cursor.SetCursor(cursor, cursorOffset, CursorMode.Auto);
         listImages.ForEach((image) => image.ColorVar());
     }
 
@@ -27,6 +29,7 @@ public class MouseOverEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         //Debug.Log("Cursor Exiting " + name + " GameObject");
         //throw new System.NotImplementedException();
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         listImages.ForEach((image) => image.RestoreColor());
     }
 }

@@ -16,8 +16,10 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private bool NotDisplayVectorsFromMoonLR;
     [SerializeField] private bool displayVectorsFromMoonPoints;
     [SerializeField] private bool displayMoonOrbit;
+    [SerializeField] private bool displayMoonBulgeLine;
     [SerializeField] private bool AnimationInThreeSteps;
     [SerializeField] private bool oscillationMoonRotation;
+    [SerializeField] private bool MoonSquashingAnimation;
 
     [Header("Initial Condition")]
     [SerializeField] private bool useMoonCI;
@@ -46,6 +48,7 @@ public class OneBodySlideController : SimulationSlideController
 
         sim.ActivationPointsOnMoon = displayVectorsFromMoonPoints;
         sim.ActivationMoonOrbit = displayMoonOrbit;
+        sim.ActivationMoonBulgeLine = displayMoonBulgeLine;
 
         // 
 
@@ -56,6 +59,7 @@ public class OneBodySlideController : SimulationSlideController
 
         sim.IsAnimationThreeSteps = AnimationInThreeSteps;
         sim.oscillationMoonRotation = oscillationMoonRotation;
+        sim.squashingAnimation = MoonSquashingAnimation;
         //if (AnimationInThreeSteps) {
         //    sim.ResetSimulation();
         //}

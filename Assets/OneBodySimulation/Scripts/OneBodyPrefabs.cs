@@ -13,12 +13,17 @@ public class OneBodyPrefabs : MonoBehaviour
     [SerializeField] private GameObject moonLeftVecPrefab;
     [SerializeField] private GameObject moonRightVecPrefab;
     [SerializeField] private GameObject moonPointVecPrefab;
+    [SerializeField] private GameObject moonPointVecPrefabXY;
     [SerializeField] private GameObject lineEarthMoonPrefab;
+    [SerializeField] private GameObject lineMoonBulgePrefab;
 
     [Header("Multiple Points")]
     [HideInInspector] public List<PointOnBody> listPointOnMoon;
     [SerializeField] private int numberOfMoonPoints;
     [HideInInspector] public List<Arrow> listVectorMoonPoint;
+    [HideInInspector] public List<PointOnBody> listPointOnMoonXY;
+    [SerializeField] private int numberOfMoonPointsXY;
+    [HideInInspector] public List<Arrow> listVectorMoonPointXY;
 
     [Header("Variable in Equations")]
     [SerializeField] private GameObject moonMassVarEquation;
@@ -37,6 +42,7 @@ public class OneBodyPrefabs : MonoBehaviour
     [HideInInspector] public Arrow moonLeftVec;
     [HideInInspector] public Arrow moonRightVec;
     [HideInInspector] public LineRenderer lineEarthMoon;
+    [HideInInspector] public LineRenderer lineMoonBulge;
     [HideInInspector] public List<Light> listLights;
 
     private Color32 moonLeftVecColor = new Color32(128, 96, 50, 255);
@@ -75,9 +81,11 @@ public class OneBodyPrefabs : MonoBehaviour
         if (pointOnMoon)
         {
             moonPointRight = Instantiate(pointOnMoon, Vector3.zero, Quaternion.identity, transform).GetComponent<PointOnBody>();
+            moonPointRight.planXZ=true;
             moonPointRight.gameObject.name = "dm point right";
 
             moonPointLeft = Instantiate(pointOnMoon, Vector3.zero, Quaternion.identity, transform).GetComponent<PointOnBody>();
+            moonPointLeft.planXZ=true;
             moonPointLeft.gameObject.name = "dm point left";
         }
 
@@ -119,7 +127,12 @@ public class OneBodyPrefabs : MonoBehaviour
         {
             lineEarthMoon = Instantiate(lineEarthMoonPrefab, transform).GetComponent<LineRenderer>();
             lineEarthMoon.positionCount = 2;
-            //moonRightVec.color = moonRightVecColor;
+        }
+
+        if (lineMoonBulgePrefab)
+        {
+            lineMoonBulge = Instantiate(lineMoonBulgePrefab, transform).GetComponent<LineRenderer>();
+            lineMoonBulge.positionCount = 2;
         }
 
         foreach (GameObject lightPrefab in listLightPrefabs)
@@ -132,9 +145,13 @@ public class OneBodyPrefabs : MonoBehaviour
         {
             listVectorMoonPoint = new List<Arrow>();
 
+            GameObject parent = new GameObject("Vector Moon in plan XZ");
+            parent.transform.parent = transform;
+
             for (int i = 0; i < numberOfMoonPoints; i++) {
                 Arrow ar = Instantiate(moonPointVecPrefab, transform).GetComponent<Arrow>();
                 ar.gameObject.name = "vector " + i;
+                ar.transform.parent = parent.transform;
 
                 listVectorMoonPoint.Add(ar);
             }
@@ -144,11 +161,48 @@ public class OneBodyPrefabs : MonoBehaviour
         {
             listPointOnMoon = new List<PointOnBody>();
 
+            GameObject parentPointOnMoon = new GameObject("Points on the Moon in plan XZ");
+            parentPointOnMoon.transform.parent = transform;
+
             for (int i = 0; i < numberOfMoonPoints; i++) {
                 PointOnBody pt = Instantiate(pointOnMoon, transform).GetComponent<PointOnBody>();
+                pt.planXZ=true;
                 pt.gameObject.name = "point " + i;
+                pt.transform.parent = parentPointOnMoon.transform;
 
                 listPointOnMoon.Add(pt);
+            }
+        }
+
+        if (moonPointVecPrefabXY)
+        {
+            listVectorMoonPointXY = new List<Arrow>();
+
+            GameObject parentPointOnMoonXY = new GameObject("Vectors on the Moon in plan XY");
+            parentPointOnMoonXY.transform.parent = transform;
+
+            for (int i = 0; i < numberOfMoonPointsXY; i++) {
+                Arrow ar = Instantiate(moonPointVecPrefabXY, transform).GetComponent<Arrow>();
+                ar.gameObject.name = "vector XY " + i;
+                ar.transform.parent = parentPointOnMoonXY.transform;
+
+                listVectorMoonPointXY.Add(ar);
+            }
+        }
+
+        if (numberOfMoonPointsXY != 0)
+        {
+            listPointOnMoonXY = new List<PointOnBody>();
+
+            GameObject parent = new GameObject("Vector Moon in plan XY");
+            parent.transform.parent = transform;
+
+            for (int i = 0; i < numberOfMoonPointsXY; i++) {
+                PointOnBody pt = Instantiate(pointOnMoon, transform).GetComponent<PointOnBody>();
+                pt.gameObject.name = "point XY " + i;
+                pt.transform.parent = parent.transform;
+
+                listPointOnMoonXY.Add(pt);
             }
         }
     }
@@ -160,6 +214,17 @@ public class OneBodyPrefabs : MonoBehaviour
             lineEarthMoon.SetPositions(new Vector3[] {
                 earth.Position,
                 moon.Position
+            });
+        }
+    }
+
+    public void DrawLineMoonBulge() {
+        if (lineMoonBulge) {
+            float spinAngle = -moon.transform.eulerAngles.y * Mathf.Deg2Rad;
+            Vector3 dir = new Vector3(Mathf.Cos(spinAngle), 0, Mathf.Sin(spinAngle));
+            lineMoonBulge.SetPositions(new Vector3[] {
+                moon.Position+dir*-2,
+                moon.Position+dir*2
             });
         }
     }
@@ -218,6 +283,26 @@ public class OneBodyPrefabs : MonoBehaviour
                 listVectorMoonPoint[i].SetComponents((gravForce-gravForceAtCM)*500);
             }
         }
+
+        int listVectorSizeXY = listPointOnMoonXY.Count;
+        if (listVectorSizeXY!=0)
+        {
+            Vector3 RAtCM = moon.Position - earth.Position;
+            Vector3 gravForceAtCM = (- newtonG * earth.Mass * moon.Mass / (moonDistance * moonDistance)) * (RAtCM.normalized);
+
+            for (int i = 0; i < listVectorSizeXY; i++) {
+                Vector3 position = listPointOnMoonXY[i].transform.position;
+                listVectorMoonPointXY[i].transform.position = position;
+                
+                Vector3 vectorR = position - earth.Position;
+                float r_dm = vectorR.sqrMagnitude;
+                float dm = moon.Mass*1f;
+                Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
+                //gravForce = gravForce*Units.getUnitLength(unitLength);
+                //listVectorMoonPoint[i].SetComponents(gravForce);
+                listVectorMoonPointXY[i].SetComponents((gravForce-gravForceAtCM)*500);
+            }
+        }
     }
 
     public void setMoonPointPosition()
@@ -255,6 +340,25 @@ public class OneBodyPrefabs : MonoBehaviour
                 listPointOnMoon[i].SetPosition(moon.Position, -(spinAngle+angleStep), -moonRadiusXZ);
             }
         }
+
+        if (listPointOnMoonXY.Count!=0)
+        {
+            float substep = 360 * Mathf.Deg2Rad / (listPointOnMoonXY.Count-1);
+            for (int i = 0; i < listPointOnMoonXY.Count; i++) {
+                float spinAngle = moon.transform.eulerAngles.y * Mathf.Deg2Rad;
+                float moonRadiusX = moon.transform.localScale.x/2;
+                float moonRadiusY = moon.transform.localScale.y/2;
+
+                float angleStep = substep * i;
+
+                float moonRadiusXY = (moonRadiusX*moonRadiusY);
+                float cos = Mathf.Cos(angleStep);
+                float sin = Mathf.Sin(angleStep);
+                moonRadiusXY /= (Mathf.Sqrt(moonRadiusX*moonRadiusX*sin*sin + moonRadiusY*moonRadiusY*cos*cos));
+
+                listPointOnMoonXY[i].SetPosition(moon.Position, -(spinAngle+angleStep), -moonRadiusXY);
+            }
+        }
     }
 
     /* ************************************************************* */
@@ -277,9 +381,17 @@ public class OneBodyPrefabs : MonoBehaviour
         }
     }
     public void SetPointsOnMoonActivation(bool toggle) {
+        
         if (listPointOnMoon.Count!=0)
         {
             listVectorMoonPoint.ForEach(vec => {
+                vec.gameObject.SetActive(toggle);
+            });
+        }
+
+        if (listPointOnMoonXY.Count!=0)
+        {
+            listVectorMoonPointXY.ForEach(vec => {
                 vec.gameObject.SetActive(toggle);
             });
         }
@@ -287,6 +399,12 @@ public class OneBodyPrefabs : MonoBehaviour
     public void SetMoonOrbitActivation(bool toggle) {
         if (moonOrbit) {
             GameObject go = moonOrbit.gameObject;
+            go.SetActive(toggle);
+        }
+    }
+    public void SetMoonBulgeLineActivation(bool toggle) {
+        if (lineMoonBulge) {
+            GameObject go = lineMoonBulge.gameObject;
             go.SetActive(toggle);
         }
     }

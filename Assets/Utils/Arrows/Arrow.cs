@@ -7,6 +7,7 @@ public class Arrow : MonoBehaviour
     [HideInInspector] public LineRenderer bodyLR;
 
     [Header("Properties")]
+    public bool headInPlanXY=false;
     public Vector3 components;
     public Color color = Color.black;
     [Min(0)] public float lineWidth = 0.2f;
@@ -136,8 +137,12 @@ public class Arrow : MonoBehaviour
         // Direction along the arrow
         Vector3 e1 = components.normalized;
         // Direction orthogonal to the vector in the plane spanned by the arrow and the y-axis
-        //Vector3 e2 = (e1.x == 0) ? Vector3.right : Vector3.Cross(Vector3.Cross(e1, Vector3.up).normalized, e1);
-        Vector3 e2 = (e1.x == 0) ? Vector3.right : Vector3.Cross(Vector3.Cross(e1, Vector3.forward).normalized, e1);
+        Vector3 e2;
+        if (headInPlanXY) {
+            e2 = (e1.x == 0) ? Vector3.right : Vector3.Cross(Vector3.Cross(e1, Vector3.up).normalized, e1);
+        } else {
+            e2 = (e1.x == 0) ? Vector3.right : Vector3.Cross(Vector3.Cross(e1, Vector3.forward).normalized, e1);
+        }
 
         float angle = Mathf.Deg2Rad * headAngle;
         float headLength = Mathf.Min(components.magnitude, 2 * width);

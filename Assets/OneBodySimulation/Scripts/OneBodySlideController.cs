@@ -5,25 +5,30 @@ using TMPro;
 
 public class OneBodySlideController : SimulationSlideController
 {
-    [Header("Parameters")]
+    [Header("Sim Parameters")]
+    [SerializeField] private bool simIsStationary;
+    [SerializeField] private bool AnimationInThreeSteps;
+    [SerializeField] private bool oscillationMoonRotation;
+    [SerializeField] private bool MoonSquashingAnimation;
+    [Header("Earth Moon Parameters")]
     [SerializeField] private float radiusScale;
     [SerializeField] private float moonPeriodFactor;
     [SerializeField] private bool moonIsSquashed;
-    [SerializeField] private bool simIsStationary;
+    [Header("Interactivity Parameters")]
     [SerializeField] private bool dragMoonIsAllowed;
     [SerializeField] private bool dragMoonEdgesIsAllowed;
+
+    [Header("Display Parameters")]
     [SerializeField] private bool displayVectorsFromMoonCM;
     [SerializeField] private bool displayVectorsFromMoonLR;
     [SerializeField] private float gravitationalVectorSize;
     [SerializeField] private float vectorGravLineWidth; // if 0 then vectorGravLineWidth is not used and value is taken from prefab
     [SerializeField] private bool displayVectorsFromMoonPoints;
     [SerializeField] private float tidalVectorSize;
-    //[SerializeField] private float vectorTidalLineWidth; // if 0 then vectorGravLineWidth is not used and value is taken from prefab
+    [SerializeField] private float vectorTidalLineWidth; // if 0 then vectorGravLineWidth is not used and value is taken from prefab
     [SerializeField] private bool displayMoonOrbit;
     [SerializeField] private bool displayMoonBulgeLine;
-    [SerializeField] private bool AnimationInThreeSteps;
-    [SerializeField] private bool oscillationMoonRotation;
-    [SerializeField] private bool MoonSquashingAnimation;
+    [SerializeField] private bool displayMoonRefSystem;
 
     [Header("Initial Condition")]
     [SerializeField] private bool useMoonCI;
@@ -56,11 +61,12 @@ public class OneBodySlideController : SimulationSlideController
         sim.VectorGravScale = gravitationalVectorSize;
         sim.VectorTidalScale = tidalVectorSize;
         sim.VectorGravLineWidth = vectorGravLineWidth;
-        //sim.VectorTidalLineWidth = vectorTidalLineWidth;
+        sim.VectorTidalLineWidth = vectorTidalLineWidth;
 
         sim.ActivationPointsOnMoon = displayVectorsFromMoonPoints;
         sim.ActivationMoonOrbit = displayMoonOrbit;
         sim.ActivationMoonBulgeLine = displayMoonBulgeLine;
+        sim.ActivationMoonRefSystem = displayMoonRefSystem;
 
         // 
 

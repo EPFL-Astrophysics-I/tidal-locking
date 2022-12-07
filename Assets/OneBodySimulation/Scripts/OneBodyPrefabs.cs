@@ -16,6 +16,9 @@ public class OneBodyPrefabs : MonoBehaviour
     [SerializeField] private GameObject moonPointVecPrefabXY;
     [SerializeField] private GameObject lineEarthMoonPrefab;
     [SerializeField] private GameObject lineMoonBulgePrefab;
+    [SerializeField] private GameObject moonRefSystemPrefab;
+    [SerializeField] private GameObject moonVecOnMousePrefab;
+    [HideInInspector] private Arrow moonVecOnMouse;
 
     [Header("Multiple Points")]
     [HideInInspector] public List<PointOnBody> listPointOnMoon;
@@ -45,6 +48,8 @@ public class OneBodyPrefabs : MonoBehaviour
     [HideInInspector] public LineRenderer lineMoonBulge;
     [HideInInspector] public List<Light> listLights;
 
+    [HideInInspector] public GameObject moonRefSystem;
+
     private float moonCenterVecLineWidth;
     private float moonLeftVecLineWidth;
     private float moonRightVecLineWidth;
@@ -66,6 +71,12 @@ public class OneBodyPrefabs : MonoBehaviour
                     link.SetImage(go);
                 }
             }
+        }
+
+        if (moonRefSystemPrefab)
+        {
+            moonRefSystem = Instantiate(moonRefSystemPrefab, Vector3.zero, Quaternion.identity, transform);
+            moonRefSystem.gameObject.name = "Moon's reference system";
         }
 
         if (moonPrefab)
@@ -215,10 +226,22 @@ public class OneBodyPrefabs : MonoBehaviour
                 listPointOnMoonXY.Add(pt);
             }
         }
+
+        if (moonVecOnMousePrefab)
+        {
+            moonVecOnMouse = Instantiate(moonVecOnMousePrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<Arrow>();
+            moonVecOnMouse.gameObject.name = "Vector Mouse Moon";
+        }
     }
 
     /* ************************************************************* */
     // Functions to update elements.
+    public void SetMoonRefSystem() {
+        if (moonRefSystem) {
+            moonRefSystem.transform.position=moon.Position;
+            moonRefSystem.transform.rotation=moon.transform.rotation;
+        }
+    }
     public void DrawLineEarthMoon() {
         if (lineEarthMoon) {
             lineEarthMoon.SetPositions(new Vector3[] {
@@ -371,8 +394,28 @@ public class OneBodyPrefabs : MonoBehaviour
         }
     }
 
+    public void setMoonVecOnMouse(Vector3 origin, float newtonG, float moonDistance, float gravVecScale)
+    {
+        if (moonVecOnMouse) {
+            moonVecOnMouse.transform.position = origin;
+            Vector3 vectorR = origin - earth.Position;
+            float r_dm = vectorR.sqrMagnitude;
+            float dm = moon.Mass*1f;
+            Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
+            gravForce = gravForce*gravVecScale;
+            //gravForce = gravForce*Units.getUnitLength(unitLength);
+            moonVecOnMouse.SetComponents(gravForce);
+        }
+    }
+
     /* ************************************************************* */
     // Functions to set the activation/visibility of prefabs elements.
+    public void SetMoonRefSystemActivation(bool toggle) {
+        if (moonRefSystem) {
+            GameObject go = moonRefSystem.gameObject;
+            go.SetActive(toggle);
+        }
+    }
     public void SetVectorLRactivation(bool toggle) {
         if (moonLeftVec) {
             GameObject go = moonLeftVec.gameObject;
@@ -420,7 +463,6 @@ public class OneBodyPrefabs : MonoBehaviour
     }
 
     /* ************************************************************* */
-    /*
     public void SetTidalVecLineWidth(float lineWidth) {
         if (lineWidth==0) {
             return;
@@ -439,7 +481,7 @@ public class OneBodyPrefabs : MonoBehaviour
                 listVectorMoonPointXY[i].lineWidth = lineWidth;
             }
         }
-    }*/
+    }
 
     public void SetGravVecLineWidth(float lineWidth) {
         if (lineWidth==0) {

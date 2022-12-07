@@ -82,7 +82,7 @@ public class OneBodySimulation : Simulation
             }
         }
     }
-    /*
+    
     private float vectorTidalLineWidth;
     public float VectorTidalLineWidth {
         get {
@@ -94,7 +94,7 @@ public class OneBodySimulation : Simulation
                 prefabs.SetTidalVecLineWidth(vectorTidalLineWidth);
             }
         }
-    }*/
+    }
 
     /* ************************************************************* */
 
@@ -154,6 +154,17 @@ public class OneBodySimulation : Simulation
         set {
             activationMoonBulgeLine = value;
             prefabs.SetMoonBulgeLineActivation(value);
+        }
+    }
+
+    private bool activationMoonRefSystem = false;
+    public bool ActivationMoonRefSystem {
+        get {
+            return activationMoonRefSystem;
+        }
+        set {
+            activationMoonRefSystem = value;
+            prefabs.SetMoonRefSystemActivation(value);
         }
     }
 
@@ -349,6 +360,7 @@ public class OneBodySimulation : Simulation
         {
             if (dragMoonIsAllowed || dragMoonEdgesIsAllowed)
                 DragMoonAlongOrbit();
+                MouseOverMoon();
         }
     }
     private void FixedUpdate()
@@ -446,7 +458,6 @@ public class OneBodySimulation : Simulation
             {
                 resetTimer = 0;
                 if (!IsAnimationThreeSteps) {
-                    Debug.Log(initMoonPosition);
                     moon.Position = initMoonPosition;
                 }
             }
@@ -480,6 +491,7 @@ public class OneBodySimulation : Simulation
         prefabs.DrawLineMoonBulge();
         prefabs.setMoonPointPosition();
         prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
+        prefabs.SetMoonRefSystem();
     }
 
     private void StepForward(float deltaTime)
@@ -494,6 +506,8 @@ public class OneBodySimulation : Simulation
         float r = vectorR.magnitude;
         Vector3 position = new Vector3(r * Mathf.Cos(theta), 0, r * Mathf.Sin(theta));
         moon.Position = earth.Position + position;
+
+        prefabs.SetMoonRefSystem();
     }
     private void dampedHarmonicOscillation(float deltaTime)
     {        
@@ -553,22 +567,13 @@ public class OneBodySimulation : Simulation
     private void SetMoonInitialCondition() {
         resetTimer = 0;
         initMoonPosition = new Vector3(moonDistance * Mathf.Cos(angleMoonOrbitInit), 0, moonDistance * Mathf.Sin(angleMoonOrbitInit));
-        //moonDistance = (initMoonPosition - earth.Position).magnitude;
+        moonDistance = (initMoonPosition - earth.Position).magnitude;
 
         Vector3 targetRotation = new Vector3(0, angleMoonSpinInit, 0);
         float currentAngle = Mathf.Atan2(moon.Position.z, moon.Position.x);
 
         StartCoroutine(LerpMoonPositionAlongOrbit(currentAngle, angleMoonOrbitInit, timerLerpToCI));
         StartCoroutine(LerpMoonRotation(moon.transform.rotation.eulerAngles, targetRotation, timerLerpToCI-0.1f));
-    }
-
-    public void ChangeMoonPeriod(float periodFactor)
-    {
-        moon.RotationPeriod = Period*periodFactor;
-    }
-    public void ToggleStationaryFlag()
-    {
-        simIsStationary = !simIsStationary;
     }
 
     /* ************************************************************* */
@@ -785,5 +790,30 @@ public class OneBodySimulation : Simulation
             draggingMoonCenter = false;
             draggingEdgeMoon = false;
         }
+    }
+
+    private void MouseOverMoon() {
+        Vector2 mousePosition = Input.mousePosition;
+        Vector2 moonCenter = mainCamera.WorldToScreenPoint(moon.Position);
+
+        Vector2 lineMouseMoon = mousePosition - moonCenter;
+        float mouseAngle = Mathf.Atan2(lineMouseMoon.y, lineMouseMoon.x) * Mathf.Rad2Deg;
+        float moonAngle = moon.transform.eulerAngles.y;
+        Debug.Log(mouseAngle + " " + moonAngle);
+        float totalAngle= (mouseAngle+moonAngle)*Mathf.Deg2Rad;
+
+        float cosAngle = Mathf.Cos(totalAngle);
+        float sinAngle = Mathf.Sin(totalAngle);
+        
+        float semiMajorAxis = moon.transform.localScale.x/2;
+        float semiMinorAxis = moon.transform.localScale.z/2;
+
+        float radiusMoon = (semiMajorAxis*semiMinorAxis)/Mathf.Sqrt(semiMajorAxis*semiMajorAxis*sinAngle*sinAngle+semiMinorAxis*semiMinorAxis*cosAngle*cosAngle);
+
+        Vector3 pointOnMoon = moon.Position + (radiusMoon)*(Quaternion.AngleAxis(-mouseAngle, Vector3.up)*Vector3.right);
+        prefabs.setMoonVecOnMouse(pointOnMoon, NewtonG, moonDistance, vectorGravScale);
+        //if (radiusMoon<1)
+        //    Debug.Log(radiusMoon);
+            //prefabs.setMoonPointOnMouse(mainCamera.ScreenToWorldPoint(mousePosition3));
     }
 }

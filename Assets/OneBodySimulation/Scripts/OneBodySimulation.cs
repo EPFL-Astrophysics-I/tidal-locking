@@ -204,6 +204,7 @@ public class OneBodySimulation : Simulation
                     moon.transform.rotation = Quaternion.Euler(0, 180, 0);
                     float deltaAngle = timeScale * resetTimer * 360 / moon.RotationPeriod;
                     moon.IncrementRotation(deltaAngle * Vector3.down);
+                    Debug.Log(value);
                 }
             }
             moonPeriodFactor = value;
@@ -445,6 +446,7 @@ public class OneBodySimulation : Simulation
             {
                 resetTimer = 0;
                 if (!IsAnimationThreeSteps) {
+                    Debug.Log(initMoonPosition);
                     moon.Position = initMoonPosition;
                 }
             }
@@ -550,8 +552,8 @@ public class OneBodySimulation : Simulation
     /* ************************************************************* */
     private void SetMoonInitialCondition() {
         resetTimer = 0;
-        initMoonPosition = new Vector3(moonDistance * Mathf.Cos(angleMoonSpinInit), 0, moonDistance * Mathf.Sin(angleMoonSpinInit));
-        moonDistance = (initMoonPosition - earth.Position).magnitude;
+        initMoonPosition = new Vector3(moonDistance * Mathf.Cos(angleMoonOrbitInit), 0, moonDistance * Mathf.Sin(angleMoonOrbitInit));
+        //moonDistance = (initMoonPosition - earth.Position).magnitude;
 
         Vector3 targetRotation = new Vector3(0, angleMoonSpinInit, 0);
         float currentAngle = Mathf.Atan2(moon.Position.z, moon.Position.x);

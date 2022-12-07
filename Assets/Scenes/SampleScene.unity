@@ -2732,7 +2732,7 @@ RectTransform:
   - {fileID: 280555658}
   - {fileID: 946881591}
   m_Father: {fileID: 2866597030137718180}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8690,7 +8690,7 @@ RectTransform:
   - {fileID: 1575711575}
   - {fileID: 1628030512}
   m_Father: {fileID: 2866597030137718180}
-  m_RootOrder: 4
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -12192,7 +12192,7 @@ RectTransform:
   - {fileID: 1367576861}
   - {fileID: 1166657641}
   m_Father: {fileID: 2866597030137718180}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -12410,7 +12410,7 @@ RectTransform:
   - {fileID: 388870864}
   - {fileID: 1959915186081233261}
   m_Father: {fileID: 2866597030137718180}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -12771,7 +12771,7 @@ RectTransform:
   - {fileID: 1753257581}
   - {fileID: 1565652288}
   m_Father: {fileID: 2866597030137718180}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -13138,7 +13138,7 @@ RectTransform:
   - {fileID: 7946162021528586356}
   - {fileID: 1415618376}
   m_Father: {fileID: 2866597030137718180}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -14280,13 +14280,13 @@ MonoBehaviour:
   displayVectorsFromMoonPoints: 0
   tidalVectorSize: 400
   displayMoonOrbit: 0
-  displayMoonBulgeLine: 0
+  displayMoonBulgeLine: 1
   AnimationInThreeSteps: 0
   oscillationMoonRotation: 0
   MoonSquashingAnimation: 0
-  useMoonCI: 0
+  useMoonCI: 1
   angleMoonOrbitInit: 0
-  angleMoonSpinInit: 0
+  angleMoonSpinInit: 180
   fadeOutUIList: []
 --- !u!114 &2116169443
 MonoBehaviour:
@@ -15342,12 +15342,12 @@ RectTransform:
   - {fileID: 2116169441}
   - {fileID: 859417290}
   - {fileID: 2021517521}
-  - {fileID: 1467228495}
   - {fileID: 1884251638}
   - {fileID: 1841889916}
   - {fileID: 1819339130}
   - {fileID: 1947321303}
   - {fileID: 511435810}
+  - {fileID: 1467228495}
   m_Father: {fileID: 333518955822707937}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

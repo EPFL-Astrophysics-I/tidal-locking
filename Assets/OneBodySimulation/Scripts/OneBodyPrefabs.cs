@@ -45,6 +45,10 @@ public class OneBodyPrefabs : MonoBehaviour
     [HideInInspector] public LineRenderer lineMoonBulge;
     [HideInInspector] public List<Light> listLights;
 
+    private float moonCenterVecLineWidth;
+    private float moonLeftVecLineWidth;
+    private float moonRightVecLineWidth;
+
     private Color32 moonLeftVecColor = new Color32(128, 96, 50, 255);
     private Color32 moonRightVecColor = new Color32(66, 128, 90, 255);
 
@@ -100,6 +104,8 @@ public class OneBodyPrefabs : MonoBehaviour
             moonCenterVec = Instantiate(moonCenterVecPrefab, transform).GetComponent<Arrow>();
             moonCenterVec.gameObject.name = "Vector from moon center to earth center";
 
+            moonCenterVecLineWidth = moonCenterVec.lineWidth;
+
             if(forceOnMoonCM) {
                 MouseOverEvent link;
                 if (moonCenterVec.gameObject.TryGetComponent<MouseOverEvent>( out link))
@@ -114,6 +120,8 @@ public class OneBodyPrefabs : MonoBehaviour
             moonLeftVec = Instantiate(moonLeftVecPrefab, transform).GetComponent<Arrow>();
             moonLeftVec.gameObject.name = "Vector from moon dm left to earth center";
             //moonLeftVec.color = moonLeftVecColor;
+
+            moonLeftVecLineWidth = moonLeftVec.lineWidth;
         }
 
         if (moonRightVecPrefab)
@@ -121,6 +129,8 @@ public class OneBodyPrefabs : MonoBehaviour
             moonRightVec = Instantiate(moonRightVecPrefab, transform).GetComponent<Arrow>();
             moonRightVec.gameObject.name = "Vector from moon dm right to earth center";
             //moonRightVec.color = moonRightVecColor;
+
+            moonRightVecLineWidth = moonRightVec.lineWidth;
         }
 
         if (lineEarthMoonPrefab)
@@ -229,13 +239,13 @@ public class OneBodyPrefabs : MonoBehaviour
         }
     }
 
-    public void setGravitationalVectors(float newtonG, float moonDistance)
+    public void setGravitationalVectors(float newtonG, float moonDistance, float gravVecScale, float tidalVecScale)
     {
         if (moonCenterVec) {
             moonCenterVec.transform.position = moon.Position;
             Vector3 vectorR = moon.Position - earth.Position;
             Vector3 gravForce = (- newtonG * earth.Mass * moon.Mass / (moonDistance * moonDistance)) * (vectorR.normalized);
-            gravForce = gravForce*400f;
+            gravForce = gravForce*gravVecScale;
             //gravForce = gravForce*Units.getUnitLength(unitLength);
             moonCenterVec.SetComponents(gravForce);
         }
@@ -247,7 +257,7 @@ public class OneBodyPrefabs : MonoBehaviour
             float r_dm = vectorR.sqrMagnitude;
             float dm = moon.Mass*1f;
             Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
-            gravForce = gravForce*400f;
+            gravForce = gravForce*gravVecScale;
             //gravForce = gravForce*Units.getUnitLength(unitLength);
             moonRightVec.SetComponents(gravForce);
         }
@@ -259,7 +269,7 @@ public class OneBodyPrefabs : MonoBehaviour
             float r_dm = vectorR.sqrMagnitude;
             float dm = moon.Mass*1f;
             Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
-            gravForce = gravForce*400f;
+            gravForce = gravForce*gravVecScale;
             //gravForce = gravForce*Units.getUnitLength(unitLength);
             moonLeftVec.SetComponents(gravForce);
         }
@@ -280,7 +290,7 @@ public class OneBodyPrefabs : MonoBehaviour
                 Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
                 //gravForce = gravForce*Units.getUnitLength(unitLength);
                 //listVectorMoonPoint[i].SetComponents(gravForce);
-                listVectorMoonPoint[i].SetComponents((gravForce-gravForceAtCM)*500);
+                listVectorMoonPoint[i].SetComponents((gravForce-gravForceAtCM)*tidalVecScale);
             }
         }
 
@@ -300,7 +310,7 @@ public class OneBodyPrefabs : MonoBehaviour
                 Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
                 //gravForce = gravForce*Units.getUnitLength(unitLength);
                 //listVectorMoonPoint[i].SetComponents(gravForce);
-                listVectorMoonPointXY[i].SetComponents((gravForce-gravForceAtCM)*500);
+                listVectorMoonPointXY[i].SetComponents((gravForce-gravForceAtCM)*tidalVecScale);
             }
         }
     }
@@ -366,18 +376,18 @@ public class OneBodyPrefabs : MonoBehaviour
     public void SetVectorLRactivation(bool toggle) {
         if (moonLeftVec) {
             GameObject go = moonLeftVec.gameObject;
-            go.SetActive(!toggle);
+            go.SetActive(toggle);
         }
 
         if (moonRightVec) {
             GameObject go = moonRightVec.gameObject;
-            go.SetActive(!toggle);
+            go.SetActive(toggle);
         }
     }
     public void SetVectorCMactivation(bool toggle) {
         if (moonCenterVec) {
             GameObject go = moonCenterVec.gameObject;
-            go.SetActive(!toggle);
+            go.SetActive(toggle);
         }
     }
     public void SetPointsOnMoonActivation(bool toggle) {
@@ -406,6 +416,53 @@ public class OneBodyPrefabs : MonoBehaviour
         if (lineMoonBulge) {
             GameObject go = lineMoonBulge.gameObject;
             go.SetActive(toggle);
+        }
+    }
+
+    /* ************************************************************* */
+    /*
+    public void SetTidalVecLineWidth(float lineWidth) {
+        if (lineWidth==0) {
+            return;
+        }
+        int listVectorSize = listPointOnMoon.Count;
+        if (listVectorSize!=0)
+        {
+            for (int i = 0; i < listVectorSize; i++) {
+                listVectorMoonPoint[i].lineWidth = lineWidth;
+            }
+        }
+        int listVectorSizeXY = listPointOnMoonXY.Count;
+        if (listVectorSizeXY!=0)
+        {
+            for (int i = 0; i < listVectorSizeXY; i++) {
+                listVectorMoonPointXY[i].lineWidth = lineWidth;
+            }
+        }
+    }*/
+
+    public void SetGravVecLineWidth(float lineWidth) {
+        if (lineWidth==0) {
+            if (moonCenterVec) {
+            moonCenterVec.lineWidth = moonCenterVecLineWidth;
+            }
+            if (moonRightVec) {
+                moonRightVec.lineWidth = moonRightVecLineWidth;
+            }
+            if (moonLeftVec) {
+                moonLeftVec.lineWidth = moonLeftVecLineWidth;
+            }
+        } 
+        else {
+            if (moonCenterVec) {
+            moonCenterVec.lineWidth = lineWidth;
+            }
+            if (moonRightVec) {
+                moonRightVec.lineWidth = lineWidth;
+            }
+            if (moonLeftVec) {
+                moonLeftVec.lineWidth = lineWidth;
+            }
         }
     }
 }

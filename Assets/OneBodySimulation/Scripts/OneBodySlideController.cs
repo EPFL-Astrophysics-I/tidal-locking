@@ -136,4 +136,10 @@ public class OneBodySlideController : SimulationSlideController
         SetActivationMoonVectorCMInverted(newBool);
         SetActivationMoonTidalVectors(newBool);
     }
+
+    public void SetActivationMoonRefSystem(bool newBool) {
+        // Keep state of the interaction
+        displayMoonRefSystem = newBool;
+        sim.ActivationMoonRefSystem = newBool;
+    }
 }

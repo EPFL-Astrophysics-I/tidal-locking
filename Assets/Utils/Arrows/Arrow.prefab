@@ -290,6 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyLR: {fileID: 2862741475507347237}
+  headInPlanXY: 0
   components: {x: 2, y: 1, z: 0}
   color: {r: 0, g: 0, b: 0, a: 1}
   lineWidth: 0.2

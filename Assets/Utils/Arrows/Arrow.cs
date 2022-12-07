@@ -139,7 +139,7 @@ public class Arrow : MonoBehaviour
         // Direction orthogonal to the vector in the plane spanned by the arrow and the y-axis
         Vector3 e2;
         if (headInPlanXY) {
-            e2 = (e1.x == 0) ? Vector3.right : Vector3.Cross(Vector3.Cross(e1, Vector3.up).normalized, e1);
+            e2 = (e1.x == 0) ? Vector3.up : Vector3.Cross(Vector3.Cross(e1, Vector3.up).normalized, e1);
         } else {
             e2 = (e1.x == 0) ? Vector3.right : Vector3.Cross(Vector3.Cross(e1, Vector3.forward).normalized, e1);
         }

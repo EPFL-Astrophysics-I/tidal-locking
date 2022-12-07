@@ -3300,7 +3300,6 @@ MonoBehaviour:
   moonRefSystemPrefab: {fileID: 8029821696498156222, guid: 31634711154a46241a16054adf5bacf7,
     type: 3}
   moonVecOnMousePrefab: {fileID: 0}
-  moonVecOnMouse: {fileID: 0}
   listPointOnMoon: []
   numberOfMoonPoints: 0
   listVectorMoonPoint: []
@@ -5901,7 +5900,6 @@ MonoBehaviour:
   moonRefSystemPrefab: {fileID: 0}
   moonVecOnMousePrefab: {fileID: 2101680482136830589, guid: e229a022c07ab81449c93c7813db488a,
     type: 3}
-  moonVecOnMouse: {fileID: 0}
   listPointOnMoon: []
   numberOfMoonPoints: 20
   listVectorMoonPoint: []

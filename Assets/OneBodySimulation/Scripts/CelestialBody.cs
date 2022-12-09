@@ -44,6 +44,11 @@ public class CelestialBody : MonoBehaviour
     // Rotation of the body about its own axis
     [HideInInspector]public float RotationPeriod { get; set; } = 1f;
 
+    private Renderer spriteRenderer;
+    void Start() {
+        TryGetComponent<Renderer>(out spriteRenderer);
+    }
+
     public void SetRadius(float radius)
     {
         this.radius = radius;
@@ -74,11 +79,20 @@ public class CelestialBody : MonoBehaviour
     public void IncrementRotation(Vector3 deltaRotation)
     {
         transform.Rotate(deltaRotation);
+        if (spriteRenderer) {
+            Vector2 previousOffset = spriteRenderer.material.GetVector("Vector2_Offset_Sprite");
+            spriteRenderer.material.SetVector("Vector2_Offset_Sprite", previousOffset + new Vector2(0.01f, 0));
+        }
     }
 
     public void SetRotation(Vector3 rotation)
     {
         transform.rotation = Quaternion.Euler(rotation);
+    }
+
+    public void RotateBulge(Vector3 rotation)
+    {
+
     }
 
     private void OnSquashed() {

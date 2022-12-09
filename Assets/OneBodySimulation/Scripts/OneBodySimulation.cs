@@ -168,6 +168,17 @@ public class OneBodySimulation : Simulation
         }
     }
 
+    private bool activationMoonMouseVector = false;
+    public bool ActivationMoonMouseVector {
+        get {
+            return activationMoonMouseVector;
+        }
+        set {
+            activationMoonMouseVector = value;
+            prefabs.SetVecMoonMouseActivation(value);
+        }
+    }
+
     /* ************************************************************* */
     // Timer for resetting the simulation after one orbital period
     private float resetTimer;
@@ -358,9 +369,12 @@ public class OneBodySimulation : Simulation
     {
         if (simIsStationary)
         {
-            if (dragMoonIsAllowed || dragMoonEdgesIsAllowed)
+            if (dragMoonIsAllowed || dragMoonEdgesIsAllowed) {
                 DragMoonAlongOrbit();
-                MouseOverMoon();
+                if (ActivationMoonMouseVector) {
+                    MouseOverMoon();
+                }
+            }
         }
     }
     private void FixedUpdate()
@@ -799,7 +813,6 @@ public class OneBodySimulation : Simulation
         Vector2 lineMouseMoon = mousePosition - moonCenter;
         float mouseAngle = Mathf.Atan2(lineMouseMoon.y, lineMouseMoon.x) * Mathf.Rad2Deg;
         float moonAngle = moon.transform.eulerAngles.y;
-        Debug.Log(mouseAngle + " " + moonAngle);
         float totalAngle= (mouseAngle+moonAngle)*Mathf.Deg2Rad;
 
         float cosAngle = Mathf.Cos(totalAngle);
@@ -811,9 +824,32 @@ public class OneBodySimulation : Simulation
         float radiusMoon = (semiMajorAxis*semiMinorAxis)/Mathf.Sqrt(semiMajorAxis*semiMajorAxis*sinAngle*sinAngle+semiMinorAxis*semiMinorAxis*cosAngle*cosAngle);
 
         Vector3 pointOnMoon = moon.Position + (radiusMoon)*(Quaternion.AngleAxis(-mouseAngle, Vector3.up)*Vector3.right);
-        prefabs.setMoonVecOnMouse(pointOnMoon, NewtonG, moonDistance, vectorGravScale);
-        //if (radiusMoon<1)
-        //    Debug.Log(radiusMoon);
-            //prefabs.setMoonPointOnMouse(mainCamera.ScreenToWorldPoint(mousePosition3));
+
+        Vector2 radiusMoonScreen = mainCamera.WorldToScreenPoint(pointOnMoon);
+        Vector2 range = radiusMoonScreen - moonCenter;
+        float lineMouseMoonMag = lineMouseMoon.magnitude;
+
+        float radiusMoonScreenMag = range.magnitude;
+        float innerRangeMag = radiusMoonScreenMag * 0.6f;
+        float outerRangeMag = radiusMoonScreenMag * 1.3f;
+
+        //Debug.Log(innerRangeMag + " < " + lineMouseMoonMag + " < " + outerRangeMag);
+
+        // Check that the mouse click is in the center of the moon
+        if (prefabs.GetMoonMouseActivation() && Input.GetMouseButton(0)) {
+            prefabs.setVecMoonMouse(pointOnMoon, NewtonG, moonDistance, vectorGravScale);
+        }
+        else if (!prefabs.GetMoonMouseActivation() && Input.GetMouseButton(0)) {
+            return;
+        }
+        else if (innerRangeMag <= lineMouseMoonMag && lineMouseMoonMag <= outerRangeMag) {
+            prefabs.setVecMoonMouse(pointOnMoon, NewtonG, moonDistance, vectorGravScale);
+            prefabs.SetVecMoonMouseActivation(true);
+        }
+        else {
+            if (!Input.GetMouseButton(0))
+                prefabs.SetVecMoonMouseActivation(false);
+        }
+
     }
 }

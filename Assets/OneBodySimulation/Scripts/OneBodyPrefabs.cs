@@ -17,8 +17,8 @@ public class OneBodyPrefabs : MonoBehaviour
     [SerializeField] private GameObject lineEarthMoonPrefab;
     [SerializeField] private GameObject lineMoonBulgePrefab;
     [SerializeField] private GameObject moonRefSystemPrefab;
-    [SerializeField] private GameObject moonVecOnMousePrefab;
-    [HideInInspector] private Arrow moonVecOnMouse;
+    [SerializeField] private GameObject vecMoonMousePrefab;
+    [HideInInspector] private Arrow vecMoonMouse;
 
     [Header("Multiple Points")]
     [HideInInspector] public List<PointOnBody> listPointOnMoon;
@@ -227,10 +227,10 @@ public class OneBodyPrefabs : MonoBehaviour
             }
         }
 
-        if (moonVecOnMousePrefab)
+        if (vecMoonMousePrefab)
         {
-            moonVecOnMouse = Instantiate(moonVecOnMousePrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<Arrow>();
-            moonVecOnMouse.gameObject.name = "Vector Mouse Moon";
+            vecMoonMouse = Instantiate(vecMoonMousePrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<Arrow>();
+            vecMoonMouse.gameObject.name = "Vector Mouse Moon";
         }
     }
 
@@ -394,17 +394,17 @@ public class OneBodyPrefabs : MonoBehaviour
         }
     }
 
-    public void setMoonVecOnMouse(Vector3 origin, float newtonG, float moonDistance, float gravVecScale)
+    public void setVecMoonMouse(Vector3 origin, float newtonG, float moonDistance, float gravVecScale)
     {
-        if (moonVecOnMouse) {
-            moonVecOnMouse.transform.position = origin;
+        if (vecMoonMouse) {
+            vecMoonMouse.transform.position = origin;
             Vector3 vectorR = origin - earth.Position;
             float r_dm = vectorR.sqrMagnitude;
             float dm = moon.Mass*1f;
             Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
             gravForce = gravForce*gravVecScale;
             //gravForce = gravForce*Units.getUnitLength(unitLength);
-            moonVecOnMouse.SetComponents(gravForce);
+            vecMoonMouse.SetComponents(gravForce);
         }
     }
 
@@ -462,6 +462,19 @@ public class OneBodyPrefabs : MonoBehaviour
         }
     }
 
+    public void SetVecMoonMouseActivation(bool toggle) {
+        if (vecMoonMouse) {
+            GameObject go = vecMoonMouse.gameObject;
+            go.SetActive(toggle);
+        }
+    }
+    public bool GetMoonMouseActivation() {
+        if (vecMoonMouse) {
+            GameObject go = vecMoonMouse.gameObject;
+            return go.activeSelf;
+        }
+        return false;
+    }
     /* ************************************************************* */
     public void SetTidalVecLineWidth(float lineWidth) {
         if (lineWidth==0) {

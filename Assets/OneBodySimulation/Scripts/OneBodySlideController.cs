@@ -29,6 +29,7 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private bool displayMoonOrbit;
     [SerializeField] private bool displayMoonBulgeLine;
     [SerializeField] private bool displayMoonRefSystem;
+    [SerializeField] private bool displayMoonMouseVector;
 
     [Header("Initial Condition")]
     [SerializeField] private bool useMoonCI;
@@ -67,6 +68,7 @@ public class OneBodySlideController : SimulationSlideController
         sim.ActivationMoonOrbit = displayMoonOrbit;
         sim.ActivationMoonBulgeLine = displayMoonBulgeLine;
         sim.ActivationMoonRefSystem = displayMoonRefSystem;
+        sim.ActivationMoonMouseVector = displayMoonMouseVector;
 
         // 
 

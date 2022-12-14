@@ -30,10 +30,12 @@ public class OneBodySimulation : Simulation
     private float oscillationV;
     private float oscillationX;
     private float oscillationK = 8f;
-    private float oscillationB = 1f;
+    private float oscillationB = 5f;
     private float oscillationM = 1f;
     private bool rot180Moon = true;
     public bool oscillationMoonRotation = false;
+
+    private float oscillationXInvert;
 
     /* ************************************************************* */
 
@@ -362,6 +364,8 @@ public class OneBodySimulation : Simulation
 
         oscillationV = 0f;
         oscillationX = 0f;
+
+        oscillationXInvert = 0f;
     }
 
     /* ************************************************************* */
@@ -375,6 +379,8 @@ public class OneBodySimulation : Simulation
                     MouseOverMoon();
                 }
             }
+
+            return;
         }
     }
     private void FixedUpdate()
@@ -405,15 +411,20 @@ public class OneBodySimulation : Simulation
                 squashingAnimation=false;
                 return;
             }
-
-            if (oscillationMoonRotation) {
+            
+            if (oscillationMoonRotation && !draggingEdgeMoon) {
                 //x = moon.transform.eulerAngles.y - 180; 
+                //oscillationX = (moon.transform.eulerAngles.y - 180)%360;
+                //moon.SetRotationSprite(new Vector3(0, moon.transform.eulerAngles.y, 0));
                 // Solve the equation of motion
                 //Debug.Log(x);
                 float substep = timeScale * Time.fixedDeltaTime / numSubsteps;
                 for (int i = 1; i <= numSubsteps; i++)
                 {
                     dampedHarmonicOscillation(substep);
+
+                    //moon.SetRotationSprite(new Vector3(0, rot, 0));
+                    //moon.DEBUG_OFFET();
                     //setGravitationalVectors();
                     //setMoonPointPosition();
                 }
@@ -501,6 +512,14 @@ public class OneBodySimulation : Simulation
             moon.IncrementRotation(deltaAngle * Vector3.down);
         }
 
+        //Vector3 vectorR = moon.Position - earth.Position;
+        //float theta = Mathf.Atan2(vectorR.z, vectorR.x);
+        /*
+        float angle = Vector3.Angle(-moon.Position, moon.transform.right);
+        Debug.Log(moon.transform.right + "    " + angle);
+        moon.RotateBulge(angle*Mathf.Deg2Rad);
+        */
+
         prefabs.DrawLineEarthMoon();
         prefabs.DrawLineMoonBulge();
         prefabs.setMoonPointPosition();
@@ -530,10 +549,14 @@ public class OneBodySimulation : Simulation
         oscillationX += oscillationV*deltaTime;
         
         float rot = oscillationX;
+        moon.SetRotationSprite(new Vector3(0, oscillationXInvert-rot, 0));
         if (rot180Moon) {
             rot += 180;
         }
+
         moon.SetRotation(new Vector3(0, rot, 0));
+        //moon.SetRotationSprite(new Vector3(0, rot, 0));
+
         prefabs.setMoonPointPosition();
         prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
         prefabs.DrawLineMoonBulge();
@@ -665,6 +688,7 @@ public class OneBodySimulation : Simulation
             //step += substep;
             //moon.SetRotation(new Vector3(0, step, 0));
             moon.IncrementRotation(new Vector3(0, substep, 0));
+            moon.RotateBulge(new Vector3(0, substep, 0));
             prefabs.setMoonPointPosition();
             prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
             prefabs.DrawLineMoonBulge();
@@ -781,6 +805,8 @@ public class OneBodySimulation : Simulation
 
                 moon.transform.eulerAngles = new Vector3(0, newEulerY, 0);
 
+                //moon.SetRotationSprite(new Vector3(0, newEulerY, 0));
+
                 oscillationX = newEulerY;
                 //Debug.Log(newEulerY);
                 if (90 <= newEulerY && newEulerY <= 270) {
@@ -792,6 +818,10 @@ public class OneBodySimulation : Simulation
                         oscillationX = newEulerY-360;
                     }
                 }                
+
+                oscillationXInvert = oscillationX + moon.getUVoffset()*360;
+
+                Debug.Log(oscillationX + " + " + moon.getUVoffset()*360);
 
                 prefabs.setMoonPointPosition();
                 prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);

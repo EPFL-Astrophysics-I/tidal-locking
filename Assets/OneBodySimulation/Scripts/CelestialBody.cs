@@ -79,10 +79,6 @@ public class CelestialBody : MonoBehaviour
     public void IncrementRotation(Vector3 deltaRotation)
     {
         transform.Rotate(deltaRotation);
-        if (spriteRenderer) {
-            Vector2 previousOffset = spriteRenderer.material.GetVector("Vector2_Offset_Sprite");
-            spriteRenderer.material.SetVector("Vector2_Offset_Sprite", previousOffset + new Vector2(0.01f, 0));
-        }
     }
 
     public void SetRotation(Vector3 rotation)
@@ -90,9 +86,52 @@ public class CelestialBody : MonoBehaviour
         transform.rotation = Quaternion.Euler(rotation);
     }
 
+    public void SetRotationSprite(Vector3 rotation)
+    {
+        if (spriteRenderer) {
+            //Vector2 previousOffset = spriteRenderer.material.GetVector("Vector2_Offset_Sprite");
+            //float offset_x = rotation.y*Mathf.Deg2Rad*transform.localScale.x/2;
+            // Sin = opp/hyp    => we want opp: opp=Sin*hyp
+            //offset_x = -Mathf.Cos(deltaRotation.y*Mathf.Deg2Rad);
+            float radians = Mathf.Deg2Rad * (rotation.y);
+            Vector2 vec_offset =  new Vector2(
+                    radians/(Mathf.PI*2),
+                    0
+                );
+
+            //Debug.Log(rotation.y);
+            //spriteRenderer.material.SetVector("Vector2_Offset_Sprite", previousOffset + new Vector2(0.01f, 0));
+            spriteRenderer.material.SetVector("Vector2_Offset_Sprite", vec_offset);
+            //Debug.Log(spriteRenderer.material.GetVector("Vector2_Offset_Sprite"));
+        }
+    }
+
     public void RotateBulge(Vector3 rotation)
     {
+        if (spriteRenderer) {
+            Vector2 previousOffset = spriteRenderer.material.GetVector("Vector2_Offset_Sprite");
+            float radians = Mathf.Deg2Rad * ((rotation.y+180)%360);
+            Vector2 vec_offset =  new Vector2(
+                    -radians/(Mathf.PI*2),
+                    0
+                );
+            spriteRenderer.material.SetVector("Vector2_Offset_Sprite", previousOffset + vec_offset);
+        }
+    }
 
+    public float getUVoffset() {
+        if (spriteRenderer) {
+            Vector2 previousOffset = spriteRenderer.material.GetVector("Vector2_Offset_Sprite");
+            return previousOffset.x;
+        }
+        return 0;
+    }
+
+    public void DEBUG_OFFET() {
+        if (spriteRenderer) {
+            Vector2 previousOffset = spriteRenderer.material.GetVector("Vector2_Offset_Sprite");
+            Debug.Log(previousOffset);
+        }
     }
 
     private void OnSquashed() {

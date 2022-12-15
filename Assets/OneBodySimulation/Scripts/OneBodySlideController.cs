@@ -14,8 +14,10 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private float radiusScale;
     [SerializeField] private float moonPeriodFactor;
     [SerializeField] private bool moonIsSquashed;
+    [SerializeField] private float moonSpinSpeed=0; // Default Speed is 0
     [Header("Interactivity Parameters")]
     [SerializeField] private bool dragMoonIsAllowed;
+    [SerializeField] private bool dragRotatesMoon;
     [SerializeField] private bool dragMoonEdgesIsAllowed;
 
     [Header("Display Parameters")]
@@ -51,7 +53,9 @@ public class OneBodySlideController : SimulationSlideController
         sim.simIsStationary = simIsStationary;
         sim.radiusScale = radiusScale;
         sim.MoonPeriodFactor = moonPeriodFactor;
+        sim.moonSpinSpeed = moonSpinSpeed;
         sim.dragMoonIsAllowed = dragMoonIsAllowed;
+        sim.dragRotatesMoon = dragRotatesMoon;
         sim.dragMoonEdgesIsAllowed = dragMoonEdgesIsAllowed;
 
         // We ask if vectors should not be drawn,
@@ -143,5 +147,10 @@ public class OneBodySlideController : SimulationSlideController
         // Keep state of the interaction
         displayMoonRefSystem = newBool;
         sim.ActivationMoonRefSystem = newBool;
+    }
+
+    public void SetMoonSpinSpeed(float value) {
+        moonSpinSpeed=value;
+        sim.moonSpinSpeed=value;
     }
 }

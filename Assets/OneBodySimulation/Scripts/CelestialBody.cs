@@ -106,13 +106,14 @@ public class CelestialBody : MonoBehaviour
         }
     }
 
-    public void RotateBulge(Vector3 rotation)
+    public void IncrementRotationSprite(Vector3 rotation)
     {
         if (spriteRenderer) {
             Vector2 previousOffset = spriteRenderer.material.GetVector("Vector2_Offset_Sprite");
-            float radians = Mathf.Deg2Rad * ((rotation.y+180)%360);
+            //float radians = Mathf.Deg2Rad * ((rotation.y+180)%360);
+            float radians = Mathf.Deg2Rad * (rotation.y%360);
             Vector2 vec_offset =  new Vector2(
-                    -radians/(Mathf.PI*2),
+                    radians/(Mathf.PI*2),
                     0
                 );
             spriteRenderer.material.SetVector("Vector2_Offset_Sprite", previousOffset + vec_offset);

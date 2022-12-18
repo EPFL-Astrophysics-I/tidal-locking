@@ -8,6 +8,7 @@ public class OneBodyPrefabs : MonoBehaviour
     [SerializeField] private GameObject earthPrefab;
     [SerializeField] private GameObject moonPrefab;
     [SerializeField] private GameObject moonOrbitPrefab;
+    [SerializeField] private GameObject moonOrbitArcPrefab;
     [SerializeField] private GameObject pointOnMoon;
     [SerializeField] private GameObject moonCenterVecPrefab;
     [SerializeField] private GameObject moonLeftVecPrefab;
@@ -41,6 +42,7 @@ public class OneBodyPrefabs : MonoBehaviour
     [HideInInspector] public PointOnBody moonPointRight;
     [HideInInspector] public PointOnBody moonPointLeft;
     [HideInInspector] public CircularOrbit moonOrbit;
+    [HideInInspector] public CircularOrbit moonOrbitArc;
     [HideInInspector] public Arrow moonCenterVec;
     [HideInInspector] public Arrow moonLeftVec;
     [HideInInspector] public Arrow moonRightVec;
@@ -108,6 +110,12 @@ public class OneBodyPrefabs : MonoBehaviour
         {
             moonOrbit = Instantiate(moonOrbitPrefab, transform).GetComponent<CircularOrbit>();
             moonOrbit.gameObject.name = "Moon Orbit";
+        }
+
+        if (moonOrbitArcPrefab)
+        {
+            moonOrbitArc = Instantiate(moonOrbitArcPrefab, transform).GetComponent<CircularOrbit>();
+            moonOrbitArc.gameObject.name = "Moon Orbit Arc";
         }
 
         if (moonCenterVecPrefab)
@@ -236,10 +244,11 @@ public class OneBodyPrefabs : MonoBehaviour
 
     /* ************************************************************* */
     // Functions to update elements.
-    public void SetMoonRefSystem() {
+    public void SetMoonRefSystem(float spriteAngle) {
         if (moonRefSystem) {
             moonRefSystem.transform.position=moon.Position;
-            moonRefSystem.transform.rotation=moon.transform.rotation;
+            moonRefSystem.transform.rotation=moon.transform.rotation*Quaternion.AngleAxis(spriteAngle, Vector3.up);
+            //moonRefSystem.transform.Rotate(moon.transform.rotation.eulerAngles+(spriteAngle* Vector3.down));
         }
     }
     public void DrawLineEarthMoon() {
@@ -250,7 +259,11 @@ public class OneBodyPrefabs : MonoBehaviour
             });
         }
     }
-
+    public void DrawMoonOrbitArc(Vector3 origin, float radius, float arcAngle, float startAngle, int numPoints = 100) {
+        if (moonOrbitArc) {
+           moonOrbitArc.DrawArc(origin, radius, arcAngle, startAngle, numPoints);
+        }
+    }
     public void DrawLineMoonBulge() {
         if (lineMoonBulge) {
             float spinAngle = -moon.transform.eulerAngles.y * Mathf.Deg2Rad;
@@ -452,6 +465,12 @@ public class OneBodyPrefabs : MonoBehaviour
     public void SetMoonOrbitActivation(bool toggle) {
         if (moonOrbit) {
             GameObject go = moonOrbit.gameObject;
+            go.SetActive(toggle);
+        }
+    }
+    public void SetMoonOrbitArcActivation(bool toggle) {
+        if (moonOrbitArc) {
+            GameObject go = moonOrbitArc.gameObject;
             go.SetActive(toggle);
         }
     }

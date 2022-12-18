@@ -10,11 +10,13 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private bool AnimationInThreeSteps;
     [SerializeField] private bool oscillationMoonRotation;
     [SerializeField] private bool MoonSquashingAnimation;
+
     [Header("Earth Moon Parameters")]
     [SerializeField] private float radiusScale;
     [SerializeField] private float moonPeriodFactor;
     [SerializeField] private bool moonIsSquashed;
     [SerializeField] private float moonSpinSpeed=0; // Default Speed is 0
+
     [Header("Interactivity Parameters")]
     [SerializeField] private bool dragMoonIsAllowed;
     [SerializeField] private bool dragRotatesMoon;
@@ -32,6 +34,11 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private bool displayMoonBulgeLine;
     [SerializeField] private bool displayMoonRefSystem;
     [SerializeField] private bool displayMoonMouseVector;
+
+    [Header("   Orbit Arc Parameters")]
+    [SerializeField] private bool displayMoonOrbitArc;
+    [SerializeField] private float moonOrbitArcStart;
+    [SerializeField] private float moonOrbitArcEnd;
 
     [Header("Initial Condition")]
     [SerializeField] private bool useMoonCI;
@@ -75,6 +82,9 @@ public class OneBodySlideController : SimulationSlideController
         sim.ActivationMoonMouseVector = displayMoonMouseVector;
 
         // 
+        sim.ActivationMoonOrbitArc = displayMoonOrbitArc;
+        sim.MoonOrbitArcStart = moonOrbitArcStart;
+        sim.MoonOrbitArcEnd = moonOrbitArcEnd;
 
         // CI:
         sim.angleMoonOrbitInit = angleMoonOrbitInit;

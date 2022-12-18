@@ -40,6 +40,9 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private float moonOrbitArcStart;
     [SerializeField] private float moonOrbitArcEnd;
 
+    [Header("   Top Down View")]
+    [SerializeField] private TopDownView TopDownView;
+
     [Header("Initial Condition")]
     [SerializeField] private bool useMoonCI;
     [SerializeField] private float angleMoonOrbitInit;
@@ -90,6 +93,8 @@ public class OneBodySlideController : SimulationSlideController
         sim.angleMoonOrbitInit = angleMoonOrbitInit;
         sim.angleMoonSpinInit = angleMoonSpinInit;
         sim.UseMoonCI = useMoonCI;
+
+        sim.topDownView = TopDownView;
 
         sim.IsAnimationThreeSteps = AnimationInThreeSteps;
         sim.oscillationMoonRotation = oscillationMoonRotation;

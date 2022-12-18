@@ -430,6 +430,11 @@ public class OneBodySimulation : Simulation
             return;
         }
 
+        if (waitForMoonToCI) {
+                // Wait until Moon
+                return;
+        }
+
         if (simIsStationary)
         {
             if (waitForMoonToCI) {
@@ -549,6 +554,14 @@ public class OneBodySimulation : Simulation
         {
             float deltaAngle = timeScale * Time.fixedDeltaTime * 360 / moon.RotationPeriod;
             moon.IncrementRotation(deltaAngle * Vector3.down);
+            moon.IncrementRotationSprite(moonSpinSpeed*deltaAngle*Vector3.down);
+            float UV2Angle = moon.getUVoffset()*360;
+                        
+            if (UV2Angle<=0) {
+                prefabs.SetMoonRefSystem(UV2Angle);
+            } else {
+                prefabs.SetMoonRefSystem(UV2Angle);
+            }
         }
 
         //Vector3 vectorR = moon.Position - earth.Position;
@@ -579,8 +592,8 @@ public class OneBodySimulation : Simulation
         moon.Position = earth.Position + position;
 
         //prefabs.SetMoonRefSystem(moonSpinSpeed*0*Mathf.Rad2Deg);
-        float UV2Angle = moon.getUVoffset()*Mathf.PI*2;
-        prefabs.SetMoonRefSystem(moonSpinSpeed*UV2Angle*Mathf.Rad2Deg);
+        //float UV2Angle = moon.getUVoffset()*Mathf.PI*2;
+        //prefabs.SetMoonRefSystem(moonSpinSpeed*UV2Angle*Mathf.Rad2Deg);
     }
     private void dampedHarmonicOscillation(float deltaTime)
     {        
@@ -854,6 +867,12 @@ public class OneBodySimulation : Simulation
                 Vector3 position = new Vector3(pointNewX, 0, pointNewY);
 
                 Vector3 oldMoonPos = moon.Position;
+
+                if (pointNewX>oldMoonPos.x) {
+                    // can't drag the moon in the opposite direction of its orbit rotation.
+                    return;
+                }
+
                 // Assign new position
                 moon.Position = earth.Position + position;
 
@@ -866,7 +885,7 @@ public class OneBodySimulation : Simulation
                     //moon.SetRotationSprite(moonSpinSpeed*deltaAngle*Vector3.down);
                     moon.IncrementRotationSprite(moonSpinSpeed*deltaAngle*Vector3.down);
                     float UV2Angle = moon.getUVoffset()*360;
-                    Debug.Log(UV2Angle);
+                    
                     if (UV2Angle<=0) {
                         prefabs.SetMoonRefSystem(UV2Angle);
                     } else {

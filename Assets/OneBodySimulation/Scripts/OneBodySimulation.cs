@@ -55,6 +55,7 @@ public class OneBodySimulation : Simulation
     /* ************************************************************* */
 
     public TopDownView topDownView;
+    public BarOnPlot spinSpeedBar;
 
     /* ************************************************************* */
     private float vectorGravScale = 400f;
@@ -229,7 +230,7 @@ public class OneBodySimulation : Simulation
     /* ************************************************************* */
     /* *** Parameters changed by SlideController */
     //[HideInInspector] public bool simIsStationary { get; set; } = false;
-    [HideInInspector] public bool simIsStationary = false;
+    public bool simIsStationary = false;
     [HideInInspector] public bool squashingAnimation = false;
     [HideInInspector] public float radiusScale = 10;
     private bool moonSquashed = false;
@@ -284,15 +285,26 @@ public class OneBodySimulation : Simulation
         }
         set {
             useMoonCI = value;
+            waitForMoonToCI = value;
             if (value && moon!=null) {
-                waitForMoonToCI = true;
                 SetMoonInitialCondition();
             }
         }
     }
     public float angleMoonOrbitInit;
     public float angleMoonSpinInit;
-    public float moonSpinSpeed;
+    private float moonSpinSpeed=0;
+    public float MoonSpinSpeed {
+        get {
+            return moonSpinSpeed;
+        }
+        set {
+            moonSpinSpeed = value;
+            if (spinSpeedBar) {
+                spinSpeedBar.SetPosition(moonSpinSpeed);
+            }
+        }
+    }
 
     /* ************************************************************* */
     private OneBodyPrefabs prefabs;
@@ -560,11 +572,10 @@ public class OneBodySimulation : Simulation
             moon.IncrementRotation(deltaAngle * Vector3.down);
 
             if (Mathf.Abs(moonSpinSpeed)<=0.001f) {
-                moonSpinSpeed=0;
+                MoonSpinSpeed=0;
             } else {
-                moonSpinSpeed = moonSpinSpeed - 0.002f*moonSpinSpeed;
+                MoonSpinSpeed = moonSpinSpeed - 0.002f*moonSpinSpeed;
             }
-            Debug.Log(moonSpinSpeed);
 
             moon.IncrementRotationSprite(moonSpinSpeed*deltaAngle*Vector3.down);
             float UV2Angle = moon.getUVoffset()*360;
@@ -729,6 +740,7 @@ public class OneBodySimulation : Simulation
             prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
             prefabs.DrawLineEarthMoon();
             prefabs.DrawLineMoonBulge();
+            prefabs.SetMoonRefSystem(0);
             
             yield return null;
         }
@@ -750,6 +762,7 @@ public class OneBodySimulation : Simulation
             prefabs.setMoonPointPosition();
             prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
             prefabs.DrawLineMoonBulge();
+            prefabs.SetMoonRefSystem(0);
             
             yield return null;
         }

@@ -42,6 +42,7 @@ public class OneBodySlideController : SimulationSlideController
 
     [Header("   Top Down View")]
     [SerializeField] private TopDownView TopDownView;
+    [SerializeField] private BarOnPlot spinSpeedBar;
 
     [Header("Initial Condition")]
     [SerializeField] private bool useMoonCI;
@@ -63,7 +64,7 @@ public class OneBodySlideController : SimulationSlideController
         sim.simIsStationary = simIsStationary;
         sim.radiusScale = radiusScale;
         sim.MoonPeriodFactor = moonPeriodFactor;
-        sim.moonSpinSpeed = moonSpinSpeed;
+        sim.MoonSpinSpeed = moonSpinSpeed;
         sim.dragMoonIsAllowed = dragMoonIsAllowed;
         sim.dragRotatesMoon = dragRotatesMoon;
         sim.dragMoonEdgesIsAllowed = dragMoonEdgesIsAllowed;
@@ -95,6 +96,7 @@ public class OneBodySlideController : SimulationSlideController
         sim.UseMoonCI = useMoonCI;
 
         sim.topDownView = TopDownView;
+        sim.spinSpeedBar = spinSpeedBar;
 
         sim.IsAnimationThreeSteps = AnimationInThreeSteps;
         sim.oscillationMoonRotation = oscillationMoonRotation;
@@ -166,6 +168,10 @@ public class OneBodySlideController : SimulationSlideController
 
     public void SetMoonSpinSpeed(float value) {
         moonSpinSpeed=value;
-        sim.moonSpinSpeed=value;
+        if (sim)
+            sim.MoonSpinSpeed=value;
+        if (spinSpeedBar) {
+            spinSpeedBar.SetPosition(value);
+        }
     }
 }

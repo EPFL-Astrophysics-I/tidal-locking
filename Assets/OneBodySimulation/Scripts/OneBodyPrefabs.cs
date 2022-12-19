@@ -47,7 +47,7 @@ public class OneBodyPrefabs : MonoBehaviour
     [HideInInspector] public Arrow moonLeftVec;
     [HideInInspector] public Arrow moonRightVec;
     [HideInInspector] public LineRenderer lineEarthMoon;
-    [HideInInspector] public LineRenderer lineMoonBulge;
+    [HideInInspector] public Arrow lineMoonBulge;
     [HideInInspector] public List<Light> listLights;
 
     [HideInInspector] public GameObject moonRefSystem;
@@ -160,8 +160,7 @@ public class OneBodyPrefabs : MonoBehaviour
 
         if (lineMoonBulgePrefab)
         {
-            lineMoonBulge = Instantiate(lineMoonBulgePrefab, transform).GetComponent<LineRenderer>();
-            lineMoonBulge.positionCount = 2;
+            lineMoonBulge = Instantiate(lineMoonBulgePrefab, transform).GetComponent<Arrow>();
         }
 
         foreach (GameObject lightPrefab in listLightPrefabs)
@@ -268,10 +267,8 @@ public class OneBodyPrefabs : MonoBehaviour
         if (lineMoonBulge) {
             float spinAngle = -moon.transform.eulerAngles.y * Mathf.Deg2Rad;
             Vector3 dir = new Vector3(Mathf.Cos(spinAngle), 0, Mathf.Sin(spinAngle));
-            lineMoonBulge.SetPositions(new Vector3[] {
-                moon.Position+dir*-2,
-                moon.Position+dir*2
-            });
+            lineMoonBulge.transform.position = moon.Position;
+            lineMoonBulge.SetComponents(dir*2);
         }
     }
 

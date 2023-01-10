@@ -18,7 +18,7 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private float moonSpinSpeed=0; // Default Speed is 0
 
     [Header("Interactivity Parameters")]
-    [SerializeField] private bool dragMoonIsAllowed;
+    [SerializeField] private string dragBody;
     [SerializeField] private bool dragRotatesMoon;
     [SerializeField] private bool dragMoonEdgesIsAllowed;
 
@@ -65,7 +65,21 @@ public class OneBodySlideController : SimulationSlideController
         sim.radiusScale = radiusScale;
         sim.MoonPeriodFactor = moonPeriodFactor;
         sim.MoonSpinSpeed = moonSpinSpeed;
-        sim.dragMoonIsAllowed = dragMoonIsAllowed;
+
+        if (dragBody=="moon") {
+            sim.dragMoonIsAllowed = true;
+            sim.dragEarthIsAllowed = false;
+        } 
+        else if (dragBody=="earth") {
+            sim.dragMoonIsAllowed = false;
+            sim.dragEarthIsAllowed = true;
+        }
+        else {
+            sim.dragMoonIsAllowed = false;
+            sim.dragEarthIsAllowed = false;
+        }
+
+
         sim.dragRotatesMoon = dragRotatesMoon;
         sim.dragMoonEdgesIsAllowed = dragMoonEdgesIsAllowed;
 

@@ -312,6 +312,7 @@ public class OneBodySimulation : Simulation
     /* ************ Mouse Clicks & Drag **************************** */
     private Camera mainCamera;
     public bool dragMoonIsAllowed;
+    public bool dragEarthIsAllowed;
     public bool dragMoonEdgesIsAllowed;
     private bool draggingMoonCenter;
     private bool draggingEdgeMoon;
@@ -425,8 +426,8 @@ public class OneBodySimulation : Simulation
     {
         if (simIsStationary)
         {
-            if (dragMoonIsAllowed || dragMoonEdgesIsAllowed) {
-                DragMoonAlongOrbit();
+            if (dragEarthIsAllowed || dragMoonIsAllowed || dragMoonEdgesIsAllowed) {
+                DragBody();
                 /*
                 Debug.Log(moon.getUVoffset());
                 float UV2Angle = moon.getUVoffset()*360;
@@ -801,7 +802,7 @@ public class OneBodySimulation : Simulation
             //step += substep;
             //moon.SetRotation(new Vector3(0, step, 0));
             moon.IncrementRotation(new Vector3(0, substep, 0));
-            moon.IncrementRotationSprite(new Vector3(0, substep, 0));
+            moon.IncrementRotationSprite(new Vector3(0, -substep, 0));
             prefabs.setMoonPointPosition();
             prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
             prefabs.DrawLineMoonBulge();
@@ -837,24 +838,32 @@ public class OneBodySimulation : Simulation
 
     /* ************************************************************* */
     /* For Interaction purpose */
-    private void DragMoonAlongOrbit()
+    private void DragBody()
     {
+        CelestialBody draggableBody = moon;
+        CelestialBody centerBody = earth;
+        if (dragEarthIsAllowed) {
+            draggableBody = earth;
+            centerBody = moon;
+        }
         if(Input.GetMouseButtonDown(0)) {
             // Do not need z component as the camera is "looking down",
             // simulation is in the plan (X, Y)
-            Vector2 moonPositionInScreen = mainCamera.WorldToScreenPoint(moon.Position);
+
+
+            Vector2 bodyPositionOnScreen = mainCamera.WorldToScreenPoint(draggableBody.Position);
             Vector2 mousePositionOnClick = Input.mousePosition;
 
-            centerOfRotation = mainCamera.WorldToScreenPoint(earth.Position);
-            centerOfSpin = mainCamera.WorldToScreenPoint(moon.Position);
+            centerOfRotation = mainCamera.WorldToScreenPoint(centerBody.Position);
+            centerOfSpin = mainCamera.WorldToScreenPoint(draggableBody.Position);
 
-            Vector2 distance = mousePositionOnClick - moonPositionInScreen;
+            Vector2 distance = mousePositionOnClick - bodyPositionOnScreen;
             float distanceMag = distance.magnitude;
 
-            Vector3 a = new Vector3(moon.transform.localScale.x/2, moon.transform.localScale.x/2, 0);
-            Vector2 moonRadius = mainCamera.WorldToScreenPoint(moon.Position + a);
+            Vector3 a = new Vector3(draggableBody.transform.localScale.x/2, draggableBody.transform.localScale.x/2, 0);
+            Vector2 bodyRadius = mainCamera.WorldToScreenPoint(draggableBody.Position + a);
 
-            Vector2 range = moonRadius - moonPositionInScreen;
+            Vector2 range = bodyRadius - bodyPositionOnScreen;
             float rangeMag = range.magnitude;
 
             float innerRangeMag = rangeMag * 0.6f;
@@ -880,7 +889,7 @@ public class OneBodySimulation : Simulation
             // Get mouse position and displacement
             Vector2 currentMousePosition = Input.mousePosition;
 
-            if (draggingMoonCenter && dragMoonIsAllowed) {
+            if (draggingMoonCenter && (dragMoonIsAllowed || dragEarthIsAllowed)) {
                 Vector2 screenDisplacement = currentMousePosition - centerOfRotation;
                 float deltaAngle = Mathf.Atan2(screenDisplacement.y, screenDisplacement.x);
 
@@ -891,30 +900,33 @@ public class OneBodySimulation : Simulation
                 }
                 
                 // Compute new position
-                Vector3 vectorR = moon.Position - earth.Position;
+                Vector3 vectorR = draggableBody.Position - centerBody.Position;
                 float r = vectorR.magnitude;
 
                 float pointNewX = r * Mathf.Cos(deltaAngle);
                 float pointNewY = r * Mathf.Sin(deltaAngle);
                 Vector3 position = new Vector3(pointNewX, 0, pointNewY);
 
-                Vector3 oldMoonPos = moon.Position;
+                Vector3 oldMoonPos = draggableBody.Position;
 
+                /*
                 if (pointNewX>oldMoonPos.x) {
                     // can't drag the moon in the opposite direction of its orbit rotation.
                     return;
                 }
+                */
 
                 // Assign new position
-                moon.Position = earth.Position + position;
+                draggableBody.Position = centerBody.Position + position;
 
-                Vector3 diff = moon.Position-oldMoonPos;
+                Vector3 diff = draggableBody.Position-oldMoonPos;
                 float diffMag = diff.magnitude;
                 //Debug.Log(angularMoonSpeed*Time.deltaTime);
-                moon.SetRotation((deltaAngle * Mathf.Rad2Deg+180) * Vector3.down);
+
                 if (dragRotatesMoon && diffMag!=0f) {
                     //moon.SetRotationSprite((deltaAngle * Mathf.Rad2Deg) * Vector3.down);
                     //moon.SetRotationSprite(moonSpinSpeed*deltaAngle*Vector3.down);
+                    moon.SetRotation((deltaAngle * Mathf.Rad2Deg+180) * Vector3.down);
                     moon.IncrementRotationSprite(moonSpinSpeed*deltaAngle*Vector3.down);
                     float UV2Angle = moon.getUVoffset()*360;
                     
@@ -925,6 +937,10 @@ public class OneBodySimulation : Simulation
                     } else {
                         moon.IncrementRotationSprite(moonSpinSpeed*deltaAngle * Vector3.down);
                     }*/
+                }
+                if (dragEarthIsAllowed) {
+                    moon.SetRotation((deltaAngle * Mathf.Rad2Deg) * Vector3.down);
+                    moon.SetRotationSprite(new Vector3(0, deltaAngle * Mathf.Rad2Deg+180, 0));
                 }
 
                 prefabs.setMoonPointPosition();

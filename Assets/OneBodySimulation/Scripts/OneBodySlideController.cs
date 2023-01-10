@@ -43,6 +43,7 @@ public class OneBodySlideController : SimulationSlideController
     [Header("   Top Down View")]
     [SerializeField] private TopDownView TopDownView;
     [SerializeField] private BarOnPlot spinSpeedBar;
+    [SerializeField] private SliderSync sliderMoonPeriod;
 
     [Header("Initial Condition")]
     [SerializeField] private bool useMoonCI;
@@ -111,6 +112,7 @@ public class OneBodySlideController : SimulationSlideController
 
         sim.topDownView = TopDownView;
         sim.spinSpeedBar = spinSpeedBar;
+        sim.sliderMoonPeriod=sliderMoonPeriod;
 
         sim.IsAnimationThreeSteps = AnimationInThreeSteps;
         sim.oscillationMoonRotation = oscillationMoonRotation;
@@ -148,6 +150,7 @@ public class OneBodySlideController : SimulationSlideController
     public void SetStationaryFlag(bool newBool) {
         // Keep state of the interaction
         simIsStationary = newBool;
+        sim.simIsStationary = newBool;
     }
 
     public void SetActivationMoonVectorLRInverted(bool newBool) {

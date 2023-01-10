@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BarOnPlot : MonoBehaviour
 {
+    public string observable;
     [SerializeField] float rangeUI; 
     [SerializeField] float rangeValue;
     [SerializeField] float rangeNegValue;

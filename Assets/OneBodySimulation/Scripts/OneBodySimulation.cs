@@ -19,7 +19,7 @@ public class OneBodySimulation : Simulation
     public bool IsAnimationThreeSteps;
     private float timerAnimation;
     private float timerOrbitMoon;
-    private float timerLerpBulgeAxis = 5;
+    private float timerLerpBulgeAxis = 6;
     private float timerLerpToCI = 5;
     private float timerIntervalSteps = 1;
     private bool waitForMoonToCI = false;
@@ -56,6 +56,7 @@ public class OneBodySimulation : Simulation
 
     public TopDownView topDownView;
     public BarOnPlot spinSpeedBar;
+    public SliderSync sliderMoonPeriod;
 
     /* ************************************************************* */
     private float vectorGravScale = 400f;
@@ -266,6 +267,11 @@ public class OneBodySimulation : Simulation
                     float deltaAngle = timeScale * resetTimer * 360 / moon.RotationPeriod;
                     moon.IncrementRotation(deltaAngle * Vector3.down);
                 }
+
+                if (spinSpeedBar && spinSpeedBar.observable=="MoonPeriodFactor") {
+                    //Debug.Log(value);
+                    spinSpeedBar.SetPosition(value);
+                }
             }
             moonPeriodFactor = value;
         }
@@ -300,7 +306,7 @@ public class OneBodySimulation : Simulation
         }
         set {
             moonSpinSpeed = value;
-            if (spinSpeedBar) {
+            if (spinSpeedBar && spinSpeedBar.observable=="MoonSpinSpeed") {
                 spinSpeedBar.SetPosition(moonSpinSpeed);
             }
         }
@@ -469,7 +475,7 @@ public class OneBodySimulation : Simulation
             prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
 
             if (squashingAnimation) {
-                StartCoroutine(MoonTidalAction(10f, 1f));
+                StartCoroutine(MoonTidalAction(10f));
                 squashingAnimation=false;
                 return;
             }
@@ -501,6 +507,10 @@ public class OneBodySimulation : Simulation
                 return;
             }
 
+            if (sliderMoonPeriod) {
+                sliderMoonPeriod.updateValue(getMoonPeriod(), MoonPeriodFactor);
+            }
+
             if (timerAnimation <= timerIntervalSteps) {
                 timerAnimation += timeScale * Time.fixedDeltaTime;
                 return;
@@ -515,6 +525,8 @@ public class OneBodySimulation : Simulation
             if (timerAnimation <= (timerIntervalSteps+timerOrbitMoon+(Time.fixedDeltaTime*2))) {
                 if (!angleOffsetIsCompute) {
                     StartCoroutine(LerpMoonRotationAlongBulge(timerLerpBulgeAxis));
+                    StartCoroutine(FadeInOutTidalVectors(timerLerpBulgeAxis));
+                    //StartCoroutine(MoonTidalAction(timerLerpBulgeAxis, 0, 1));
                     angleOffsetIsCompute = true;
                 }
                 /*
@@ -527,7 +539,11 @@ public class OneBodySimulation : Simulation
                 return;
             }
             float periodSlowDownOffset = 1f - MoonPeriodFactor;
-            MoonPeriodFactor = MoonPeriodFactor + 0.1f*periodSlowDownOffset;
+            if (Mathf.Abs(periodSlowDownOffset)<0.05) {
+                MoonPeriodFactor=1;
+            } else {
+                MoonPeriodFactor = MoonPeriodFactor + 0.5f*periodSlowDownOffset;
+            }
             angleOffsetIsCompute = false;
             timerAnimation = 0;
             return;
@@ -651,6 +667,9 @@ public class OneBodySimulation : Simulation
     {
         // Disable coroutine if we click reset during a LerpMoonRotationAlongBulge;
         StopAllCoroutines();
+
+        simIsStationary=true;
+
         MoonPeriodFactor = 1;
 
         resetTimer = 0;
@@ -781,7 +800,7 @@ public class OneBodySimulation : Simulation
             substep=0;
         }
         else if (moonPeriodFactor>1) {
-            if (target<start && start<180) {
+            if (start<180) {
                 substep = (target-start)/lerpTime*Time.fixedDeltaTime;
             } else {
                 substep = (360-start) + target;
@@ -795,6 +814,8 @@ public class OneBodySimulation : Simulation
                 substep = (target-start)/lerpTime*Time.fixedDeltaTime;
             }
         }
+
+        Debug.Log("start: " + start + " target: " + target + " deltaAngle: " + deltaAngle + " substep: " + substep + " moonPeriodFactor: " + moonPeriodFactor);
 
         //float step = start;
         while (time < lerpTime) {
@@ -812,19 +833,18 @@ public class OneBodySimulation : Simulation
         moon.SetRotation(new Vector3(0, target, 0));
     }
 
-    private IEnumerator MoonTidalAction(float fadeTime, float startDelay)
+    private IEnumerator MoonTidalAction(float fadeTime, float startDelay=1f, float blinkFreq=2f)
     {
         yield return new WaitForSeconds(startDelay);
 
         float time = 0;
-        float nblink = 2f;
         float index=1f;
         bool toggle = false;
 
         while (time < fadeTime)
         {
             time += Time.fixedDeltaTime;
-            if (time>(nblink*index)) {
+            if (time>(blinkFreq*index)) {
                 toggle = !toggle;
                 index++;
                 ActivationPointsOnMoon = toggle;
@@ -834,6 +854,18 @@ public class OneBodySimulation : Simulation
 
         ActivationPointsOnMoon = true;
         MoonIsSquashed = true;
+    }
+
+    private IEnumerator FadeInOutTidalVectors(float fadeTime)
+    {
+        ActivationPointsOnMoon = true;
+        float time = 0;
+        while (time < fadeTime)
+        {
+            time += Time.fixedDeltaTime;
+            yield return null;
+        }
+        ActivationPointsOnMoon = false;
     }
 
     /* ************************************************************* */

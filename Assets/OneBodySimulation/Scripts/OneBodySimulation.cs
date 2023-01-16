@@ -507,10 +507,6 @@ public class OneBodySimulation : Simulation
                 return;
             }
 
-            if (sliderMoonPeriod) {
-                sliderMoonPeriod.updateValue(getMoonPeriod(), MoonPeriodFactor);
-            }
-
             if (timerAnimation <= timerIntervalSteps) {
                 timerAnimation += timeScale * Time.fixedDeltaTime;
                 return;
@@ -546,6 +542,10 @@ public class OneBodySimulation : Simulation
             }
             angleOffsetIsCompute = false;
             timerAnimation = 0;
+
+            if (sliderMoonPeriod) {
+                sliderMoonPeriod.updateValue(getMoonPeriod(), MoonPeriodFactor);
+            }
             return;
         }
 

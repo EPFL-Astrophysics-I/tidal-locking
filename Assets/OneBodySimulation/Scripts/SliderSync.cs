@@ -6,8 +6,10 @@ using TMPro;
 
 public class SliderSync : MonoBehaviour
 {
-    [Header("UI Paramaters")]
+    [SerializeField] OneBodySlideController slideController;
     [SerializeField] Slider slider;
+
+    [Header("UI Paramaters")]
     [SerializeField] TextMeshProUGUI TMPgui;
     [SerializeField] Image fillImage;
     [SerializeField] Image syncImage;
@@ -18,19 +20,30 @@ public class SliderSync : MonoBehaviour
     [SerializeField] float syncValue;
     [SerializeField] List<Color> defaultColors;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public void Start() {
+        if (slider)
+            slider.onValueChanged.AddListener(delegate {SliderValueChange();});
     }
 
-    public void updateValue(float valueLabel, float value) {
+    public void SliderValueChange() {
+        slideController.SetMoonPeriodFactor(slider2sim(slider.value));
+        if (TMPgui) {
+            float valueLabel = slideController.getMoonPeriod();
+            if (valueLabel>2000f) {
+                valueLabel = Mathf.Infinity;
+            }
+            TMPgui.text = valueLabel.ToString("F1");
+        }
+    }
+
+    public void updateValue(float valueLabel, float simValue) {
         if (TMPgui) {
             TMPgui.text = (valueLabel).ToString("F1");
         }
         if (slider) {
-            slider.value = value;
-            if (value > syncValue-0.1 && value < syncValue+0.1) {
+            float newValue=sim2slider(simValue);
+            slider.value = newValue;
+            if (newValue > syncValue-0.1 && newValue < syncValue+0.1) {
                 fillImage.color=syncColor;
                 syncImage.color=syncColor;
                 syncLabel.color=syncColor;
@@ -45,5 +58,13 @@ public class SliderSync : MonoBehaviour
             syncImage.color=defaultColors[1];
             syncLabel.color=defaultColors[1];
         }
+    }
+
+    private float slider2sim(float value) {
+        return 1/(Mathf.Pow(2, value)-1);
+    }
+
+    private float sim2slider(float value) {
+        return Mathf.Log((1/value)+1 , 2);
     }
 }

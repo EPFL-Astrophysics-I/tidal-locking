@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class OneBodySlideController : SimulationSlideController
@@ -44,6 +45,7 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private TopDownView TopDownView;
     [SerializeField] private BarOnPlot spinSpeedBar;
     [SerializeField] private SliderSync sliderSync;
+    [SerializeField] private Button resetSliderButton;
 
     [Header("Initial Condition")]
     [SerializeField] private bool useMoonCI;
@@ -133,6 +135,10 @@ public class OneBodySlideController : SimulationSlideController
 
     private void OnDisable() {
         StopAllCoroutines();
+        if (resetSliderButton) {
+            resetSliderButton.interactable=true;
+            resetSliderButton.onClick.Invoke();
+        }
     }
 
     public void SetMoonPeriodFactor(float newfactor) {

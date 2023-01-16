@@ -77,6 +77,7 @@ public class SliderSync : MonoBehaviour
             syncImage.color=defaultColors[1];
             syncLabel.color=defaultColors[1];
         }
+        slider.value=syncValue;
     }
 
     private float slider2sim(float value) {

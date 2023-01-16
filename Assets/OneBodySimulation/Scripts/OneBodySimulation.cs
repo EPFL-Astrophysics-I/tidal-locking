@@ -675,6 +675,7 @@ public class OneBodySimulation : Simulation
         simIsStationary=true;
 
         MoonPeriodFactor = 1;
+        MoonSpinSpeed = 0;
 
         resetTimer = 0;
         timerAnimation = 0;
@@ -818,8 +819,6 @@ public class OneBodySimulation : Simulation
                 substep = (target-start)/lerpTime*Time.fixedDeltaTime;
             }
         }
-
-        Debug.Log("start: " + start + " target: " + target + " deltaAngle: " + deltaAngle + " substep: " + substep + " moonPeriodFactor: " + moonPeriodFactor);
 
         //float step = start;
         while (time < lerpTime) {

@@ -43,7 +43,7 @@ public class OneBodySlideController : SimulationSlideController
     [Header("   Top Down View")]
     [SerializeField] private TopDownView TopDownView;
     [SerializeField] private BarOnPlot spinSpeedBar;
-    [SerializeField] private SliderSync sliderMoonPeriod;
+    [SerializeField] private SliderSync sliderSync;
 
     [Header("Initial Condition")]
     [SerializeField] private bool useMoonCI;
@@ -112,7 +112,7 @@ public class OneBodySlideController : SimulationSlideController
 
         sim.topDownView = TopDownView;
         sim.spinSpeedBar = spinSpeedBar;
-        sim.sliderMoonPeriod=sliderMoonPeriod;
+        sim.sliderSync = sliderSync;
 
         sim.IsAnimationThreeSteps = AnimationInThreeSteps;
         sim.oscillationMoonRotation = oscillationMoonRotation;

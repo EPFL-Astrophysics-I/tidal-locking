@@ -56,7 +56,7 @@ public class OneBodySimulation : Simulation
 
     public TopDownView topDownView;
     public BarOnPlot spinSpeedBar;
-    public SliderSync sliderMoonPeriod;
+    public SliderSync sliderSync;
 
     /* ************************************************************* */
     private float vectorGravScale = 400f;
@@ -543,8 +543,8 @@ public class OneBodySimulation : Simulation
             angleOffsetIsCompute = false;
             timerAnimation = 0;
 
-            if (sliderMoonPeriod) {
-                sliderMoonPeriod.updateValue(getMoonPeriod(), MoonPeriodFactor);
+            if (sliderSync && sliderSync.sliderValueName==SliderSync.SliderValueName.MoonPeriodFactor) {
+                sliderSync.updateValue(getMoonPeriod(), MoonPeriodFactor);
             }
             return;
         }
@@ -588,7 +588,7 @@ public class OneBodySimulation : Simulation
             float deltaAngle = timeScale * Time.fixedDeltaTime * 360 / moon.RotationPeriod;
             moon.IncrementRotation(deltaAngle * Vector3.down);
 
-            if (Mathf.Abs(moonSpinSpeed)<=0.001f) {
+            if (Mathf.Abs(moonSpinSpeed)<=0.1f) {
                 MoonSpinSpeed=0;
             } else {
                 MoonSpinSpeed = moonSpinSpeed - 0.002f*moonSpinSpeed;
@@ -598,6 +598,10 @@ public class OneBodySimulation : Simulation
             float UV2Angle = moon.getUVoffset()*360;
                         
             prefabs.SetMoonRefSystem(UV2Angle);
+
+            if (sliderSync && sliderSync.sliderValueName==SliderSync.SliderValueName.MoonSpinSpeed) {
+                sliderSync.updateValue(getMoonPeriod(), MoonSpinSpeed);
+            }
             
             if (topDownView) {
                 // vector following spin of the moon is index 1 in top down view.

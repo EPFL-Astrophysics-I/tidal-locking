@@ -607,7 +607,7 @@ public class OneBodySimulation : Simulation
                 // vector following spin of the moon is index 1 in top down view.
                 Vector3 moonPos = moon.Position;
                 float theta = Mathf.Atan2(moonPos.z, moonPos.x)*Mathf.Rad2Deg;
-                topDownView.SetRotationOfVector(theta-UV2Angle, 1);
+                topDownView.SetRotationOfVector(-UV2Angle, 1);
             }
         }
 
@@ -643,7 +643,7 @@ public class OneBodySimulation : Simulation
         //prefabs.SetMoonRefSystem(moonSpinSpeed*UV2Angle*Mathf.Rad2Deg);
         if (topDownView) {
             // vector following orbit rate of the Moon is index 0 in top down view.
-            topDownView.SetRotationOfVector(theta*Mathf.Rad2Deg, 0);
+            //topDownView.SetRotationOfVector(theta*Mathf.Rad2Deg, 0);
         }
     }
     private void dampedHarmonicOscillation(float deltaTime)

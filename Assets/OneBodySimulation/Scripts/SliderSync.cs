@@ -36,7 +36,7 @@ public class SliderSync : MonoBehaviour
             slideController.SetMoonPeriodFactor(slider2sim(slider.value));
             if (TMPgui) {
                 float valueLabel = slideController.getMoonPeriod();
-                if (valueLabel>2000f) {
+                if (valueLabel>5000f) {
                     valueLabel = Mathf.Infinity;
                 }
                 TMPgui.text = valueLabel.ToString("F1");
@@ -47,7 +47,7 @@ public class SliderSync : MonoBehaviour
             slideController.SetMoonSpinSpeed(spinSpeed);
             if (TMPgui) {
                 float valueLabel = slideController.getMoonPeriod()/slider.value;
-                if (valueLabel>2000f) {
+                if (valueLabel>5000f) {
                     valueLabel = Mathf.Infinity;
                 }
                 TMPgui.text = valueLabel.ToString("F1");

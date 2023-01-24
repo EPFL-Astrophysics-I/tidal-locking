@@ -103,8 +103,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.81960785, g: 0, b: 1, a: 1}
-      key1: {r: 0.81960785, g: 0, b: 1, a: 1}
+      key0: {r: 1, g: 0.93333334, b: 0, a: 1}
+      key1: {r: 1, g: 0.93333334, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -153,7 +153,7 @@ MonoBehaviour:
   bodyLR: {fileID: 5921391338487824379}
   headInPlanXY: 0
   components: {x: 0.25, y: 0, z: 0}
-  color: {r: 0.81822443, g: 0, b: 1, a: 1}
+  color: {r: 1, g: 0.9328417, b: 0, a: 1}
   lineWidth: 0.25
   sortingOrder: 4
   headLR: {fileID: 0}
@@ -261,8 +261,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.81960785, g: 0, b: 1, a: 1}
-      key1: {r: 0.81960785, g: 0, b: 1, a: 1}
+      key0: {r: 1, g: 0.93333334, b: 0, a: 1}
+      key1: {r: 1, g: 0.93333334, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

@@ -77,19 +77,6 @@ public class OneBodySimulation : Simulation
             vectorTidalScale = value;
         }
     }
-
-    private float vectorGravLineWidth;
-    public float VectorGravLineWidth {
-        get {
-            return vectorGravLineWidth;
-        }
-        set {
-            vectorGravLineWidth = value;
-            if (prefabs) {
-                prefabs.SetGravVecLineWidth(vectorGravLineWidth);
-            }
-        }
-    }
     
     private float vectorTidalLineWidth;
     public float VectorTidalLineWidth {
@@ -113,33 +100,11 @@ public class OneBodySimulation : Simulation
         }
         set {
             activationPointsOnMoon = value;
-            prefabs.SetPointsOnMoonActivation(value);
+            prefabs.SetMoonTidalVectorActivation(value);
             if (value) {
-                prefabs.setMoonPointPosition();
+                //prefabs.setMoonPointPosition();
                 prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
             }
-        }
-    }
-
-    private bool activationVectorsCM = false;
-    public bool ActivationVectorsCM {
-        get {
-            return activationVectorsCM;
-        }
-        set {
-            activationVectorsCM = value;
-            prefabs.SetVectorCMactivation(value);
-        }
-    }
-
-    private bool activationVectorsLR = false;
-    public bool ActivationVectorsLR {
-        get {
-            return activationVectorsLR;
-        }
-        set {
-            activationVectorsLR = value;
-            prefabs.SetVectorLRactivation(value);
         }
     }
 
@@ -151,6 +116,17 @@ public class OneBodySimulation : Simulation
         set {
             activationMoonOrbit = value;
             prefabs.SetMoonOrbitActivation(value);
+        }
+    }
+
+    private bool activationEarthOrbit = false;
+    public bool ActivationEarthOrbit {
+        get {
+            return activationEarthOrbit;
+        }
+        set {
+            activationEarthOrbit = value;
+            prefabs.SetEarthOrbitActivation(value);
         }
     }
     private bool activationMoonBulgeLine = false;
@@ -175,47 +151,13 @@ public class OneBodySimulation : Simulation
         }
     }
 
-    private bool activationMoonMouseVector = false;
-    public bool ActivationMoonMouseVector {
+    private float dragEdgesRange = 0;
+    public float DragEdgesRange {
         get {
-            return activationMoonMouseVector;
+            return dragEdgesRange;
         }
         set {
-            activationMoonMouseVector = value;
-            prefabs.SetVecMoonMouseActivation(value);
-        }
-    }
-
-    private bool activationMoonOrbitArc = false;
-    public bool ActivationMoonOrbitArc {
-        get {
-            return activationMoonOrbitArc;
-        }
-        set {
-            activationMoonOrbitArc = value;
-            prefabs.SetMoonOrbitArcActivation(value);
-        }
-    }
-
-    private float moonOrbitArcEnd = 0;
-    public float MoonOrbitArcEnd {
-        get {
-            return moonOrbitArcEnd;
-        }
-        set {
-            moonOrbitArcEnd = value;
-            prefabs.DrawMoonOrbitArc(initEarthPosition, LunarDistance(unitLength), value*Mathf.Deg2Rad, moonOrbitArcStart*Mathf.Deg2Rad, 100);
-        }
-    }
-
-    private float moonOrbitArcStart = 0;
-    public float MoonOrbitArcStart {
-        get {
-            return moonOrbitArcStart;
-        }
-        set {
-            moonOrbitArcStart = value;
-            prefabs.DrawMoonOrbitArc(initEarthPosition, LunarDistance(unitLength), moonOrbitArcEnd*Mathf.Deg2Rad, value*Mathf.Deg2Rad, 100);
+            dragEdgesRange = value;
         }
     }
 
@@ -355,9 +297,6 @@ public class OneBodySimulation : Simulation
 
         prefabs.InstantiatePrefabs();
 
-        prefabs.SetGravVecLineWidth(vectorGravLineWidth);
-        //prefabs.SetTidalVecLineWidth(vectorTidalLineWidth);
-
         // Compute Newton's constant only once
         _newtonG = NewtonG;
 
@@ -404,16 +343,19 @@ public class OneBodySimulation : Simulation
             SetMoonInitialCondition();
         }
 
-        prefabs.setMoonPointPosition();
+        //prefabs.setMoonPointPosition();
 
         CircularOrbit moonOrbit = prefabs.moonOrbit;
         if (moonOrbit) {
             moonOrbit.DrawOrbit(initEarthPosition, LunarDistance(unitLength), 100);
         }
 
-        prefabs.DrawMoonOrbitArc(initEarthPosition, LunarDistance(unitLength), moonOrbitArcEnd*Mathf.Deg2Rad, moonOrbitArcStart*Mathf.Deg2Rad, 100);
+        CircularOrbit earthOrbit = prefabs.earthOrbit;
+        if (earthOrbit) {
+            earthOrbit.DrawOrbit(initMoonPosition, LunarDistance(unitLength), 100);
+        }
 
-        prefabs.SetPointsOnMoonActivation(activationPointsOnMoon);
+        prefabs.SetMoonTidalVectorActivation(activationPointsOnMoon);
         prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
 
         prefabs.DrawLineEarthMoon();
@@ -434,13 +376,6 @@ public class OneBodySimulation : Simulation
         {
             if (dragEarthIsAllowed || dragMoonIsAllowed || dragMoonEdgesIsAllowed) {
                 DragBody();
-                /*
-                Debug.Log(moon.getUVoffset());
-                float UV2Angle = moon.getUVoffset()*360;
-                prefabs.SetMoonRefSystem(moonSpinSpeed*UV2Angle);*/
-                if (ActivationMoonMouseVector) {
-                    MouseOverMoon();
-                }
             }
 
             return;
@@ -471,7 +406,7 @@ public class OneBodySimulation : Simulation
                 stationaryTimer+=Time.fixedDeltaTime;
             }*/
 
-            prefabs.setMoonPointPosition();
+            //prefabs.setMoonPointPosition();
             prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
 
             if (squashingAnimation) {
@@ -538,7 +473,11 @@ public class OneBodySimulation : Simulation
             if (Mathf.Abs(periodSlowDownOffset)<0.05) {
                 MoonPeriodFactor=1;
             } else {
-                MoonPeriodFactor = MoonPeriodFactor + 0.5f*periodSlowDownOffset;
+                MoonPeriodFactor = MoonPeriodFactor + 0.3f*periodSlowDownOffset;
+                //MoonPeriodFactor = MoonPeriodFactor + Mathf.Sign(periodSlowDownOffset)*;
+                //float derivative = Mathf.Pow(2, periodSlowDownOffset)*Mathf.Log10(2)/(Mathf.Pow(Mathf.Pow(2, periodSlowDownOffset)-1, 2));
+                //float derivative = 1/(periodSlowDownOffset*Mathf.Log10(2)) - 0.5f + ((1/12)*periodSlowDownOffset*Mathf.Log10(2));
+                //MoonPeriodFactor = MoonPeriodFactor - (0.2f*derivative);
             }
             angleOffsetIsCompute = false;
             timerAnimation = 0;
@@ -597,7 +536,7 @@ public class OneBodySimulation : Simulation
             moon.IncrementRotationSprite(moonSpinSpeed*deltaAngle*Vector3.down);
             float UV2Angle = moon.getUVoffset()*360;
                         
-            prefabs.SetMoonRefSystem(UV2Angle);
+            prefabs.SetMoonReferenceSystem(UV2Angle);
 
             if (sliderSync && sliderSync.sliderValueName==SliderSync.SliderValueName.MoonSpinSpeed) {
                 sliderSync.updateValue(getMoonPeriod(), MoonSpinSpeed);
@@ -608,6 +547,7 @@ public class OneBodySimulation : Simulation
                 Vector3 moonPos = moon.Position;
                 float theta = Mathf.Atan2(moonPos.z, moonPos.x)*Mathf.Rad2Deg;
                 topDownView.SetRotationOfVector(-UV2Angle, 1);
+                topDownView.SetRotationOfVector(-UV2Angle, 2);
             }
         }
 
@@ -621,7 +561,7 @@ public class OneBodySimulation : Simulation
 
         prefabs.DrawLineEarthMoon();
         prefabs.DrawLineMoonBulge();
-        prefabs.setMoonPointPosition();
+        //prefabs.setMoonPointPosition();
         prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
     }
 
@@ -661,7 +601,7 @@ public class OneBodySimulation : Simulation
         moon.SetRotation(new Vector3(0, rot, 0));
         //moon.SetRotationSprite(new Vector3(0, rot, 0));
 
-        prefabs.setMoonPointPosition();
+        //prefabs.setMoonPointPosition();
         prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
         prefabs.DrawLineMoonBulge();
     }
@@ -695,7 +635,7 @@ public class OneBodySimulation : Simulation
             Vector3 targetRotation = new Vector3(0, angleMoonSpinInit, 0);
             if (angleMoonSpinInit==404)
             {
-                targetRotation = new Vector3(0, 180-MoonOrbitArcStart, 0);
+                targetRotation = new Vector3(0, 180, 0);
             }
 
             moon.Position = initMoonPosition;
@@ -703,7 +643,7 @@ public class OneBodySimulation : Simulation
 
             moon.SetRotationSprite(Vector3.zero);
             //float UV2Angle = moon.getUVoffset()*360;
-            prefabs.SetMoonRefSystem(0);
+            prefabs.SetMoonReferenceSystem(0);
         }
 
         oscillationV = 0f;
@@ -713,7 +653,7 @@ public class OneBodySimulation : Simulation
 
         prefabs.DrawLineEarthMoon();
         prefabs.DrawLineMoonBulge();
-        prefabs.setMoonPointPosition();
+        //prefabs.setMoonPointPosition();
         prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
     }
 
@@ -733,7 +673,7 @@ public class OneBodySimulation : Simulation
         Vector3 targetRotation = new Vector3(0, angleMoonSpinInit, 0);
         if (angleMoonSpinInit==404)
         {
-            targetRotation = new Vector3(0, 180-MoonOrbitArcStart, 0);
+            targetRotation = new Vector3(0, 180, 0);
         }
 
         float currentAngle = Mathf.Atan2(moon.Position.z, moon.Position.x);
@@ -761,11 +701,11 @@ public class OneBodySimulation : Simulation
             Vector3 posSubstep = new Vector3(moonDistance * Mathf.Cos(sAngle), 0, moonDistance * Mathf.Sin(sAngle));
             moon.Position = posSubstep;
 
-            prefabs.setMoonPointPosition();
+            //prefabs.setMoonPointPosition();
             prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
             prefabs.DrawLineEarthMoon();
             prefabs.DrawLineMoonBulge();
-            prefabs.SetMoonRefSystem(0);
+            prefabs.SetMoonReferenceSystem(0);
             
             yield return null;
         }
@@ -775,7 +715,7 @@ public class OneBodySimulation : Simulation
             oscillationX = 0f;
             rot180Moon = true;
         }
-        prefabs.SetMoonRefSystem(0);
+        prefabs.SetMoonReferenceSystem(0);
     }
 
     IEnumerator LerpMoonRotation(Vector3 start, Vector3 target, float lerpTime) {
@@ -784,10 +724,10 @@ public class OneBodySimulation : Simulation
         while (time < lerpTime) {
             time += Time.fixedDeltaTime;
             moon.SetRotation(Vector3.Lerp(start, target, time/lerpTime));
-            prefabs.setMoonPointPosition();
+            //prefabs.setMoonPointPosition();
             prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
             prefabs.DrawLineMoonBulge();
-            prefabs.SetMoonRefSystem(0);
+            prefabs.SetMoonReferenceSystem(0);
             
             yield return null;
         }
@@ -827,7 +767,7 @@ public class OneBodySimulation : Simulation
             //moon.SetRotation(new Vector3(0, step, 0));
             moon.IncrementRotation(new Vector3(0, substep, 0));
             moon.IncrementRotationSprite(new Vector3(0, -substep, 0));
-            prefabs.setMoonPointPosition();
+            //prefabs.setMoonPointPosition();
             prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
             prefabs.DrawLineMoonBulge();
             
@@ -927,12 +867,6 @@ public class OneBodySimulation : Simulation
             if (draggingMoonCenter && (dragMoonIsAllowed || dragEarthIsAllowed)) {
                 Vector2 screenDisplacement = currentMousePosition - centerOfRotation;
                 float deltaAngle = Mathf.Atan2(screenDisplacement.y, screenDisplacement.x);
-
-                if(ActivationMoonOrbitArc) {
-                    if(moonOrbitArcStart*Mathf.Deg2Rad > deltaAngle || deltaAngle > moonOrbitArcEnd*Mathf.Deg2Rad) {
-                        return;
-                    }
-                }
                 
                 // Compute new position
                 Vector3 vectorR = draggableBody.Position - centerBody.Position;
@@ -965,7 +899,7 @@ public class OneBodySimulation : Simulation
                     moon.IncrementRotationSprite(moonSpinSpeed*deltaAngle*Vector3.down);
                     float UV2Angle = moon.getUVoffset()*360;
                     
-                    prefabs.SetMoonRefSystem(UV2Angle);
+                    prefabs.SetMoonReferenceSystem(UV2Angle);
                     /*
                     if (moonSpinSpeed==-2f) {
                         moon.SetRotationSprite(new Vector3(0, deltaAngle* Mathf.Rad2Deg, 0));
@@ -978,7 +912,7 @@ public class OneBodySimulation : Simulation
                     moon.SetRotationSprite(new Vector3(0, deltaAngle * Mathf.Rad2Deg+180, 0));
                 }
 
-                prefabs.setMoonPointPosition();
+                //prefabs.setMoonPointPosition();
                 prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
                 prefabs.DrawLineEarthMoon();
                 prefabs.DrawLineMoonBulge();
@@ -987,6 +921,13 @@ public class OneBodySimulation : Simulation
                 
                 Vector2 screenDisplacement = currentMousePosition - centerOfSpin;
                 float deltaAngle = Mathf.Atan2(screenDisplacement.y, screenDisplacement.x) * Mathf.Rad2Deg;
+
+                if(DragEdgesRange!=0) {
+                    Debug.Log(DragEdgesRange);
+                    if(DragEdgesRange*Mathf.Deg2Rad > deltaAngle || deltaAngle > DragEdgesRange*Mathf.Deg2Rad) {
+                        return;
+                    }
+                }
 
                 Vector3 newEuler = moonStartSpin + Vector3.down * (deltaAngle - mouseStartAngle);
 
@@ -1017,7 +958,7 @@ public class OneBodySimulation : Simulation
 
                 oscillationXInvert = oscillationX + moon.getUVoffset()*360;
 
-                prefabs.setMoonPointPosition();
+                //prefabs.setMoonPointPosition();
                 prefabs.setGravitationalVectors(NewtonG, moonDistance, vectorGravScale, vectorTidalScale);
                 prefabs.DrawLineMoonBulge();
             }
@@ -1028,52 +969,5 @@ public class OneBodySimulation : Simulation
             draggingMoonCenter = false;
             draggingEdgeMoon = false;
         }
-    }
-
-    private void MouseOverMoon() {
-        Vector2 mousePosition = Input.mousePosition;
-        Vector2 moonCenter = mainCamera.WorldToScreenPoint(moon.Position);
-
-        Vector2 lineMouseMoon = mousePosition - moonCenter;
-        float mouseAngle = Mathf.Atan2(lineMouseMoon.y, lineMouseMoon.x) * Mathf.Rad2Deg;
-        float moonAngle = moon.transform.eulerAngles.y;
-        float totalAngle= (mouseAngle+moonAngle)*Mathf.Deg2Rad;
-
-        float cosAngle = Mathf.Cos(totalAngle);
-        float sinAngle = Mathf.Sin(totalAngle);
-        
-        float semiMajorAxis = moon.transform.localScale.x/2;
-        float semiMinorAxis = moon.transform.localScale.z/2;
-
-        float radiusMoon = (semiMajorAxis*semiMinorAxis)/Mathf.Sqrt(semiMajorAxis*semiMajorAxis*sinAngle*sinAngle+semiMinorAxis*semiMinorAxis*cosAngle*cosAngle);
-
-        Vector3 pointOnMoon = moon.Position + (radiusMoon)*(Quaternion.AngleAxis(-mouseAngle, Vector3.up)*Vector3.right);
-
-        Vector2 radiusMoonScreen = mainCamera.WorldToScreenPoint(pointOnMoon);
-        Vector2 range = radiusMoonScreen - moonCenter;
-        float lineMouseMoonMag = lineMouseMoon.magnitude;
-
-        float radiusMoonScreenMag = range.magnitude;
-        float innerRangeMag = radiusMoonScreenMag * 0.6f;
-        float outerRangeMag = radiusMoonScreenMag * 1.3f;
-
-        //Debug.Log(innerRangeMag + " < " + lineMouseMoonMag + " < " + outerRangeMag);
-
-        // Check that the mouse click is in the center of the moon
-        if (prefabs.GetMoonMouseActivation() && Input.GetMouseButton(0)) {
-            prefabs.setVecMoonMouse(pointOnMoon, NewtonG, moonDistance, vectorGravScale);
-        }
-        else if (!prefabs.GetMoonMouseActivation() && Input.GetMouseButton(0)) {
-            return;
-        }
-        else if (innerRangeMag <= lineMouseMoonMag && lineMouseMoonMag <= outerRangeMag) {
-            prefabs.setVecMoonMouse(pointOnMoon, NewtonG, moonDistance, vectorGravScale);
-            prefabs.SetVecMoonMouseActivation(true);
-        }
-        else {
-            if (!Input.GetMouseButton(0))
-                prefabs.SetVecMoonMouseActivation(false);
-        }
-
     }
 }

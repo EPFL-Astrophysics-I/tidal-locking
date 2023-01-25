@@ -161,6 +161,7 @@ MonoBehaviour:
   sortingOrder: 2
   headLR: {fileID: 1402643318335294511}
   headAngle: 45
+  headOnePoint: {fileID: 0}
 --- !u!114 &1261504103568629823
 MonoBehaviour:
   m_ObjectHideFlags: 0

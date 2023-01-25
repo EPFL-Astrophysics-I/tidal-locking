@@ -159,6 +159,7 @@ MonoBehaviour:
   sortingOrder: 1
   headLR: {fileID: 1792501351688188921}
   headAngle: 45
+  headOnePoint: {fileID: 0}
 --- !u!1 &8329706979186505942
 GameObject:
   m_ObjectHideFlags: 0

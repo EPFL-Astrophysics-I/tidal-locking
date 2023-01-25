@@ -11,9 +11,12 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private bool AnimationInThreeSteps;
     [SerializeField] private bool oscillationMoonRotation;
     [SerializeField] private bool MoonSquashingAnimation;
-
-    [Header("Earth Moon Parameters")]
     [SerializeField] private float radiusScale;
+
+    [Header("Earth Parameters")]
+    [SerializeField] private bool displayEarthOrbit;
+
+    [Header("Moon Parameters")]
     [SerializeField] private float moonPeriodFactor;
     [SerializeField] private bool moonIsSquashed;
     [SerializeField] private float moonSpinSpeed=0; // Default Speed is 0
@@ -22,6 +25,7 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private string dragBody;
     [SerializeField] private bool dragRotatesMoon;
     [SerializeField] private bool dragMoonEdgesIsAllowed;
+    [SerializeField] private float dragMoonEdgesRanges;
 
     [Header("Display Parameters")]
     [SerializeField] private bool displayVectorsFromMoonCM;
@@ -86,26 +90,16 @@ public class OneBodySlideController : SimulationSlideController
         sim.dragRotatesMoon = dragRotatesMoon;
         sim.dragMoonEdgesIsAllowed = dragMoonEdgesIsAllowed;
 
-        // We ask if vectors should not be drawn,
-        // to be consistent with the toggle interaction in slide 4.
-        sim.ActivationVectorsCM = displayVectorsFromMoonCM;
-        sim.ActivationVectorsLR = displayVectorsFromMoonLR;
 
         sim.VectorGravScale = gravitationalVectorSize;
         sim.VectorTidalScale = tidalVectorSize;
-        sim.VectorGravLineWidth = vectorGravLineWidth;
         sim.VectorTidalLineWidth = vectorTidalLineWidth;
 
         sim.ActivationPointsOnMoon = displayVectorsFromMoonPoints;
         sim.ActivationMoonOrbit = displayMoonOrbit;
+        sim.ActivationEarthOrbit = displayEarthOrbit;
         sim.ActivationMoonBulgeLine = displayMoonBulgeLine;
         sim.ActivationMoonRefSystem = displayMoonRefSystem;
-        sim.ActivationMoonMouseVector = displayMoonMouseVector;
-
-        // 
-        sim.ActivationMoonOrbitArc = displayMoonOrbitArc;
-        sim.MoonOrbitArcStart = moonOrbitArcStart;
-        sim.MoonOrbitArcEnd = moonOrbitArcEnd;
 
         // CI:
         sim.angleMoonOrbitInit = angleMoonOrbitInit;
@@ -122,6 +116,8 @@ public class OneBodySlideController : SimulationSlideController
         //if (AnimationInThreeSteps) {
         //    sim.ResetSimulation();
         //}
+
+        sim.DragEdgesRange = dragMoonEdgesRanges;
 
         fadeOutUIList.ForEach(ui => {
             //ui.TriggerReset(0);
@@ -175,28 +171,10 @@ public class OneBodySlideController : SimulationSlideController
         sim.simIsStationary = newBool;
     }
 
-    public void SetActivationMoonVectorLRInverted(bool newBool) {
-        // Keep state of the interaction
-        displayVectorsFromMoonLR = !newBool;
-        sim.ActivationVectorsLR = !newBool;
-    }
-
-    public void SetActivationMoonVectorCMInverted(bool newBool) {
-        // Keep state of the interaction
-        displayVectorsFromMoonCM = !newBool;
-        sim.ActivationVectorsCM = !newBool;
-    }
-
     public void SetActivationMoonTidalVectors(bool newBool) {
         // Keep state of the interaction
         displayVectorsFromMoonPoints = newBool;
         sim.ActivationPointsOnMoon = newBool;
-    }
-
-    public void SwitchVectorsDisplay(bool newBool) {
-        SetActivationMoonVectorLRInverted(newBool);
-        SetActivationMoonVectorCMInverted(newBool);
-        SetActivationMoonTidalVectors(newBool);
     }
 
     public void SetActivationMoonRefSystem(bool newBool) {

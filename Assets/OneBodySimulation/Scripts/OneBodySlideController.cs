@@ -6,9 +6,9 @@ using TMPro;
 
 public class OneBodySlideController : SimulationSlideController
 {
-    [Header("Sim Parameters")]
+    [Header("Main Simulation Parameters")]
     [SerializeField] private bool simIsStationary;
-    [SerializeField] private bool AnimationInThreeSteps;
+    [SerializeField] private bool simInDiscreteSteps;
     [SerializeField] private bool oscillationMoonRotation;
     [SerializeField] private bool MoonSquashingAnimation;
     [SerializeField] private float radiusScale;
@@ -28,10 +28,6 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private float dragMoonEdgesRanges;
 
     [Header("Display Parameters")]
-    [SerializeField] private bool displayVectorsFromMoonCM;
-    [SerializeField] private bool displayVectorsFromMoonLR;
-    [SerializeField] private float gravitationalVectorSize;
-    [SerializeField] private float vectorGravLineWidth; // if 0 then vectorGravLineWidth is not used and value is taken from prefab
     [SerializeField] private bool displayVectorsFromMoonPoints;
     [SerializeField] private float tidalVectorSize;
     [SerializeField] private float vectorTidalLineWidth; // if 0 then vectorGravLineWidth is not used and value is taken from prefab
@@ -39,11 +35,6 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private bool displayMoonBulgeLine;
     [SerializeField] private bool displayMoonRefSystem;
     [SerializeField] private bool displayMoonMouseVector;
-
-    [Header("   Orbit Arc Parameters")]
-    [SerializeField] private bool displayMoonOrbitArc;
-    [SerializeField] private float moonOrbitArcStart;
-    [SerializeField] private float moonOrbitArcEnd;
 
     [Header("   Top Down View")]
     [SerializeField] private TopDownView TopDownView;
@@ -90,8 +81,6 @@ public class OneBodySlideController : SimulationSlideController
         sim.dragRotatesMoon = dragRotatesMoon;
         sim.dragMoonEdgesIsAllowed = dragMoonEdgesIsAllowed;
 
-
-        sim.VectorGravScale = gravitationalVectorSize;
         sim.VectorTidalScale = tidalVectorSize;
         sim.VectorTidalLineWidth = vectorTidalLineWidth;
 
@@ -110,7 +99,7 @@ public class OneBodySlideController : SimulationSlideController
         sim.spinSpeedBar = spinSpeedBar;
         sim.sliderSync = sliderSync;
 
-        sim.IsAnimationThreeSteps = AnimationInThreeSteps;
+        sim.IsAnimationThreeSteps = simInDiscreteSteps;
         sim.oscillationMoonRotation = oscillationMoonRotation;
         sim.squashingAnimation = MoonSquashingAnimation;
         //if (AnimationInThreeSteps) {

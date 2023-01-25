@@ -563,47 +563,27 @@ MonoBehaviour:
     type: 3}
   earthOrbitPrefab: {fileID: 3366572817098169331, guid: dbe1eeb31fe2967489e1fe0611fd0be3,
     type: 3}
+  earth: {fileID: 0}
   earthOrbit: {fileID: 0}
   moonPrefab: {fileID: 3118950454535787267, guid: 4d756d11fc917294bac10267ecf0a442,
     type: 3}
   moonOrbitPrefab: {fileID: 0}
-  moonOrbit: {fileID: 0}
-  moonOrbitArcPrefab: {fileID: 0}
-  pointOnMoon: {fileID: 0}
-  moonCenterVecPrefab: {fileID: 0}
-  moonLeftVecPrefab: {fileID: 0}
-  moonRightVecPrefab: {fileID: 0}
-  moonPointVecPrefab: {fileID: 0}
-  moonPointVecPrefabXY: {fileID: 0}
-  lineEarthMoonPrefab: {fileID: 0}
+  numberOfMoonTidalVectors: 0
+  moonTidalVectorsPrefab: {fileID: 0}
+  moonReferenceSystemPrefab: {fileID: 0}
   lineMoonBulgePrefab: {fileID: 0}
-  moonRefSystemPrefab: {fileID: 0}
-  vecMoonMousePrefab: {fileID: 0}
-  listPointOnMoon: []
-  numberOfMoonPoints: 0
-  listVectorMoonPoint: []
-  listPointOnMoonXY: []
-  numberOfMoonPointsXY: 0
-  listVectorMoonPointXY: []
-  moonMassVarEquation: {fileID: 0}
-  ListEarthMassEquation: []
-  forceOnMoonCM: {fileID: 0}
+  moon: {fileID: 0}
+  moonOrbit: {fileID: 0}
+  listMoonTidalVectors: []
+  moonReferenceSystem: {fileID: 0}
+  lineMoonBulge: {fileID: 0}
+  lineEarthMoonPrefab: {fileID: 0}
+  lineEarthMoon: {fileID: 0}
   listLightPrefabs:
   - {fileID: 2642543877484886506, guid: 40a4cafc634e71241b308269c91f3b9b, type: 3}
   - {fileID: 1422750810511085530, guid: 380d60db8e1ef524aab4d355a6b2e23a, type: 3}
   - {fileID: 6395959565611367174, guid: 7b55e3ff136b10b459a10c77c408ad1c, type: 3}
-  earth: {fileID: 0}
-  moon: {fileID: 0}
-  moonPointRight: {fileID: 0}
-  moonPointLeft: {fileID: 0}
-  moonOrbitArc: {fileID: 0}
-  moonCenterVec: {fileID: 0}
-  moonLeftVec: {fileID: 0}
-  moonRightVec: {fileID: 0}
-  lineEarthMoon: {fileID: 0}
-  lineMoonBulge: {fileID: 0}
   listLights: []
-  moonRefSystem: {fileID: 0}
 --- !u!1 &90947824
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,8 +2500,8 @@ GameObject:
   m_Component:
   - component: {fileID: 511435810}
   - component: {fileID: 511435813}
-  - component: {fileID: 511435812}
   - component: {fileID: 511435811}
+  - component: {fileID: 511435812}
   m_Layer: 5
   m_Name: Slide 8
   m_TagString: Untagged
@@ -2565,7 +2545,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 625014118}
   simIsStationary: 0
-  AnimationInThreeSteps: 0
+  simInDiscreteSteps: 0
   oscillationMoonRotation: 0
   MoonSquashingAnimation: 0
   radiusScale: 15
@@ -2577,10 +2557,6 @@ MonoBehaviour:
   dragRotatesMoon: 0
   dragMoonEdgesIsAllowed: 0
   dragMoonEdgesRanges: 0
-  displayVectorsFromMoonCM: 0
-  displayVectorsFromMoonLR: 0
-  gravitationalVectorSize: 400
-  vectorGravLineWidth: 0
   displayVectorsFromMoonPoints: 0
   tidalVectorSize: 500
   vectorTidalLineWidth: 0
@@ -2588,9 +2564,6 @@ MonoBehaviour:
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 0
   displayMoonMouseVector: 0
-  displayMoonOrbitArc: 0
-  moonOrbitArcStart: 0
-  moonOrbitArcEnd: 0
   TopDownView: {fileID: 0}
   spinSpeedBar: {fileID: 0}
   sliderSync: {fileID: 0}
@@ -3361,7 +3334,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 88322796}
   simIsStationary: 1
-  AnimationInThreeSteps: 0
+  simInDiscreteSteps: 0
   oscillationMoonRotation: 0
   MoonSquashingAnimation: 0
   radiusScale: 30
@@ -3373,10 +3346,6 @@ MonoBehaviour:
   dragRotatesMoon: 0
   dragMoonEdgesIsAllowed: 0
   dragMoonEdgesRanges: 0
-  displayVectorsFromMoonCM: 0
-  displayVectorsFromMoonLR: 0
-  gravitationalVectorSize: 400
-  vectorGravLineWidth: 0
   displayVectorsFromMoonPoints: 0
   tidalVectorSize: 500
   vectorTidalLineWidth: 0.02
@@ -3384,9 +3353,6 @@ MonoBehaviour:
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 0
   displayMoonMouseVector: 0
-  displayMoonOrbitArc: 0
-  moonOrbitArcStart: 0
-  moonOrbitArcEnd: 0
   TopDownView: {fileID: 0}
   spinSpeedBar: {fileID: 0}
   sliderSync: {fileID: 0}
@@ -3536,49 +3502,28 @@ MonoBehaviour:
   earthPrefab: {fileID: 2043717623570022050, guid: b1a22c74910d29649a7980a8b66d2129,
     type: 3}
   earthOrbitPrefab: {fileID: 0}
+  earth: {fileID: 0}
   earthOrbit: {fileID: 0}
   moonPrefab: {fileID: 7273090091070790381, guid: 3c2229ab0f2df9e42960d63c21929204,
     type: 3}
   moonOrbitPrefab: {fileID: 0}
-  moonOrbit: {fileID: 0}
-  moonOrbitArcPrefab: {fileID: 0}
-  pointOnMoon: {fileID: 2074865388894341933, guid: 2b8dd05c1c228204382b7cd44c004c1c,
+  numberOfMoonTidalVectors: 19
+  moonTidalVectorsPrefab: {fileID: 1718864928187129853, guid: bcd9253867383b54a886f988555321c6,
     type: 3}
-  moonCenterVecPrefab: {fileID: 0}
-  moonLeftVecPrefab: {fileID: 0}
-  moonRightVecPrefab: {fileID: 0}
-  moonPointVecPrefab: {fileID: 0}
-  moonPointVecPrefabXY: {fileID: 1718864928187129853, guid: bcd9253867383b54a886f988555321c6,
+  moonReferenceSystemPrefab: {fileID: 8029821696498156222, guid: 31634711154a46241a16054adf5bacf7,
     type: 3}
-  lineEarthMoonPrefab: {fileID: 0}
   lineMoonBulgePrefab: {fileID: 0}
-  moonRefSystemPrefab: {fileID: 8029821696498156222, guid: 31634711154a46241a16054adf5bacf7,
-    type: 3}
-  vecMoonMousePrefab: {fileID: 0}
-  listPointOnMoon: []
-  numberOfMoonPoints: 0
-  listVectorMoonPoint: []
-  listPointOnMoonXY: []
-  numberOfMoonPointsXY: 15
-  listVectorMoonPointXY: []
-  moonMassVarEquation: {fileID: 0}
-  ListEarthMassEquation: []
-  forceOnMoonCM: {fileID: 0}
+  moon: {fileID: 0}
+  moonOrbit: {fileID: 0}
+  listMoonTidalVectors: []
+  moonReferenceSystem: {fileID: 0}
+  lineMoonBulge: {fileID: 0}
+  lineEarthMoonPrefab: {fileID: 0}
+  lineEarthMoon: {fileID: 0}
   listLightPrefabs:
   - {fileID: 1422750810511085530, guid: 380d60db8e1ef524aab4d355a6b2e23a, type: 3}
   - {fileID: 3198484254713912473, guid: 126714e77e807da40af90ab712824680, type: 3}
-  earth: {fileID: 0}
-  moon: {fileID: 0}
-  moonPointRight: {fileID: 0}
-  moonPointLeft: {fileID: 0}
-  moonOrbitArc: {fileID: 0}
-  moonCenterVec: {fileID: 0}
-  moonLeftVec: {fileID: 0}
-  moonRightVec: {fileID: 0}
-  lineEarthMoon: {fileID: 0}
-  lineMoonBulge: {fileID: 0}
   listLights: []
-  moonRefSystem: {fileID: 0}
 --- !u!1 &653148601
 GameObject:
   m_ObjectHideFlags: 0
@@ -4627,8 +4572,8 @@ GameObject:
   m_Component:
   - component: {fileID: 859417290}
   - component: {fileID: 859417293}
-  - component: {fileID: 859417292}
   - component: {fileID: 859417291}
+  - component: {fileID: 859417292}
   m_Layer: 5
   m_Name: Slide 2
   m_TagString: Untagged
@@ -4674,7 +4619,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 625014118}
   simIsStationary: 0
-  AnimationInThreeSteps: 0
+  simInDiscreteSteps: 0
   oscillationMoonRotation: 0
   MoonSquashingAnimation: 0
   radiusScale: 15
@@ -4686,10 +4631,6 @@ MonoBehaviour:
   dragRotatesMoon: 0
   dragMoonEdgesIsAllowed: 0
   dragMoonEdgesRanges: 0
-  displayVectorsFromMoonCM: 0
-  displayVectorsFromMoonLR: 0
-  gravitationalVectorSize: 400
-  vectorGravLineWidth: 0
   displayVectorsFromMoonPoints: 0
   tidalVectorSize: 500
   vectorTidalLineWidth: 0
@@ -4697,9 +4638,6 @@ MonoBehaviour:
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 1
   displayMoonMouseVector: 0
-  displayMoonOrbitArc: 0
-  moonOrbitArcStart: 0
-  moonOrbitArcEnd: 0
   TopDownView: {fileID: 0}
   spinSpeedBar: {fileID: 0}
   sliderSync: {fileID: 0}
@@ -5532,57 +5470,31 @@ MonoBehaviour:
   earthPrefab: {fileID: 8210001909379508800, guid: 2e1739de39e12c94ab272ece31d566c1,
     type: 3}
   earthOrbitPrefab: {fileID: 0}
+  earth: {fileID: 0}
   earthOrbit: {fileID: 0}
   moonPrefab: {fileID: 618283707581901746, guid: a532ff21b20f1b940929a20d5a45ad55,
     type: 3}
   moonOrbitPrefab: {fileID: 3366572817098169331, guid: dbe1eeb31fe2967489e1fe0611fd0be3,
     type: 3}
-  moonOrbit: {fileID: 0}
-  moonOrbitArcPrefab: {fileID: 8245804454059203268, guid: 8fd21a09d8c402c42b788852c08206d6,
+  numberOfMoonTidalVectors: 19
+  moonTidalVectorsPrefab: {fileID: 6475676150847606310, guid: 92b2d6b7499293749b0cfad3537cddf7,
     type: 3}
-  pointOnMoon: {fileID: 2074865388894341933, guid: 2b8dd05c1c228204382b7cd44c004c1c,
-    type: 3}
-  moonCenterVecPrefab: {fileID: 264021385404883600, guid: 9a35b5f54f5e87a49bd856af0b47ed71,
-    type: 3}
-  moonLeftVecPrefab: {fileID: 2283029120083829520, guid: c0c8bfaf90056a247b53de163fd53ed1,
-    type: 3}
-  moonRightVecPrefab: {fileID: 1775546182021928510, guid: b1597f6778f575c4cb9c60bf224f45f6,
-    type: 3}
-  moonPointVecPrefab: {fileID: 6475676150847606310, guid: 92b2d6b7499293749b0cfad3537cddf7,
-    type: 3}
-  moonPointVecPrefabXY: {fileID: 0}
-  lineEarthMoonPrefab: {fileID: 3372782645365355594, guid: 43836ca7d5160d74c9161815fcb09afd,
-    type: 3}
+  moonReferenceSystemPrefab: {fileID: 0}
   lineMoonBulgePrefab: {fileID: 5316367535489354976, guid: 1b36f188a5b38264fba1da5586c46970,
     type: 3}
-  moonRefSystemPrefab: {fileID: 0}
-  vecMoonMousePrefab: {fileID: 2101680482136830589, guid: e229a022c07ab81449c93c7813db488a,
+  moon: {fileID: 0}
+  moonOrbit: {fileID: 0}
+  listMoonTidalVectors: []
+  moonReferenceSystem: {fileID: 0}
+  lineMoonBulge: {fileID: 0}
+  lineEarthMoonPrefab: {fileID: 3372782645365355594, guid: 43836ca7d5160d74c9161815fcb09afd,
     type: 3}
-  listPointOnMoon: []
-  numberOfMoonPoints: 19
-  listVectorMoonPoint: []
-  listPointOnMoonXY: []
-  numberOfMoonPointsXY: 0
-  listVectorMoonPointXY: []
-  moonMassVarEquation: {fileID: 0}
-  ListEarthMassEquation: []
-  forceOnMoonCM: {fileID: 0}
+  lineEarthMoon: {fileID: 0}
   listLightPrefabs:
   - {fileID: 1422750810511085530, guid: 380d60db8e1ef524aab4d355a6b2e23a, type: 3}
   - {fileID: 6395959565611367174, guid: 7b55e3ff136b10b459a10c77c408ad1c, type: 3}
   - {fileID: 2642543877484886506, guid: 40a4cafc634e71241b308269c91f3b9b, type: 3}
-  earth: {fileID: 0}
-  moon: {fileID: 0}
-  moonPointRight: {fileID: 0}
-  moonPointLeft: {fileID: 0}
-  moonOrbitArc: {fileID: 0}
-  moonCenterVec: {fileID: 0}
-  moonLeftVec: {fileID: 0}
-  moonRightVec: {fileID: 0}
-  lineEarthMoon: {fileID: 0}
-  lineMoonBulge: {fileID: 0}
   listLights: []
-  moonRefSystem: {fileID: 0}
 --- !u!224 &1054878523 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1001247658841754028, guid: 3186cec9a2c954ee08ff552192383797,
@@ -7018,7 +6930,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 1012715055}
   simIsStationary: 1
-  AnimationInThreeSteps: 0
+  simInDiscreteSteps: 0
   oscillationMoonRotation: 0
   MoonSquashingAnimation: 0
   radiusScale: 22
@@ -7030,10 +6942,6 @@ MonoBehaviour:
   dragRotatesMoon: 0
   dragMoonEdgesIsAllowed: 0
   dragMoonEdgesRanges: 0
-  displayVectorsFromMoonCM: 0
-  displayVectorsFromMoonLR: 0
-  gravitationalVectorSize: 400
-  vectorGravLineWidth: 0
   displayVectorsFromMoonPoints: 0
   tidalVectorSize: 500
   vectorTidalLineWidth: 0
@@ -7041,9 +6949,6 @@ MonoBehaviour:
   displayMoonBulgeLine: 1
   displayMoonRefSystem: 1
   displayMoonMouseVector: 0
-  displayMoonOrbitArc: 0
-  moonOrbitArcStart: 0
-  moonOrbitArcEnd: 0
   TopDownView: {fileID: 1588643020}
   spinSpeedBar: {fileID: 0}
   sliderSync: {fileID: 1274580835}
@@ -10667,7 +10572,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 1012715055}
   simIsStationary: 1
-  AnimationInThreeSteps: 1
+  simInDiscreteSteps: 1
   oscillationMoonRotation: 0
   MoonSquashingAnimation: 0
   radiusScale: 22
@@ -10679,10 +10584,6 @@ MonoBehaviour:
   dragRotatesMoon: 0
   dragMoonEdgesIsAllowed: 0
   dragMoonEdgesRanges: 0
-  displayVectorsFromMoonCM: 0
-  displayVectorsFromMoonLR: 0
-  gravitationalVectorSize: 400
-  vectorGravLineWidth: 0
   displayVectorsFromMoonPoints: 0
   tidalVectorSize: 500
   vectorTidalLineWidth: 0
@@ -10690,9 +10591,6 @@ MonoBehaviour:
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 0
   displayMoonMouseVector: 0
-  displayMoonOrbitArc: 0
-  moonOrbitArcStart: 0
-  moonOrbitArcEnd: 0
   TopDownView: {fileID: 0}
   spinSpeedBar: {fileID: 0}
   sliderSync: {fileID: 7946162021528586359}
@@ -10927,7 +10825,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 1012715055}
   simIsStationary: 1
-  AnimationInThreeSteps: 0
+  simInDiscreteSteps: 0
   oscillationMoonRotation: 1
   MoonSquashingAnimation: 0
   radiusScale: 22
@@ -10939,10 +10837,6 @@ MonoBehaviour:
   dragRotatesMoon: 0
   dragMoonEdgesIsAllowed: 1
   dragMoonEdgesRanges: 0
-  displayVectorsFromMoonCM: 0
-  displayVectorsFromMoonLR: 0
-  gravitationalVectorSize: 400
-  vectorGravLineWidth: 0.15
   displayVectorsFromMoonPoints: 1
   tidalVectorSize: 500
   vectorTidalLineWidth: 0
@@ -10950,9 +10844,6 @@ MonoBehaviour:
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 0
   displayMoonMouseVector: 0
-  displayMoonOrbitArc: 0
-  moonOrbitArcStart: 0
-  moonOrbitArcEnd: 0
   TopDownView: {fileID: 0}
   spinSpeedBar: {fileID: 0}
   sliderSync: {fileID: 0}
@@ -11692,8 +11583,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2021517521}
   - component: {fileID: 2021517524}
-  - component: {fileID: 2021517523}
   - component: {fileID: 2021517522}
+  - component: {fileID: 2021517523}
   m_Layer: 5
   m_Name: Slide 3
   m_TagString: Untagged
@@ -11740,7 +11631,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 625014118}
   simIsStationary: 1
-  AnimationInThreeSteps: 0
+  simInDiscreteSteps: 0
   oscillationMoonRotation: 0
   MoonSquashingAnimation: 1
   radiusScale: 22
@@ -11752,10 +11643,6 @@ MonoBehaviour:
   dragRotatesMoon: 0
   dragMoonEdgesIsAllowed: 0
   dragMoonEdgesRanges: 0
-  displayVectorsFromMoonCM: 0
-  displayVectorsFromMoonLR: 0
-  gravitationalVectorSize: 400
-  vectorGravLineWidth: 0
   displayVectorsFromMoonPoints: 0
   tidalVectorSize: 500
   vectorTidalLineWidth: 0.02
@@ -11763,9 +11650,6 @@ MonoBehaviour:
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 0
   displayMoonMouseVector: 0
-  displayMoonOrbitArc: 0
-  moonOrbitArcStart: 0
-  moonOrbitArcEnd: 0
   TopDownView: {fileID: 0}
   spinSpeedBar: {fileID: 0}
   sliderSync: {fileID: 0}
@@ -12025,8 +11909,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2116169441}
   - component: {fileID: 2116169444}
-  - component: {fileID: 2116169443}
   - component: {fileID: 2116169442}
+  - component: {fileID: 2116169443}
   m_Layer: 5
   m_Name: Slide 1
   m_TagString: Untagged
@@ -12071,7 +11955,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 625014118}
   simIsStationary: 0
-  AnimationInThreeSteps: 0
+  simInDiscreteSteps: 0
   oscillationMoonRotation: 0
   MoonSquashingAnimation: 0
   radiusScale: 15
@@ -12083,10 +11967,6 @@ MonoBehaviour:
   dragRotatesMoon: 0
   dragMoonEdgesIsAllowed: 0
   dragMoonEdgesRanges: 0
-  displayVectorsFromMoonCM: 0
-  displayVectorsFromMoonLR: 0
-  gravitationalVectorSize: 500
-  vectorGravLineWidth: 0
   displayVectorsFromMoonPoints: 0
   tidalVectorSize: 400
   vectorTidalLineWidth: 0
@@ -12094,9 +11974,6 @@ MonoBehaviour:
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 1
   displayMoonMouseVector: 0
-  displayMoonOrbitArc: 0
-  moonOrbitArcStart: 0
-  moonOrbitArcEnd: 0
   TopDownView: {fileID: 0}
   spinSpeedBar: {fileID: 0}
   sliderSync: {fileID: 0}

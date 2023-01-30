@@ -36,7 +36,6 @@ public class OneBodySlideController : SimulationSlideController
 
     [Header("   Top Down View")]
     [SerializeField] private TopDownView TopDownView;
-    [SerializeField] private BarOnPlot spinSpeedBar;
     [SerializeField] private SliderSync sliderSync;
     [SerializeField] private Button resetSliderButton;
 
@@ -64,10 +63,17 @@ public class OneBodySlideController : SimulationSlideController
         {
             sim.squashingAnimation = true;
         }
+        sim.radiusScale = radiusScale;
+
+        // Earth Parameters:
+        // Moon Parameters:
+        // Interactivity Parameters:
+        // Display Parameters:
+        // Top Down View:
+        // Initial Condition:
 
 
         sim.MoonIsSquashed = moonIsSquashed;
-        sim.radiusScale = radiusScale;
         sim.MoonPeriodFactor = moonPeriodFactor;
         sim.MoonSpinSpeed = moonSpinSpeed;
 
@@ -176,8 +182,5 @@ public class OneBodySlideController : SimulationSlideController
         moonSpinSpeed=value;
         if (sim)
             sim.MoonSpinSpeed=value;
-        if (spinSpeedBar) {
-            spinSpeedBar.SetPosition(value);
-        }
     }
 }

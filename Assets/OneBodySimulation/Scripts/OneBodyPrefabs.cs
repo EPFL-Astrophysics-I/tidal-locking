@@ -157,10 +157,9 @@ public class OneBodyPrefabs : MonoBehaviour
             float substep = 360 * Mathf.Deg2Rad / (numberOfMoonTidalVectors-1);
 
             for (int i = 0; i < listVectorSize; i++) {
-
-                float spinAngle = moon.transform.eulerAngles.y * Mathf.Deg2Rad;
                 float moonRadiusX = moon.transform.localScale.x/2;
                 float moonRadiusZ = moon.transform.localScale.z/2;
+
                 if (listMoonTidalVectors[i].headInPlanXY) {
                     moonRadiusZ = moon.transform.localScale.y/2;;
                 }
@@ -172,15 +171,14 @@ public class OneBodyPrefabs : MonoBehaviour
                 float sin = Mathf.Sin(angleStep);
                 moonRadiusXZ /= (Mathf.Sqrt(moonRadiusX*moonRadiusX*sin*sin + moonRadiusZ*moonRadiusZ*cos*cos));
 
-                Vector3 position = getTidalPosition(!listMoonTidalVectors[i].headInPlanXY, moon.Position, -(spinAngle+angleStep), -moonRadiusXZ);
+                Vector3 position = getTidalPosition(!listMoonTidalVectors[i].headInPlanXY, moon.Position, angleStep, moonRadiusXZ, moon.transform.localEulerAngles);
                 listMoonTidalVectors[i].transform.position = position;
                 
                 Vector3 vectorR = position - earth.Position;
                 float r_dm = vectorR.sqrMagnitude;
                 float dm = moon.Mass*1f;
                 Vector3 gravForce = (- newtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
-                //gravForce = gravForce*Units.getUnitLength(unitLength);
-                //listVectorMoonPoint[i].SetComponents(gravForce);
+
                 listMoonTidalVectors[i].SetComponents((gravForce-gravForceAtCM)*tidalVecScale);
             }
         }
@@ -235,14 +233,14 @@ public class OneBodyPrefabs : MonoBehaviour
         }
     }
 
-    private Vector3 getTidalPosition(bool planXZ, Vector3 bodyPositionInWorld, float spinAngle, float radiusBody) 
+    private Vector3 getTidalPosition(bool planXZ, Vector3 bodyPositionInWorld, float tidalPosAngle, float radiusBody, Vector3 moonEulerSpin) 
     {
         Vector3 pointPositionFromBody;
         if (planXZ) {
-            pointPositionFromBody = new Vector3(radiusBody * Mathf.Cos(spinAngle), 0, radiusBody * Mathf.Sin(spinAngle));
+            pointPositionFromBody = new Vector3(radiusBody * Mathf.Cos(tidalPosAngle), 0, radiusBody * Mathf.Sin(tidalPosAngle));
         } else {
-            pointPositionFromBody = new Vector3(radiusBody * Mathf.Cos(spinAngle), radiusBody * Mathf.Sin(spinAngle), 0);
+            pointPositionFromBody = new Vector3(radiusBody * Mathf.Cos(tidalPosAngle), radiusBody * Mathf.Sin(tidalPosAngle), 0);
         }
-        return bodyPositionInWorld + pointPositionFromBody;
+        return bodyPositionInWorld + (Quaternion.Euler(moonEulerSpin) * pointPositionFromBody);
     }
 }

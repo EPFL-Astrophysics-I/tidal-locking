@@ -8,9 +8,7 @@ public class OneBodySlideController : SimulationSlideController
 {
     [Header("Main Simulation Parameters")]
     [SerializeField] private bool simIsStationary;
-    [SerializeField] private bool simInDiscreteSteps;
-    [SerializeField] private bool oscillationMoonRotation;
-    [SerializeField] private bool MoonSquashingAnimation;
+    [SerializeField] private OneBodySimulation.OneBodySimType simulationType;
     [SerializeField] private float radiusScale;
 
     [Header("Earth Parameters")]
@@ -58,8 +56,17 @@ public class OneBodySlideController : SimulationSlideController
     public override void InitializeSlide()
     {
         sim = simulation as OneBodySimulation;
-        sim.MoonIsSquashed = moonIsSquashed;
+
+        // Main Simulation Parameters:
         sim.simIsStationary = simIsStationary;
+        sim.simulationType = simulationType;
+        if (simulationType == OneBodySimulation.OneBodySimType.MoonSquashing)
+        {
+            sim.squashingAnimation = true;
+        }
+
+
+        sim.MoonIsSquashed = moonIsSquashed;
         sim.radiusScale = radiusScale;
         sim.MoonPeriodFactor = moonPeriodFactor;
         sim.MoonSpinSpeed = moonSpinSpeed;
@@ -98,13 +105,6 @@ public class OneBodySlideController : SimulationSlideController
         sim.topDownView = TopDownView;
         sim.spinSpeedBar = spinSpeedBar;
         sim.sliderSync = sliderSync;
-
-        sim.IsAnimationThreeSteps = simInDiscreteSteps;
-        sim.oscillationMoonRotation = oscillationMoonRotation;
-        sim.squashingAnimation = MoonSquashingAnimation;
-        //if (AnimationInThreeSteps) {
-        //    sim.ResetSimulation();
-        //}
 
         sim.DragEdgesRange = dragMoonEdgesRanges;
 

@@ -528,11 +528,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paused: 0
+  simulationType: 0
   numSubsteps: 100
   resetAfterOnePeriod: 1
   timeScale: 1
-  IsAnimationThreeSteps: 0
-  oscillationMoonRotation: 0
   earthIsRotating: 0
   moonIsRotating: 1
   topDownView: {fileID: 0}
@@ -2545,9 +2544,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 625014118}
   simIsStationary: 0
-  simInDiscreteSteps: 0
-  oscillationMoonRotation: 0
-  MoonSquashingAnimation: 0
+  simulationType: 0
   radiusScale: 15
   displayEarthOrbit: 0
   moonPeriodFactor: 1
@@ -3334,9 +3331,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 88322796}
   simIsStationary: 1
-  simInDiscreteSteps: 0
-  oscillationMoonRotation: 0
-  MoonSquashingAnimation: 0
+  simulationType: 0
   radiusScale: 30
   displayEarthOrbit: 1
   moonPeriodFactor: 1
@@ -3468,11 +3463,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paused: 0
+  simulationType: 0
   numSubsteps: 100
   resetAfterOnePeriod: 1
   timeScale: 1
-  IsAnimationThreeSteps: 0
-  oscillationMoonRotation: 0
   earthIsRotating: 1
   moonIsRotating: 1
   topDownView: {fileID: 0}
@@ -4619,9 +4613,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 625014118}
   simIsStationary: 0
-  simInDiscreteSteps: 0
-  oscillationMoonRotation: 0
-  MoonSquashingAnimation: 0
+  simulationType: 0
   radiusScale: 15
   displayEarthOrbit: 0
   moonPeriodFactor: 0.1
@@ -5436,11 +5428,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paused: 0
+  simulationType: 0
   numSubsteps: 100
   resetAfterOnePeriod: 1
   timeScale: 1
-  IsAnimationThreeSteps: 0
-  oscillationMoonRotation: 0
   earthIsRotating: 1
   moonIsRotating: 1
   topDownView: {fileID: 0}
@@ -6930,9 +6921,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 1012715055}
   simIsStationary: 1
-  simInDiscreteSteps: 0
-  oscillationMoonRotation: 0
-  MoonSquashingAnimation: 0
+  simulationType: 0
   radiusScale: 22
   displayEarthOrbit: 0
   moonPeriodFactor: 1
@@ -10572,9 +10561,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 1012715055}
   simIsStationary: 1
-  simInDiscreteSteps: 1
-  oscillationMoonRotation: 0
-  MoonSquashingAnimation: 0
+  simulationType: 1
   radiusScale: 22
   displayEarthOrbit: 0
   moonPeriodFactor: 1
@@ -10825,9 +10812,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 1012715055}
   simIsStationary: 1
-  simInDiscreteSteps: 0
-  oscillationMoonRotation: 1
-  MoonSquashingAnimation: 0
+  simulationType: 2
   radiusScale: 22
   displayEarthOrbit: 0
   moonPeriodFactor: 1
@@ -11631,9 +11616,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 625014118}
   simIsStationary: 1
-  simInDiscreteSteps: 0
-  oscillationMoonRotation: 0
-  MoonSquashingAnimation: 1
+  simulationType: 3
   radiusScale: 22
   displayEarthOrbit: 0
   moonPeriodFactor: 1
@@ -11955,9 +11938,7 @@ MonoBehaviour:
   autoPlay: 1
   simulation: {fileID: 625014118}
   simIsStationary: 0
-  simInDiscreteSteps: 0
-  oscillationMoonRotation: 0
-  MoonSquashingAnimation: 0
+  simulationType: 0
   radiusScale: 15
   displayEarthOrbit: 0
   moonPeriodFactor: 1

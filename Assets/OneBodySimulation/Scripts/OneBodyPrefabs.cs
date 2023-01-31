@@ -145,7 +145,7 @@ public class OneBodyPrefabs : MonoBehaviour
         }
     }
 
-    public void setGravitationalVectors(float newtonG, float moonDistance, float gravVecScale, float tidalVecScale)
+    public void setGravitationalVectors(float newtonG, float moonDistance, float tidalVecScale)
     {
 
         int listVectorSize = numberOfMoonTidalVectors;

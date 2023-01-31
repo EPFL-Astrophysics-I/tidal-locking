@@ -18,23 +18,20 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private float moonPeriodFactor;
     [SerializeField] private bool moonIsSquashed;
     [SerializeField] private float moonSpinSpeed=0; // Default Speed is 0
-
-    [Header("Interactivity Parameters")]
-    [SerializeField] private string dragBody;
-    [SerializeField] private bool dragRotatesMoon;
-    [SerializeField] private bool dragMoonEdgesIsAllowed;
-    [SerializeField] private float dragMoonEdgesRanges;
-
-    [Header("Display Parameters")]
-    [SerializeField] private bool displayVectorsFromMoonPoints;
-    [SerializeField] private float tidalVectorSize;
-    [SerializeField] private float vectorTidalLineWidth; // if 0 then vectorGravLineWidth is not used and value is taken from prefab
     [SerializeField] private bool displayMoonOrbit;
     [SerializeField] private bool displayMoonBulgeLine;
     [SerializeField] private bool displayMoonRefSystem;
-    [SerializeField] private bool displayMoonMouseVector;
+    [SerializeField] private bool displayTidalVector;
+    [SerializeField] private float tidalVectorSize;
+    [SerializeField] private float tidalVectorLineWidth; // if 0 then vectorGravLineWidth is not used and value is taken from prefab
 
-    [Header("   Top Down View")]
+    [Header("Interactivity Parameters")]
+
+    [SerializeField] private OneBodySimulation.DragBodyName draggableBody;
+    [SerializeField] private bool draggableMoonEdges;
+    [SerializeField] private float draggableEdgesAngleRange;
+
+    [Header("Display Parameters")]
     [SerializeField] private TopDownView TopDownView;
     [SerializeField] private SliderSync sliderSync;
     [SerializeField] private Button resetSliderButton;
@@ -66,53 +63,34 @@ public class OneBodySlideController : SimulationSlideController
         sim.radiusScale = radiusScale;
 
         // Earth Parameters:
+        sim.ActivationEarthOrbit = displayEarthOrbit;
+
         // Moon Parameters:
-        // Interactivity Parameters:
-        // Display Parameters:
-        // Top Down View:
-        // Initial Condition:
-
-
         sim.MoonIsSquashed = moonIsSquashed;
         sim.MoonPeriodFactor = moonPeriodFactor;
         sim.MoonSpinSpeed = moonSpinSpeed;
 
-        if (dragBody=="moon") {
-            sim.dragMoonIsAllowed = true;
-            sim.dragEarthIsAllowed = false;
-        } 
-        else if (dragBody=="earth") {
-            sim.dragMoonIsAllowed = false;
-            sim.dragEarthIsAllowed = true;
-        }
-        else {
-            sim.dragMoonIsAllowed = false;
-            sim.dragEarthIsAllowed = false;
-        }
-
-
-        sim.dragRotatesMoon = dragRotatesMoon;
-        sim.dragMoonEdgesIsAllowed = dragMoonEdgesIsAllowed;
-
-        sim.VectorTidalScale = tidalVectorSize;
-        sim.VectorTidalLineWidth = vectorTidalLineWidth;
-
-        sim.ActivationPointsOnMoon = displayVectorsFromMoonPoints;
         sim.ActivationMoonOrbit = displayMoonOrbit;
-        sim.ActivationEarthOrbit = displayEarthOrbit;
         sim.ActivationMoonBulgeLine = displayMoonBulgeLine;
         sim.ActivationMoonRefSystem = displayMoonRefSystem;
 
-        // CI:
+        sim.ActivationPointsOnMoon = displayTidalVector;
+        sim.VectorTidalScale = tidalVectorSize;
+        sim.VectorTidalLineWidth = tidalVectorLineWidth;
+
+        // Interactivity Parameters:
+        sim.dragBodyName = draggableBody;
+        sim.dragMoonEdgesIsAllowed = draggableMoonEdges;
+        sim.draggableEdgesAngleRange = draggableEdgesAngleRange;
+
+        // Display Parameters:
+        sim.topDownView = TopDownView;
+        sim.sliderSync = sliderSync;
+
+        // Initial Condition:
         sim.angleMoonOrbitInit = angleMoonOrbitInit;
         sim.angleMoonSpinInit = angleMoonSpinInit;
         sim.UseMoonCI = useMoonCI;
-
-        sim.topDownView = TopDownView;
-        sim.spinSpeedBar = spinSpeedBar;
-        sim.sliderSync = sliderSync;
-
-        sim.DragEdgesRange = dragMoonEdgesRanges;
 
         fadeOutUIList.ForEach(ui => {
             //ui.TriggerReset(0);
@@ -168,7 +146,7 @@ public class OneBodySlideController : SimulationSlideController
 
     public void SetActivationMoonTidalVectors(bool newBool) {
         // Keep state of the interaction
-        displayVectorsFromMoonPoints = newBool;
+        displayTidalVector = newBool;
         sim.ActivationPointsOnMoon = newBool;
     }
 

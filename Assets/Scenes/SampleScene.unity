@@ -528,24 +528,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paused: 0
-  dragBodyName: 2
+  simIsStationary: 0
   simulationType: 0
+  squashingAnimation: 0
   numSubsteps: 100
   resetAfterOnePeriod: 1
   timeScale: 1
-  earthIsRotating: 0
-  moonIsRotating: 1
-  topDownView: {fileID: 0}
-  spinSpeedBar: {fileID: 0}
-  sliderSync: {fileID: 0}
-  simIsStationary: 0
-  squashingAnimation: 0
   radiusScale: 10
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 0
-  dragMoonIsAllowed: 0
-  dragEarthIsAllowed: 0
+  earthIsRotating: 0
+  moonIsRotating: 1
+  dragBodyName: 2
   dragMoonEdgesIsAllowed: 0
+  draggableEdgesAngleRange: 0
+  topDownView: {fileID: 0}
+  sliderSync: {fileID: 0}
 --- !u!114 &88322797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2550,16 +2548,15 @@ MonoBehaviour:
   moonPeriodFactor: 1
   moonIsSquashed: 0
   moonSpinSpeed: 0
-  draggableBody: 0
-  draggableMoonEdges: 0
-  draggableEdgesAngleRange: 0
-  displayVectorsFromMoonPoints: 0
-  tidalVectorSize: 500
-  vectorTidalLineWidth: 0
   displayMoonOrbit: 0
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 0
-  displayMoonMouseVector: 0
+  displayTidalVector: 0
+  tidalVectorSize: 500
+  tidalVectorLineWidth: 0
+  draggableBody: 0
+  draggableMoonEdges: 0
+  draggableEdgesAngleRange: 0
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 0}
   resetSliderButton: {fileID: 0}
@@ -3335,16 +3332,15 @@ MonoBehaviour:
   moonPeriodFactor: 1
   moonIsSquashed: 1
   moonSpinSpeed: 0
-  draggableBody: 1
-  draggableMoonEdges: 0
-  draggableEdgesAngleRange: 0
-  displayVectorsFromMoonPoints: 0
-  tidalVectorSize: 500
-  vectorTidalLineWidth: 0.02
   displayMoonOrbit: 0
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 0
-  displayMoonMouseVector: 0
+  displayTidalVector: 0
+  tidalVectorSize: 500
+  tidalVectorLineWidth: 0
+  draggableBody: 1
+  draggableMoonEdges: 0
+  draggableEdgesAngleRange: 0
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 0}
   resetSliderButton: {fileID: 0}
@@ -3459,24 +3455,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paused: 0
-  dragBodyName: 2
+  simIsStationary: 0
   simulationType: 0
+  squashingAnimation: 0
   numSubsteps: 100
   resetAfterOnePeriod: 1
   timeScale: 1
-  earthIsRotating: 1
-  moonIsRotating: 1
-  topDownView: {fileID: 0}
-  spinSpeedBar: {fileID: 0}
-  sliderSync: {fileID: 0}
-  simIsStationary: 0
-  squashingAnimation: 0
   radiusScale: 10
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 0
-  dragMoonIsAllowed: 0
-  dragEarthIsAllowed: 0
+  earthIsRotating: 1
+  moonIsRotating: 1
+  dragBodyName: 2
   dragMoonEdgesIsAllowed: 0
+  draggableEdgesAngleRange: 0
+  topDownView: {fileID: 0}
+  sliderSync: {fileID: 0}
 --- !u!114 &625014119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4615,16 +4609,15 @@ MonoBehaviour:
   moonPeriodFactor: 0.1
   moonIsSquashed: 0
   moonSpinSpeed: 0
-  draggableBody: 0
-  draggableMoonEdges: 0
-  draggableEdgesAngleRange: 0
-  displayVectorsFromMoonPoints: 0
-  tidalVectorSize: 500
-  vectorTidalLineWidth: 0
   displayMoonOrbit: 0
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 1
-  displayMoonMouseVector: 0
+  displayTidalVector: 0
+  tidalVectorSize: 500
+  tidalVectorLineWidth: 0
+  draggableBody: 0
+  draggableMoonEdges: 0
+  draggableEdgesAngleRange: 0
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 0}
   resetSliderButton: {fileID: 0}
@@ -5422,24 +5415,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paused: 0
-  dragBodyName: 2
+  simIsStationary: 1
   simulationType: 0
+  squashingAnimation: 0
   numSubsteps: 100
   resetAfterOnePeriod: 1
   timeScale: 1
-  earthIsRotating: 1
-  moonIsRotating: 1
-  topDownView: {fileID: 0}
-  spinSpeedBar: {fileID: 0}
-  sliderSync: {fileID: 0}
-  simIsStationary: 1
-  squashingAnimation: 0
   radiusScale: 10
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 0
-  dragMoonIsAllowed: 0
-  dragEarthIsAllowed: 0
+  earthIsRotating: 1
+  moonIsRotating: 1
+  dragBodyName: 2
   dragMoonEdgesIsAllowed: 0
+  draggableEdgesAngleRange: 0
+  topDownView: {fileID: 0}
+  sliderSync: {fileID: 0}
 --- !u!114 &1012715056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6921,16 +6912,15 @@ MonoBehaviour:
   moonPeriodFactor: 1
   moonIsSquashed: 1
   moonSpinSpeed: 0
-  draggableBody: 0
-  draggableMoonEdges: 0
-  draggableEdgesAngleRange: 0
-  displayVectorsFromMoonPoints: 0
-  tidalVectorSize: 500
-  vectorTidalLineWidth: 0
   displayMoonOrbit: 1
   displayMoonBulgeLine: 1
   displayMoonRefSystem: 1
-  displayMoonMouseVector: 0
+  displayTidalVector: 0
+  tidalVectorSize: 500
+  tidalVectorLineWidth: 0
+  draggableBody: 0
+  draggableMoonEdges: 0
+  draggableEdgesAngleRange: 0
   TopDownView: {fileID: 1588643020}
   sliderSync: {fileID: 1274580835}
   resetSliderButton: {fileID: 1455192318}
@@ -10559,16 +10549,15 @@ MonoBehaviour:
   moonPeriodFactor: 1
   moonIsSquashed: 1
   moonSpinSpeed: 0
-  draggableBody: 0
-  draggableMoonEdges: 0
-  draggableEdgesAngleRange: 0
-  displayVectorsFromMoonPoints: 0
-  tidalVectorSize: 500
-  vectorTidalLineWidth: 0
   displayMoonOrbit: 1
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 0
-  displayMoonMouseVector: 0
+  displayTidalVector: 0
+  tidalVectorSize: 500
+  tidalVectorLineWidth: 0
+  draggableBody: 0
+  draggableMoonEdges: 0
+  draggableEdgesAngleRange: 0
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 7946162021528586359}
   resetSliderButton: {fileID: 564244811}
@@ -10808,16 +10797,15 @@ MonoBehaviour:
   moonPeriodFactor: 1
   moonIsSquashed: 1
   moonSpinSpeed: 0
-  draggableBody: 0
-  draggableMoonEdges: 1
-  draggableEdgesAngleRange: 90
-  displayVectorsFromMoonPoints: 1
-  tidalVectorSize: 500
-  vectorTidalLineWidth: 0
   displayMoonOrbit: 0
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 0
-  displayMoonMouseVector: 0
+  displayTidalVector: 1
+  tidalVectorSize: 500
+  tidalVectorLineWidth: 0
+  draggableBody: 0
+  draggableMoonEdges: 1
+  draggableEdgesAngleRange: 90
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 0}
   resetSliderButton: {fileID: 0}
@@ -11610,16 +11598,15 @@ MonoBehaviour:
   moonPeriodFactor: 1
   moonIsSquashed: 0
   moonSpinSpeed: 0
-  draggableBody: 0
-  draggableMoonEdges: 0
-  draggableEdgesAngleRange: 0
-  displayVectorsFromMoonPoints: 0
-  tidalVectorSize: 500
-  vectorTidalLineWidth: 0.02
   displayMoonOrbit: 0
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 0
-  displayMoonMouseVector: 0
+  displayTidalVector: 0
+  tidalVectorSize: 500
+  tidalVectorLineWidth: 0
+  draggableBody: 0
+  draggableMoonEdges: 0
+  draggableEdgesAngleRange: 0
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 0}
   resetSliderButton: {fileID: 0}
@@ -11930,16 +11917,15 @@ MonoBehaviour:
   moonPeriodFactor: 1
   moonIsSquashed: 0
   moonSpinSpeed: 0
-  draggableBody: 0
-  draggableMoonEdges: 0
-  draggableEdgesAngleRange: 0
-  displayVectorsFromMoonPoints: 0
-  tidalVectorSize: 400
-  vectorTidalLineWidth: 0
   displayMoonOrbit: 0
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 1
-  displayMoonMouseVector: 0
+  displayTidalVector: 0
+  tidalVectorSize: 400
+  tidalVectorLineWidth: 0
+  draggableBody: 0
+  draggableMoonEdges: 0
+  draggableEdgesAngleRange: 0
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 0}
   resetSliderButton: {fileID: 0}

@@ -26,7 +26,6 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private float tidalVectorLineWidth; // if 0 then vectorGravLineWidth is not used and value is taken from prefab
 
     [Header("Interactivity Parameters")]
-
     [SerializeField] private OneBodySimulation.DragBodyName draggableBody;
     [SerializeField] private bool draggableMoonEdges;
     [SerializeField] private float draggableEdgesAngleRange;
@@ -42,7 +41,6 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private float angleMoonSpinInit;
 
     [Header("FadeIn/Out UI")]
-
     [SerializeField] private List<FadeOutUI> fadeOutUIList;
 
 
@@ -130,7 +128,11 @@ public class OneBodySlideController : SimulationSlideController
     }
 
     public float getMoonPeriod() {
-        return sim.getMoonPeriod();
+        if (sim) {
+            return sim.getMoonPeriod();
+        } else {
+            return 27.5f;
+        }
     }
 
     public void SetMoonSquashed(bool newBool) {

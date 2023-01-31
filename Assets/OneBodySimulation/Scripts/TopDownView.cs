@@ -22,4 +22,11 @@ public class TopDownView : MonoBehaviour
 
         listVectors[index].transform.rotation = Quaternion.AngleAxis(angle+InitialAngle, AxisOfRotation);
     }
+
+    public void ResetRotation()
+    {
+        listVectors.ForEach((vec) => {
+            vec.transform.rotation = Quaternion.Euler(InitialAngle*AxisOfRotation);
+        });
+    }
 }

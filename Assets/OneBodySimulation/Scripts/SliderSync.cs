@@ -27,8 +27,13 @@ public class SliderSync : MonoBehaviour
     [SerializeField] List<Color> defaultColors;
 
     public void Start() {
-        if (slider)
+        if (slider) {
             slider.onValueChanged.AddListener(delegate {SliderValueChange();});
+        }
+        if (TMPgui) {
+            float valueLabel = slideController.getMoonPeriod();
+            TMPgui.text = valueLabel.ToString("F1");
+        }
     }
 
     public void SliderValueChange() {
@@ -62,9 +67,6 @@ public class SliderSync : MonoBehaviour
     }
 
     public void updateValue(float valueLabel, float simValue) {
-        if (TMPgui) {
-            //TMPgui.text = (valueLabel).ToString("F1");
-        }
         if (slider) {
             //float newValue=sim2slider(simValue);
             float newValue=simValue;
@@ -75,7 +77,6 @@ public class SliderSync : MonoBehaviour
                 syncLabel.color=syncColor;
             }
         }
-        //Debug.Log("handle: " + handle.transform.position);
     }
 
     public void resetSlider() {

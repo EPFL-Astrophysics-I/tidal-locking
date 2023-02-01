@@ -25,7 +25,23 @@ public class TidalLockingSimulation : Simulation
     private UnitLength unitLength = UnitLength.EarthMoonDistanceFactor;
     private UnitMass unitMass = UnitMass.EarthMass;
     public float timeScale = 1;
-    public float bodyRadiusScale = 10;
+    private float bodyRadiusScale = 10;
+    public float BodyRadiusScale {
+        get {
+            return bodyRadiusScale;
+        }
+        set {
+            if (bodyRadiusScale!=value) {
+                bodyRadiusScale = value;
+                if (earth) {
+                    earth.SetRadius(bodyRadiusScale * EarthRadius(unitLength));
+                }
+                if (moon) {
+                    moon.SetRadius(bodyRadiusScale * LunarRadius(unitLength));
+                }
+            }
+        }
+    }
 
     // Timer for resetting the simulation after one orbital period
     private float resetTimer;
@@ -348,6 +364,8 @@ public class TidalLockingSimulation : Simulation
         oscillationX = 0f;
 
         oscillationXInvert = 0f;
+
+        SetBodyMouseCursor();
     }
 
     /* ************************************************************* */
@@ -950,6 +968,37 @@ public class TidalLockingSimulation : Simulation
         {
             draggingMoonCenter = false;
             draggingEdgeMoon = false;
+        }
+    }
+
+    // ********************************************************* 
+    public void SetBodyMouseCursor()
+    {
+        switch (dragBodyName)
+        {
+            case DragBodyName.None: {
+                if (earth) {earth.SetPointerHandlerBoolean(false);}
+                if (moon) 
+                {
+                    if (dragMoonEdgesIsAllowed) {moon.SetPointerHandlerBoolean(true);}
+                    else {moon.SetPointerHandlerBoolean(false);}
+                }
+                return;
+            }
+            case DragBodyName.Earth: {
+                if (earth) {earth.SetPointerHandlerBoolean(true);}
+                if (moon) {moon.SetPointerHandlerBoolean(false);}
+                return;
+            }
+            case DragBodyName.Moon: {
+                if (earth) {earth.SetPointerHandlerBoolean(false);}
+                if (moon) {moon.SetPointerHandlerBoolean(true);}
+                return;
+            }
+            default:
+                if (earth) {earth.SetPointerHandlerBoolean(false);}
+                if (moon) {moon.SetPointerHandlerBoolean(false);}
+                break;
         }
     }
 }

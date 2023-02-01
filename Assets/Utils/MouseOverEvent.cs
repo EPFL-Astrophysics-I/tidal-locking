@@ -7,9 +7,23 @@ public class MouseOverEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
     [SerializeField] Texture2D cursor;
     private Vector2 cursorOffset = new Vector2(14, 6);
+
+    // enablePointerHandler is set to true as default:
+    private bool enablePointerHandler = true;
+    public bool EnablePointerHandler {
+        get {
+            return enablePointerHandler;
+        }
+        set {
+            enablePointerHandler = value;
+        }
+    }
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        Cursor.SetCursor(cursor, cursorOffset, CursorMode.Auto);
+        if (enablePointerHandler)
+        {
+            Cursor.SetCursor(cursor, cursorOffset, CursorMode.Auto);
+        }
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)

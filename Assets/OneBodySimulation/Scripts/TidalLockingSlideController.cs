@@ -9,7 +9,7 @@ public class TidalLockingSlideController : SimulationSlideController
     [Header("Main Simulation Parameters")]
     [SerializeField] private bool simIsStationary;
     [SerializeField] private TidalLockingSimulation.SimulationType simulationType;
-    [SerializeField] private float radiusScale;
+    [SerializeField] private float bodyRadiusScale;
 
     [Header("Earth Parameters")]
     [SerializeField] private bool displayEarthOrbit;
@@ -60,7 +60,7 @@ public class TidalLockingSlideController : SimulationSlideController
         {
             sim.squashingAnimation = true;
         }
-        //sim.bodyRadiusScale = radiusScale;
+        sim.BodyRadiusScale = bodyRadiusScale;
 
         // Earth Parameters:
         sim.ActivationEarthOrbit = displayEarthOrbit;
@@ -82,6 +82,8 @@ public class TidalLockingSlideController : SimulationSlideController
         sim.dragBodyName = draggableBody;
         sim.dragMoonEdgesIsAllowed = draggableMoonEdges;
         sim.draggableEdgesAngleRange = draggableEdgesAngleRange;
+        // Allow or not the ability to change the cursor depending on the interactivity parameters:
+        sim.SetBodyMouseCursor();
 
         // Display Parameters:
         sim.ActivationMoonEarthLine = displayMoonEarthLine;

@@ -27,7 +27,12 @@ public class CelestialBody : MonoBehaviour
                 // Then if the squashed boolean changes between two slides,
                 // we have a coroutine, but if we click to next slide before the coroutine changes, we will not have the right scale.
                 // this condition ensure it is the case.
-                OnSquashed();
+                //OnSquashed();
+                if (isSquashed) {
+                    transform.localScale = squashedScale;
+                } else {
+                    transform.localScale = normalScale;
+                }
             }
         }
     }
@@ -45,8 +50,16 @@ public class CelestialBody : MonoBehaviour
     [HideInInspector]public float RotationPeriod { get; set; } = 1f;
 
     private Renderer spriteRenderer;
+
+    /* -- !! --
+        MouseOverEvent script needs to be above CelestialBody script !
+        Otherwise TryGetComponent<MouseOverEvent>(out mouseOverEvent); can not recover the script,
+        And the cursor functionality will not work.
+    */
+    private MouseOverEvent mouseOverEvent;
     void Start() {
         TryGetComponent<Renderer>(out spriteRenderer);
+        TryGetComponent<MouseOverEvent>(out mouseOverEvent);
     }
 
     public void SetRadius(float radius)
@@ -89,20 +102,12 @@ public class CelestialBody : MonoBehaviour
     public void SetRotationSprite(Vector3 rotation)
     {
         if (spriteRenderer) {
-            //Vector2 previousOffset = spriteRenderer.material.GetVector("Vector2_Offset_Sprite");
-            //float offset_x = rotation.y*Mathf.Deg2Rad*transform.localScale.x/2;
-            // Sin = opp/hyp    => we want opp: opp=Sin*hyp
-            //offset_x = -Mathf.Cos(deltaRotation.y*Mathf.Deg2Rad);
             float radians = Mathf.Deg2Rad * (rotation.y);
             Vector2 vec_offset =  new Vector2(
                     radians/(Mathf.PI*2),
                     0
                 );
-
-            //Debug.Log(rotation.y);
-            //spriteRenderer.material.SetVector("Vector2_Offset_Sprite", previousOffset + new Vector2(0.01f, 0));
             spriteRenderer.material.SetVector("Vector2_Offset_Sprite", vec_offset);
-            //Debug.Log(spriteRenderer.material.GetVector("Vector2_Offset_Sprite"));
         }
     }
 
@@ -110,7 +115,6 @@ public class CelestialBody : MonoBehaviour
     {
         if (spriteRenderer) {
             Vector2 previousOffset = spriteRenderer.material.GetVector("Vector2_Offset_Sprite");
-            //float radians = Mathf.Deg2Rad * ((rotation.y+180)%360);
             float radians = Mathf.Deg2Rad * (rotation.y%360);
             Vector2 vec_offset =  new Vector2(
                     radians/(Mathf.PI*2),
@@ -136,7 +140,6 @@ public class CelestialBody : MonoBehaviour
     }
 
     private void OnSquashed() {
-        // ERROR IF TOO FAST ?
         if (isSquashed) {
             StartCoroutine(LerpScale(transform, squashedScale, squashTimer));
         } else {
@@ -156,5 +159,13 @@ public class CelestialBody : MonoBehaviour
         }
 
         body.localScale = targetScale;
+    }
+
+    public void SetPointerHandlerBoolean(bool enable)
+    {
+        if (mouseOverEvent)
+        {
+            mouseOverEvent.EnablePointerHandler = enable;
+        }
     }
 }

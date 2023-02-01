@@ -9,8 +9,6 @@ public class CelestialBody : MonoBehaviour
     private float radius = 1f;
     private Vector3 squashedScale;
     private Vector3 normalScale;
-
-    // Use methods instead of property ? Whats is the convention ?
     private Vector3 squashFactor = new Vector3(1.6f, 1f, 1f);
     private bool isSquashed = false;
     public bool IsSquashed

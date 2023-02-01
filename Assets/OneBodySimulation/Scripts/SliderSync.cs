@@ -92,9 +92,6 @@ public class SliderSync : MonoBehaviour
         }
         else {
             return Mathf.Pow(value, 4.32193f)-1;
-            //return Mathf.Pow(value, 6.81f)-1;
-            //return 1/(Mathf.Pow(2, value)-1);
-            //return (-1/(Mathf.Pow(2, value-2)-1)) -2;
         }
     }
 
@@ -104,9 +101,6 @@ public class SliderSync : MonoBehaviour
         }
         else {
             return Mathf.Pow(value+1, 1/4.32193f);
-            //return Mathf.Pow(value+1, 20/137f);
-            //return Mathf.Log((1/value)+1 , 2);
-            //return (Mathf.Log10((1+value)/(value+2))/Mathf.Log10(2)) +2;
         }
     }
 }

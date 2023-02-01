@@ -265,8 +265,6 @@ public class TidalLockingSimulation : Simulation
     }
 
     /* ************************************************************* */
-
-    /* ************************************************************* */
     // Drag/Interactivity Parameters
     public enum DragBodyName {None, Earth, Moon};
     [HideInInspector] public DragBodyName dragBodyName = DragBodyName.None; // Default: no draggable body;
@@ -660,10 +658,6 @@ public class TidalLockingSimulation : Simulation
             moonDistance = (initMoonPosition - earth.Position).magnitude;
 
             Vector3 targetRotation = new Vector3(0, angleMoonSpinInit, 0);
-            if (angleMoonSpinInit==404)
-            {
-                targetRotation = new Vector3(0, 180, 0);
-            }
 
             moon.Position = initMoonPosition;
             moon.SetRotation(targetRotation);
@@ -708,7 +702,7 @@ public class TidalLockingSimulation : Simulation
         StartCoroutine(LerpMoonPositionAlongOrbit(currentAngle, angleMoonOrbitInit*Mathf.Deg2Rad, timerLerpToCI));
         StartCoroutine(LerpMoonRotation(moon.transform.rotation.eulerAngles, targetRotation, timerLerpToCI-0.1f));
         moon.SetRotationSprite(Vector3.zero);
-        //float UV2Angle = moon.getUVoffset()*360;
+
         oscillationV = 0f;
         oscillationX = 0f;
 
@@ -788,11 +782,8 @@ public class TidalLockingSimulation : Simulation
             }
         }
 
-        //float step = start;
         while (time < lerpTime) {
             time += Time.fixedDeltaTime;
-            //step += substep;
-            //moon.SetRotation(new Vector3(0, step, 0));
             moon.IncrementRotation(new Vector3(0, substep, 0));
             moon.IncrementRotationSprite(new Vector3(0, -substep, 0));
 

@@ -48,7 +48,6 @@ public class TidalLockingSlideController : SimulationSlideController
 
     private TidalLockingSimulation sim;
 
-    // Start is called before the first frame update
     public override void InitializeSlide()
     {
         sim = simulation as TidalLockingSimulation;

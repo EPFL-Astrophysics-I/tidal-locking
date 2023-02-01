@@ -74,7 +74,7 @@ public class TidalLockingSlideController : SimulationSlideController
         sim.ActivationMoonBulgeLine = displayMoonBulgeLine;
         sim.ActivationMoonRefSystem = displayMoonRefSystem;
 
-        sim.ActivationPointsOnMoon = displayTidalVector;
+        sim.ActivationTidalVectors = displayTidalVector;
         sim.VectorTidalScale = tidalVectorSize;
         sim.VectorTidalLineWidth = tidalVectorLineWidth;
 
@@ -117,15 +117,8 @@ public class TidalLockingSlideController : SimulationSlideController
         // So when transitioning slide2 to slide 1 and after slide1 to slide2, we keep
         // the moon period according the button configuration and not the initialization by the Slide Controller.
 
-
         // if MoonPeriodFactor = 0.5 => Moon rotates twice faster
         // if MoonPeriodFactor = 2 => Moon rotates twice slower
-
-        //float value = 1/(Mathf.Log10(newfactor)*(1/Mathf.Log10(2)));
-
-        //float value = 1/newfactor;
-
-        //float value = 1/(Mathf.Pow(2, newfactor)-1);
 
         sim.MoonPeriodFactor = newfactor;
         moonPeriodFactor = newfactor;
@@ -156,7 +149,7 @@ public class TidalLockingSlideController : SimulationSlideController
         // Keep state of the interaction
         displayTidalVector = newBool;
         if (sim) {
-            sim.ActivationPointsOnMoon = newBool;
+            sim.ActivationTidalVectors = newBool;
         }
     }
 

@@ -36,7 +36,7 @@ public class TidalLockingSimulation : Simulation
     public float Period => 2 * Mathf.PI * Mathf.Sqrt(Mathf.Pow(moonDistance, 3) / NewtonG / Units.EarthMass(unitMass));
 
     // Discrete Simulation Parameters:
-    private float timerAnimation;
+    private float timerDiscreteSim;
     private float timerOrbitMoon;
     private float timerIntervalSteps = 1;
     private bool angleOffsetIsCompute = false;
@@ -191,13 +191,13 @@ public class TidalLockingSimulation : Simulation
         }
     }
 
-    private bool activationPointsOnMoon = false;
-    public bool ActivationPointsOnMoon {
+    private bool activationTidalVectors = false;
+    public bool ActivationTidalVectors {
         get {
-            return activationPointsOnMoon;
+            return activationTidalVectors;
         }
         set {
-            activationPointsOnMoon = value;
+            activationTidalVectors = value;
             prefabs.SetMoonTidalVectorActivation(value);
             if (value) {
                 prefabs.setMoonTidalVectors(NewtonG, moonDistance, vectorTidalScale);
@@ -297,7 +297,7 @@ public class TidalLockingSimulation : Simulation
     private void Start()
     {
         resetTimer = 0;
-        timerAnimation = 0;
+        timerDiscreteSim = 0;
 
         earth = prefabs.earth;
         if (earth)
@@ -336,7 +336,7 @@ public class TidalLockingSimulation : Simulation
             earthOrbit.DrawOrbit(initMoonPosition, LunarDistance(unitLength), 100);
         }
 
-        prefabs.SetMoonTidalVectorActivation(activationPointsOnMoon);
+        prefabs.SetMoonTidalVectorActivation(ActivationTidalVectors);
         prefabs.setMoonTidalVectors(NewtonG, moonDistance, vectorTidalScale);
 
         prefabs.DrawLineEarthMoon();
@@ -470,7 +470,7 @@ public class TidalLockingSimulation : Simulation
             }
 
             resetTimer += timeScale * Time.fixedDeltaTime;
-            timerAnimation += timeScale * Time.fixedDeltaTime;
+            timerDiscreteSim += timeScale * Time.fixedDeltaTime;
         }
 
         // Solve the equation of motion
@@ -559,25 +559,28 @@ public class TidalLockingSimulation : Simulation
     // Discrete case: 3 steps animation : 
     private void UpdateSimDiscrete()
     {
-        if (timerAnimation <= timerIntervalSteps) {
-            timerAnimation += timeScale * Time.fixedDeltaTime;
+        // Interval timer: otherwise to fast for the user experience.
+        if (timerDiscreteSim <= timerIntervalSteps) {
+            timerDiscreteSim += timeScale * Time.fixedDeltaTime;
            return;
         }
-        // Three Steps Animation for slide 5:
-        if (timerAnimation <= timerIntervalSteps+timerOrbitMoon) {
-            // Update of timerAnimation is done in UpdateOneBodySimulation()
+
+        // Timer for letting the moon orbits around the earth.
+        if (timerDiscreteSim <= timerIntervalSteps+timerOrbitMoon) {
+            // Update of timerDiscreteSim is done in UpdateSimContinuous()
             UpdateSimContinuous();
             return;
         }
 
-        if (timerAnimation <= (timerIntervalSteps+timerOrbitMoon+(Time.fixedDeltaTime*2))) {
+        // Timer to align the moon's bugle toward the earth.
+        if (timerDiscreteSim <= (timerIntervalSteps+timerOrbitMoon+(Time.fixedDeltaTime*2))) {
             if (!angleOffsetIsCompute) {
                 StartCoroutine(LerpMoonRotationAlongBulge(timerLerpBulgeAxis));
                 StartCoroutine(FadeInOutTidalVectors(timerLerpBulgeAxis));
                 angleOffsetIsCompute = true;
             }
 
-            timerAnimation += timeScale * Time.fixedDeltaTime;
+            timerDiscreteSim += timeScale * Time.fixedDeltaTime;
             return;
         }
 
@@ -609,7 +612,7 @@ public class TidalLockingSimulation : Simulation
         }
 
         angleOffsetIsCompute = false;
-        timerAnimation = 0;
+        timerDiscreteSim = 0;
     }
 
     /* ************************************************************* */
@@ -624,7 +627,7 @@ public class TidalLockingSimulation : Simulation
         MoonSpinSpeed = 0;
 
         resetTimer = 0;
-        timerAnimation = 0;
+        timerDiscreteSim = 0;
         angleOffsetIsCompute = false;
 
         if (earth)
@@ -666,7 +669,7 @@ public class TidalLockingSimulation : Simulation
     public void ResetSquashingAnim() {
         StopAllCoroutines();
 
-        ActivationPointsOnMoon = false;
+        ActivationTidalVectors = false;
         MoonIsSquashed=false;
         squashingAnimation = true;
     }
@@ -797,25 +800,25 @@ public class TidalLockingSimulation : Simulation
             if (time>(blinkFreq*index)) {
                 toggle = !toggle;
                 index++;
-                ActivationPointsOnMoon = toggle;
+                ActivationTidalVectors = toggle;
             }
             yield return null;
         }
 
-        ActivationPointsOnMoon = true;
+        ActivationTidalVectors = true;
         MoonIsSquashed = true;
     }
 
     private IEnumerator FadeInOutTidalVectors(float fadeTime)
     {
-        ActivationPointsOnMoon = true;
+        ActivationTidalVectors = true;
         float time = 0;
         while (time < fadeTime)
         {
             time += Time.fixedDeltaTime;
             yield return null;
         }
-        ActivationPointsOnMoon = false;
+        ActivationTidalVectors = false;
     }
 
     /* ************************************************************* */

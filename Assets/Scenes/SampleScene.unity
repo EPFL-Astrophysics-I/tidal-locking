@@ -534,7 +534,7 @@ MonoBehaviour:
   numSubsteps: 100
   resetAfterOnePeriod: 1
   timeScale: 1
-  radiusScale: 10
+  bodyRadiusScale: 30
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 0
   earthIsRotating: 0
@@ -2557,9 +2557,11 @@ MonoBehaviour:
   draggableBody: 0
   draggableMoonEdges: 0
   draggableEdgesAngleRange: 0
+  displayMoonEarthLine: 0
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 0}
   resetSliderButton: {fileID: 0}
+  resetEarthPos: 0
   useMoonCI: 0
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 0
@@ -3341,12 +3343,14 @@ MonoBehaviour:
   draggableBody: 1
   draggableMoonEdges: 0
   draggableEdgesAngleRange: 0
+  displayMoonEarthLine: 0
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 0}
   resetSliderButton: {fileID: 0}
-  useMoonCI: 0
+  resetEarthPos: 1
+  useMoonCI: 1
   angleMoonOrbitInit: 0
-  angleMoonSpinInit: 0
+  angleMoonSpinInit: 180
   fadeOutUIList: []
 --- !u!114 &618862017
 MonoBehaviour:
@@ -3461,7 +3465,7 @@ MonoBehaviour:
   numSubsteps: 100
   resetAfterOnePeriod: 1
   timeScale: 1
-  radiusScale: 10
+  bodyRadiusScale: 15
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 0
   earthIsRotating: 1
@@ -3491,7 +3495,7 @@ MonoBehaviour:
   moonPrefab: {fileID: 7273090091070790381, guid: 3c2229ab0f2df9e42960d63c21929204,
     type: 3}
   moonOrbitPrefab: {fileID: 0}
-  numberOfMoonTidalVectors: 19
+  numberOfMoonTidalVectors: 17
   moonTidalVectorsPrefab: {fileID: 1718864928187129853, guid: bcd9253867383b54a886f988555321c6,
     type: 3}
   moonReferenceSystemPrefab: {fileID: 8029821696498156222, guid: 31634711154a46241a16054adf5bacf7,
@@ -3618,7 +3622,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 60, y: -30}
-  m_SizeDelta: {x: 100, y: 30}
+  m_SizeDelta: {x: 120, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &672288093
 MonoBehaviour:
@@ -3634,8 +3638,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   languageToggle: {fileID: 1098925803}
   tmpUI: {fileID: 672288094}
-  FR: "Face cach\xE9e."
-  EN: Far side.
+  FR: "Face cach\xE9e:"
+  EN: 'Far side:'
 --- !u!114 &672288094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3655,7 +3659,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Far side.
+  m_text: 'Far side:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 350cfcf20da78478f9197161ac83b480, type: 2}
   m_sharedMaterial: {fileID: -1129015340585624399, guid: 350cfcf20da78478f9197161ac83b480,
@@ -4019,8 +4023,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 650, y: -225}
-  m_SizeDelta: {x: 100, y: 20}
+  m_AnchoredPosition: {x: 600, y: -225}
+  m_SizeDelta: {x: 100, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &726469831
 MonoBehaviour:
@@ -4604,9 +4608,11 @@ MonoBehaviour:
   draggableBody: 0
   draggableMoonEdges: 0
   draggableEdgesAngleRange: 0
+  displayMoonEarthLine: 0
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 0}
   resetSliderButton: {fileID: 0}
+  resetEarthPos: 0
   useMoonCI: 0
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 0
@@ -5407,7 +5413,7 @@ MonoBehaviour:
   numSubsteps: 100
   resetAfterOnePeriod: 1
   timeScale: 1
-  radiusScale: 10
+  bodyRadiusScale: 22
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 0
   earthIsRotating: 1
@@ -5431,7 +5437,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   earthPrefab: {fileID: 8210001909379508800, guid: 2e1739de39e12c94ab272ece31d566c1,
     type: 3}
-  earthOrbitPrefab: {fileID: 0}
+  earthOrbitPrefab: {fileID: 3366572817098169331, guid: dbe1eeb31fe2967489e1fe0611fd0be3,
+    type: 3}
   earth: {fileID: 0}
   earthOrbit: {fileID: 0}
   moonPrefab: {fileID: 618283707581901746, guid: a532ff21b20f1b940929a20d5a45ad55,
@@ -5750,8 +5757,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -40, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1133252823
 MonoBehaviour:
@@ -5823,8 +5830,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -6905,9 +6912,11 @@ MonoBehaviour:
   draggableBody: 0
   draggableMoonEdges: 0
   draggableEdgesAngleRange: 0
+  displayMoonEarthLine: 1
   TopDownView: {fileID: 1588643020}
   sliderSync: {fileID: 1274580835}
   resetSliderButton: {fileID: 1455192318}
+  resetEarthPos: 1
   useMoonCI: 1
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 180
@@ -8622,10 +8631,10 @@ RectTransform:
   m_Father: {fileID: 726469830}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -9}
-  m_SizeDelta: {x: 80, y: 35}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1538937222
 MonoBehaviour:
@@ -9048,8 +9057,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   languageToggle: {fileID: 1098925803}
   tmpUI: {fileID: 1618532719}
-  FR: Face visible
-  EN: Near side.
+  FR: 'Face visible:'
+  EN: 'Near side:'
 --- !u!114 &1618532719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9069,7 +9078,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Near side.
+  m_text: 'Near side:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 350cfcf20da78478f9197161ac83b480, type: 2}
   m_sharedMaterial: {fileID: -1129015340585624399, guid: 350cfcf20da78478f9197161ac83b480,
@@ -9297,7 +9306,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -120}
+  m_AnchoredPosition: {x: 0, y: -110}
   m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1760191503
@@ -9373,8 +9382,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 18
+  m_fontSize: 17
+  m_fontSizeBase: 17
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -10615,9 +10624,11 @@ MonoBehaviour:
   draggableBody: 0
   draggableMoonEdges: 0
   draggableEdgesAngleRange: 0
+  displayMoonEarthLine: 1
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 7946162021528586359}
   resetSliderButton: {fileID: 564244811}
+  resetEarthPos: 1
   useMoonCI: 1
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 180
@@ -10863,9 +10874,11 @@ MonoBehaviour:
   draggableBody: 0
   draggableMoonEdges: 1
   draggableEdgesAngleRange: 90
+  displayMoonEarthLine: 1
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 0}
   resetSliderButton: {fileID: 0}
+  resetEarthPos: 1
   useMoonCI: 1
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 180
@@ -11659,14 +11672,16 @@ MonoBehaviour:
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 0
   displayTidalVector: 0
-  tidalVectorSize: 500
-  tidalVectorLineWidth: 0
+  tidalVectorSize: 400
+  tidalVectorLineWidth: 0.02
   draggableBody: 0
   draggableMoonEdges: 0
   draggableEdgesAngleRange: 0
+  displayMoonEarthLine: 0
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 0}
   resetSliderButton: {fileID: 0}
+  resetEarthPos: 0
   useMoonCI: 1
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 180
@@ -11978,14 +11993,16 @@ MonoBehaviour:
   displayMoonBulgeLine: 0
   displayMoonRefSystem: 1
   displayTidalVector: 0
-  tidalVectorSize: 400
+  tidalVectorSize: 500
   tidalVectorLineWidth: 0
   draggableBody: 0
   draggableMoonEdges: 0
   draggableEdgesAngleRange: 0
+  displayMoonEarthLine: 0
   TopDownView: {fileID: 0}
   sliderSync: {fileID: 0}
   resetSliderButton: {fileID: 0}
+  resetEarthPos: 0
   useMoonCI: 0
   angleMoonOrbitInit: 0
   angleMoonSpinInit: 180
@@ -13429,7 +13446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4e4e5353cd93d8428783217559de020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  languageToggle: {fileID: 0}
+  languageToggle: {fileID: 1098925803}
   tmpUI: {fileID: 6264859704273390374}
   FR: "La th\xE9orie la plus convaincante sur l'origine de la Lune est celle du \"Big
     Splash\". Un corps de la taille de Mars appel\xE9 Th\xE9ia serait entr\xE9 en

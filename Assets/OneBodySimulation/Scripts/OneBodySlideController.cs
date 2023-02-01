@@ -31,11 +31,13 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private float draggableEdgesAngleRange;
 
     [Header("Display Parameters")]
+    [SerializeField] private bool displayMoonEarthLine;
     [SerializeField] private TopDownView TopDownView;
     [SerializeField] private SliderSync sliderSync;
     [SerializeField] private Button resetSliderButton;
 
     [Header("Initial Condition")]
+    [SerializeField] private bool resetEarthPos;
     [SerializeField] private bool useMoonCI;
     [SerializeField] private float angleMoonOrbitInit;
     [SerializeField] private float angleMoonSpinInit;
@@ -58,7 +60,7 @@ public class OneBodySlideController : SimulationSlideController
         {
             sim.squashingAnimation = true;
         }
-        sim.radiusScale = radiusScale;
+        //sim.bodyRadiusScale = radiusScale;
 
         // Earth Parameters:
         sim.ActivationEarthOrbit = displayEarthOrbit;
@@ -82,10 +84,12 @@ public class OneBodySlideController : SimulationSlideController
         sim.draggableEdgesAngleRange = draggableEdgesAngleRange;
 
         // Display Parameters:
+        sim.ActivationMoonEarthLine = displayMoonEarthLine;
         sim.topDownView = TopDownView;
         sim.sliderSync = sliderSync;
 
         // Initial Condition:
+        sim.ResetEarthPos = resetEarthPos;
         sim.angleMoonOrbitInit = angleMoonOrbitInit;
         sim.angleMoonSpinInit = angleMoonSpinInit;
         sim.UseMoonCI = useMoonCI;
@@ -143,24 +147,31 @@ public class OneBodySlideController : SimulationSlideController
     public void SetStationaryFlag(bool newBool) {
         // Keep state of the interaction
         simIsStationary = newBool;
-        sim.simIsStationary = newBool;
+        if (sim) {
+            sim.simIsStationary = newBool;
+        }
     }
 
     public void SetActivationMoonTidalVectors(bool newBool) {
         // Keep state of the interaction
         displayTidalVector = newBool;
-        sim.ActivationPointsOnMoon = newBool;
+        if (sim) {
+            sim.ActivationPointsOnMoon = newBool;
+        }
     }
 
     public void SetActivationMoonRefSystem(bool newBool) {
         // Keep state of the interaction
         displayMoonRefSystem = newBool;
-        sim.ActivationMoonRefSystem = newBool;
+        if (sim) {
+            sim.ActivationMoonRefSystem = newBool;
+        }
     }
 
     public void SetMoonSpinSpeed(float value) {
         moonSpinSpeed=value;
-        if (sim)
+        if (sim) {
             sim.MoonSpinSpeed=value;
+        }
     }
 }

@@ -186,6 +186,12 @@ public class OneBodyPrefabs : MonoBehaviour
 
     /* ************************************************************* */
     // Functions to set the activation/visibility of game objects :
+    public void SetLineEarthMoonActivation(bool toggle) {
+        if (lineEarthMoon) {
+            GameObject go = lineEarthMoon.gameObject;
+            go.SetActive(toggle);
+        }
+    }
     public void SetMoonRefSystemActivation(bool toggle) {
         if (moonReferenceSystem) {
             GameObject go = moonReferenceSystem.gameObject;

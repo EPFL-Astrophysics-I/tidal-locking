@@ -49,7 +49,6 @@ public class SliderSync : MonoBehaviour
         } 
         else {
             float spinSpeed=slider2sim(slider.value);
-            Debug.Log(slider.value + " in sim: " + spinSpeed);
             slideController.SetMoonSpinSpeed(spinSpeed);
             if (TMPgui) {
                 float valueLabel = slideController.getMoonPeriod()/slider.value;
@@ -69,9 +68,8 @@ public class SliderSync : MonoBehaviour
     public void updateValue(float valueLabel, float simValue) {
         if (slider) {
             //float newValue=sim2slider(simValue);
-            float newValue=simValue;
-            slider.value = newValue;
-            if (newValue > syncValue-0.05 && newValue < syncValue+0.05) {
+            slider.value = simValue;
+            if (simValue == syncValue) {
                 fillImage.color=syncColor;
                 syncImage.color=syncColor;
                 syncLabel.color=syncColor;

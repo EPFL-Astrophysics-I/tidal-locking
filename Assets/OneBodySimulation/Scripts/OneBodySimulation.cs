@@ -25,7 +25,7 @@ public class OneBodySimulation : Simulation
     private UnitLength unitLength = UnitLength.EarthMoonDistanceFactor;
     private UnitMass unitMass = UnitMass.EarthMass;
     public float timeScale = 1;
-    [HideInInspector] public float radiusScale = 10;
+    public float bodyRadiusScale = 10;
 
     // Timer for resetting the simulation after one orbital period
     private float resetTimer;
@@ -46,6 +46,18 @@ public class OneBodySimulation : Simulation
     private float timerLerpToCI = 5;
 
     // Initial Condition:
+    private bool resetEarthPos;
+    public bool ResetEarthPos {
+        get {
+            return resetEarthPos;
+        }
+        set {
+            resetEarthPos = value;
+            if (value && earth!=null) {
+                earth.Position = initEarthPosition;
+            }
+        }
+    }
     private bool waitForMoonToCI = false;
     private bool useMoonCI;
     public bool UseMoonCI {
@@ -165,6 +177,19 @@ public class OneBodySimulation : Simulation
 
     /* ************************************************************* */
     // Activation properties: used for display parameters
+    private bool activationMoonEarthLine = false;
+    public bool ActivationMoonEarthLine {
+        get {
+            return activationMoonEarthLine;
+        }
+        set {
+            activationMoonEarthLine = value;
+            prefabs.SetLineEarthMoonActivation(value);
+            if (value) {
+                prefabs.DrawLineEarthMoon();
+            }
+        }
+    }
 
     private bool activationPointsOnMoon = false;
     public bool ActivationPointsOnMoon {
@@ -279,7 +304,7 @@ public class OneBodySimulation : Simulation
         {
             earth.Position = initEarthPosition;
             earth.Mass = EarthMass(unitMass);
-            earth.SetRadius(radiusScale * EarthRadius(unitLength));
+            earth.SetRadius(bodyRadiusScale * EarthRadius(unitLength));
             earth.RotationPeriod = EarthRotationPeriod(unitTime);
         }
 
@@ -288,7 +313,7 @@ public class OneBodySimulation : Simulation
         {
             moon.Position = earth.Position + LunarDistance(unitLength) * Vector3.right;
             moon.Mass = LunarMass(unitMass);
-            moon.SetRadius(radiusScale * LunarRadius(unitLength));
+            moon.SetRadius(bodyRadiusScale * LunarRadius(unitLength));
             initMoonPosition = moon.Position;
             moonDistance = (moon.Position - earth.Position).magnitude;
             moon.RotationPeriod = Period * moonPeriodFactor;
@@ -331,7 +356,7 @@ public class OneBodySimulation : Simulation
     {
         if (simIsStationary)
         {
-            if ((dragBodyName!=DragBodyName.None) || dragMoonEdgesIsAllowed) {
+            if (((dragBodyName!=DragBodyName.None) || dragMoonEdgesIsAllowed) && !waitForMoonToCI) {
                 DragBody();
             }
             return;
@@ -474,7 +499,7 @@ public class OneBodySimulation : Simulation
                 // Sync moon spin speed from slider range:
                 float currentSliderValue = sliderSync.sim2slider(MoonSpinSpeed);
                 float syncValueOffset = sliderSync.syncValue - currentSliderValue;
-                Debug.Log(MoonSpinSpeed);
+
                 float newSliderValue; 
                 if (Mathf.Abs(syncValueOffset)<0.05) {
                     // Arrived at the sync value:

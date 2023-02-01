@@ -95,10 +95,12 @@ public class TidalLockingSlideController : SimulationSlideController
         sim.UseMoonCI = useMoonCI;
 
         fadeOutUIList.ForEach(ui => {
-            //ui.TriggerReset(0);
+            ui.TriggerReset(0);
             //ui.Reset();
         });
+    }
 
+    public void FadeOutUI() {
         fadeOutUIList.ForEach(ui => {
             ui.TriggerFadeOut();
         });

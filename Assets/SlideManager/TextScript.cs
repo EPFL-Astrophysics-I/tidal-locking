@@ -22,19 +22,36 @@ public class TextScript : MonoBehaviour
 
     private string oldEN = "";
 
+    [SerializeField]
+    private Vector3 posOffsetFR;
+    private RectTransform rectTransform;
+    private Vector3 posEN;
+
     void OnValidate() {
-        if (FR != oldFR) {
-            tmpUI.text = FR;
-            oldFR = FR;
-        }
-        if (EN != oldEN) {
-            tmpUI.text = EN;
-            oldEN = EN;
+        getRectTransform();
+
+        if (tmpUI) {
+            if (FR != oldFR) {
+                tmpUI.text = FR;
+                oldFR = FR;
+                if (!posOffsetFR.Equals(Vector3.zero)) {
+                    SetOffset(posOffsetFR);
+                }
+            }
+            if (EN != oldEN) {
+                tmpUI.text = EN;
+                oldEN = EN;
+                if (!posOffsetFR.Equals(Vector3.zero)) {
+                    SetOffset(Vector3.zero);
+                }
+            }
         }
     }
     
     void Start()
     {
+        getRectTransform();
+
         if (languageToggle != null) {
             languageToggle.OnLanguageToggle += SetLanguage;
 
@@ -46,13 +63,37 @@ public class TextScript : MonoBehaviour
     private void SetLanguage(LanguageToggle.ActiveLanguage language){
         switch (language) {
             case LanguageToggle.ActiveLanguage.EN: {
-                tmpUI.text = EN;
+                if (tmpUI) {
+                    tmpUI.text = EN;
+                }
+                if (!posOffsetFR.Equals(Vector3.zero)) {
+                    SetOffset(Vector3.zero);
+                }
                 break;
             }
             case LanguageToggle.ActiveLanguage.FR: {
-                tmpUI.text = FR;
+                if (tmpUI) {
+                    tmpUI.text = FR;
+                }
+                if (!posOffsetFR.Equals(Vector3.zero)) {
+                    SetOffset(posOffsetFR);
+                }
                 break;
             }
         }
+    }
+
+    private void getRectTransform() {
+        if (!posOffsetFR.Equals(Vector3.zero)) {
+            RectTransform rt = GetComponent<RectTransform>();
+            if (rt) {
+                rectTransform = rt;
+                posEN = rt.localPosition;
+            }
+        }
+    }
+
+    private void SetOffset(Vector3 offset) {
+        rectTransform.localPosition = posEN + offset;
     }
 }

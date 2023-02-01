@@ -1,7 +1,7 @@
 # Tidal Locking App
 
 [![Documentation](https://img.shields.io/badge/Unity-2019.4.32f1-informational)](/README.md)
-[![License](https://img.shields.io/badge/license-MIT-green)](/README.md)
+[![License](https://img.shields.io/badge/license-MIT-green)](/LICENSE.md)
 
 ## Description
 
@@ -19,5 +19,5 @@ Template of the application (SlideManager folder) also developed by Austin Peel.
 
 ## License
 
-Distributed under the [MIT License](/README.md)
+Distributed under the [MIT License](/LICENSE.md)
 

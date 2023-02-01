@@ -165,5 +165,12 @@ public class CelestialBody : MonoBehaviour
         {
             mouseOverEvent.EnablePointerHandler = enable;
         }
+        else {
+            // Retry to get MouseOverEvent script:
+            // Useful for the first slide of the simulation, otherwise bodies will not have proper cursor.
+            TryGetComponent<MouseOverEvent>(out mouseOverEvent);
+            if (mouseOverEvent)
+                mouseOverEvent.EnablePointerHandler = enable;
+        }
     }
 }

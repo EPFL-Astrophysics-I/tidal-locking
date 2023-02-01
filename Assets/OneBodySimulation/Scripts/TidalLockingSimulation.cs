@@ -859,6 +859,7 @@ public class TidalLockingSimulation : Simulation
             Vector2 range = bodyRadius - bodyPositionOnScreen;
             float rangeMag = range.magnitude;
 
+            // Ranges to define the clickable area of the body's edges.
             float innerRangeMag = rangeMag * 0.6f;
             float outerRangeMag = rangeMag * 1.3f;
 

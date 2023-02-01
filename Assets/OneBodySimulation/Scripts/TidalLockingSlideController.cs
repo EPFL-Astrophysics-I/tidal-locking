@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class OneBodySlideController : SimulationSlideController
+public class TidalLockingSlideController : SimulationSlideController
 {
     [Header("Main Simulation Parameters")]
     [SerializeField] private bool simIsStationary;
-    [SerializeField] private OneBodySimulation.OneBodySimType simulationType;
+    [SerializeField] private TidalLockingSimulation.SimulationType simulationType;
     [SerializeField] private float radiusScale;
 
     [Header("Earth Parameters")]
@@ -26,7 +26,7 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private float tidalVectorLineWidth; // if 0 then vectorGravLineWidth is not used and value is taken from prefab
 
     [Header("Interactivity Parameters")]
-    [SerializeField] private OneBodySimulation.DragBodyName draggableBody;
+    [SerializeField] private TidalLockingSimulation.DragBodyName draggableBody;
     [SerializeField] private bool draggableMoonEdges;
     [SerializeField] private float draggableEdgesAngleRange;
 
@@ -46,17 +46,17 @@ public class OneBodySlideController : SimulationSlideController
     [SerializeField] private List<FadeOutUI> fadeOutUIList;
 
 
-    private OneBodySimulation sim;
+    private TidalLockingSimulation sim;
 
     // Start is called before the first frame update
     public override void InitializeSlide()
     {
-        sim = simulation as OneBodySimulation;
+        sim = simulation as TidalLockingSimulation;
 
         // Main Simulation Parameters:
         sim.simIsStationary = simIsStationary;
         sim.simulationType = simulationType;
-        if (simulationType == OneBodySimulation.OneBodySimType.MoonSquashing)
+        if (simulationType == TidalLockingSimulation.SimulationType.MoonSquashing)
         {
             sim.squashingAnimation = true;
         }

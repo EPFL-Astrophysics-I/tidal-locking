@@ -6,7 +6,7 @@ using TMPro;
 
 public class SliderSync : MonoBehaviour
 {
-    [SerializeField] OneBodySlideController slideController;
+    [SerializeField] TidalLockingSlideController slideController;
     [SerializeField] Slider slider;
 
     public enum SliderValueName {

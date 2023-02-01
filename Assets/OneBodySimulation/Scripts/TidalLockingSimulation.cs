@@ -5,19 +5,19 @@ using UnityEngine.EventSystems;
 
 using static Units;
 
-public class OneBodySimulation : Simulation
+public class TidalLockingSimulation : Simulation
 {
     /* ************************************************************* */
     // Prefabs holder:
-    private OneBodyPrefabs prefabs;
+    private TidalLockingPrefabs prefabs;
 
     /* ************************************************************* */
     // Main Parameters:
-    public enum OneBodySimType { ContinuousSim, DiscreteSim, MoonBulgeOscillation, MoonSquashing };
+    public enum SimulationType { ContinuousSim, DiscreteSim, MoonBulgeOscillation, MoonSquashing };
 
     [Header("Simulation Properties")]
     [HideInInspector] public bool simIsStationary = false;
-    [HideInInspector] public OneBodySimType simulationType = OneBodySimType.ContinuousSim; // Default=ContinuousSim
+    [HideInInspector] public SimulationType simulationType = SimulationType.ContinuousSim; // Default=ContinuousSim
     [HideInInspector] public bool squashingAnimation = false;
     public int numSubsteps = 100;
     public bool resetAfterOnePeriod = true;
@@ -380,17 +380,17 @@ public class OneBodySimulation : Simulation
 
         switch (simulationType)
         {
-            case OneBodySimType.ContinuousSim: {
+            case SimulationType.ContinuousSim: {
                 if (simIsStationary) {return;}
                 // Continuous simulation update done after the switch case.
                 break;
             }
-            case OneBodySimType.DiscreteSim: {
+            case SimulationType.DiscreteSim: {
                 if (simIsStationary) {return;}
                 UpdateSimDiscrete();
                 return;
             }
-            case OneBodySimType.MoonBulgeOscillation: {
+            case SimulationType.MoonBulgeOscillation: {
                 // Simulation needs to be stationary.
                 if (simIsStationary)
                 {
@@ -398,7 +398,7 @@ public class OneBodySimulation : Simulation
                 }
                 return;
             }
-            case OneBodySimType.MoonSquashing: {
+            case SimulationType.MoonSquashing: {
                 // Moon Squashing Animation can be run even with StationarySim Bool True.
                 UpdateSimMoonSquashing();
                 if (simIsStationary) {return;}

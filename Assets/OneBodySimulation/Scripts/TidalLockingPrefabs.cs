@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OneBodyPrefabs : MonoBehaviour
+public class TidalLockingPrefabs : MonoBehaviour
 {
     [Header("Earth's Prefabs:")]
     // Serializable Prefabs:

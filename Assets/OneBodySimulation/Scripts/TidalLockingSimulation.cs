@@ -26,17 +26,23 @@ public class TidalLockingSimulation : Simulation
     private UnitMass unitMass = UnitMass.EarthMass;
     public float timeScale = 1;
     private float bodyRadiusScale = 10;
-    public float BodyRadiusScale {
-        get {
+    public float BodyRadiusScale
+    {
+        get
+        {
             return bodyRadiusScale;
         }
-        set {
-            if (bodyRadiusScale!=value) {
+        set
+        {
+            if (bodyRadiusScale != value)
+            {
                 bodyRadiusScale = value;
-                if (earth) {
+                if (earth)
+                {
                     earth.SetRadius(bodyRadiusScale * EarthRadius(unitLength));
                 }
-                if (moon) {
+                if (moon)
+                {
                     moon.SetRadius(bodyRadiusScale * LunarRadius(unitLength));
                 }
             }
@@ -63,27 +69,35 @@ public class TidalLockingSimulation : Simulation
 
     // Initial Condition:
     private bool resetEarthPos;
-    public bool ResetEarthPos {
-        get {
+    public bool ResetEarthPos
+    {
+        get
+        {
             return resetEarthPos;
         }
-        set {
+        set
+        {
             resetEarthPos = value;
-            if (value && earth!=null) {
+            if (value && earth != null)
+            {
                 earth.Position = initEarthPosition;
             }
         }
     }
     private bool waitForMoonToCI = false;
     private bool useMoonCI;
-    public bool UseMoonCI {
-        get {
+    public bool UseMoonCI
+    {
+        get
+        {
             return useMoonCI;
         }
-        set {
+        set
+        {
             useMoonCI = value;
             waitForMoonToCI = value;
-            if (value && moon!=null) {
+            if (value && moon != null)
+            {
                 SetMoonInitialCondition();
             }
         }
@@ -100,33 +114,42 @@ public class TidalLockingSimulation : Simulation
 
     /* ************************************************************* */
 
-    [Header("Moon Parameters")] 
-    private CelestialBody moon; 
+    [Header("Moon Parameters")]
+    private CelestialBody moon;
     public bool moonIsRotating = true;
     private Vector3 initMoonPosition;
     private float moonDistance;
     private bool moonSquashed = false;
-    [HideInInspector] public bool MoonIsSquashed {
-        get {
-            if (moon!=null)
+    [HideInInspector]
+    public bool MoonIsSquashed
+    {
+        get
+        {
+            if (moon != null)
                 return moon.IsSquashed;
             else
                 return moonSquashed;
         }
-        set {
+        set
+        {
             moonSquashed = value;
-            if (moon!=null) {
+            if (moon != null)
+            {
                 moon.IsSquashed = value;
             }
         }
     }
     private float moonPeriodFactor;
-    public float MoonPeriodFactor {
-        get {return moonPeriodFactor;}
-        set {
-            if (moon!=null) {
+    public float MoonPeriodFactor
+    {
+        get { return moonPeriodFactor; }
+        set
+        {
+            if (moon != null)
+            {
                 moon.RotationPeriod = Period * value;
-                if (value==1 && value!=moonPeriodFactor) {
+                if (value == 1 && value != moonPeriodFactor)
+                {
                     // Reset rotation of the moon
                     // Keep the same face toward the earth,
                     // Otherwise from moonPeriodFactor != 1 to moonPeriodFactor = 1
@@ -140,19 +163,24 @@ public class TidalLockingSimulation : Simulation
         }
     }
 
-    public float getMoonPeriod() {
-        if (moon) {
+    public float getMoonPeriod()
+    {
+        if (moon)
+        {
             return moon.RotationPeriod;
         }
         return 27.5f;
     }
 
-    private float moonSpinSpeed=0;
-    public float MoonSpinSpeed {
-        get {
+    private float moonSpinSpeed = 0;
+    public float MoonSpinSpeed
+    {
+        get
+        {
             return moonSpinSpeed;
         }
-        set {
+        set
+        {
             moonSpinSpeed = value;
         }
     }
@@ -169,23 +197,30 @@ public class TidalLockingSimulation : Simulation
 
     /* ************************************************************* */
     private float vectorTidalScale = 500f;
-    public float VectorTidalScale {
-        get {
+    public float VectorTidalScale
+    {
+        get
+        {
             return vectorTidalScale;
         }
-        set {
+        set
+        {
             vectorTidalScale = value;
         }
     }
-    
+
     private float vectorTidalLineWidth;
-    public float VectorTidalLineWidth {
-        get {
+    public float VectorTidalLineWidth
+    {
+        get
+        {
             return vectorTidalLineWidth;
         }
-        set {
+        set
+        {
             vectorTidalLineWidth = value;
-            if (prefabs) {
+            if (prefabs)
+            {
                 prefabs.SetTidalVecLineWidth(vectorTidalLineWidth);
             }
         }
@@ -194,71 +229,91 @@ public class TidalLockingSimulation : Simulation
     /* ************************************************************* */
     // Activation properties: used for display parameters
     private bool activationMoonEarthLine = false;
-    public bool ActivationMoonEarthLine {
-        get {
+    public bool ActivationMoonEarthLine
+    {
+        get
+        {
             return activationMoonEarthLine;
         }
-        set {
+        set
+        {
             activationMoonEarthLine = value;
             prefabs.SetLineEarthMoonActivation(value);
-            if (value) {
+            if (value)
+            {
                 prefabs.DrawLineEarthMoon();
             }
         }
     }
 
     private bool activationTidalVectors = false;
-    public bool ActivationTidalVectors {
-        get {
+    public bool ActivationTidalVectors
+    {
+        get
+        {
             return activationTidalVectors;
         }
-        set {
+        set
+        {
             activationTidalVectors = value;
             prefabs.SetMoonTidalVectorActivation(value);
-            if (value) {
+            if (value)
+            {
                 prefabs.setMoonTidalVectors(NewtonG, moonDistance, vectorTidalScale);
             }
         }
     }
 
     private bool activationMoonOrbit = false;
-    public bool ActivationMoonOrbit {
-        get {
+    public bool ActivationMoonOrbit
+    {
+        get
+        {
             return activationMoonOrbit;
         }
-        set {
+        set
+        {
             activationMoonOrbit = value;
             prefabs.SetMoonOrbitActivation(value);
         }
     }
 
     private bool activationEarthOrbit = false;
-    public bool ActivationEarthOrbit {
-        get {
+    public bool ActivationEarthOrbit
+    {
+        get
+        {
             return activationEarthOrbit;
         }
-        set {
+        set
+        {
             activationEarthOrbit = value;
             prefabs.SetEarthOrbitActivation(value);
         }
     }
     private bool activationMoonBulgeLine = false;
-    public bool ActivationMoonBulgeLine {
-        get {
+    public bool ActivationMoonBulgeLine
+    {
+        get
+        {
             return activationMoonBulgeLine;
         }
-        set {
+        set
+        {
             activationMoonBulgeLine = value;
             prefabs.SetMoonBulgeLineActivation(value);
         }
     }
 
     private bool activationMoonRefSystem = false;
-    public bool ActivationMoonRefSystem {
-        get {
+    public bool ActivationMoonRefSystem
+    {
+        get
+        {
             return activationMoonRefSystem;
         }
-        set {
+        set
+        {
             activationMoonRefSystem = value;
             prefabs.SetMoonRefSystemActivation(value);
         }
@@ -266,7 +321,7 @@ public class TidalLockingSimulation : Simulation
 
     /* ************************************************************* */
     // Drag/Interactivity Parameters
-    public enum DragBodyName {None, Earth, Moon};
+    public enum DragBodyName { None, Earth, Moon };
     [HideInInspector] public DragBodyName dragBodyName = DragBodyName.None; // Default: no draggable body;
     [HideInInspector] public bool dragMoonEdgesIsAllowed;
     [HideInInspector] public float draggableEdgesAngleRange = 0;
@@ -335,18 +390,21 @@ public class TidalLockingSimulation : Simulation
         }
 
         // USE CI :
-        if (useMoonCI) {
+        if (useMoonCI)
+        {
             waitForMoonToCI = true;
             SetMoonInitialCondition();
         }
 
         CircularOrbit moonOrbit = prefabs.moonOrbit;
-        if (moonOrbit) {
+        if (moonOrbit)
+        {
             moonOrbit.DrawOrbit(initEarthPosition, LunarDistance(unitLength), 100);
         }
 
         CircularOrbit earthOrbit = prefabs.earthOrbit;
-        if (earthOrbit) {
+        if (earthOrbit)
+        {
             earthOrbit.DrawOrbit(initMoonPosition, LunarDistance(unitLength), 100);
         }
 
@@ -372,7 +430,8 @@ public class TidalLockingSimulation : Simulation
     {
         if (simIsStationary)
         {
-            if (((dragBodyName!=DragBodyName.None) || dragMoonEdgesIsAllowed) && !waitForMoonToCI) {
+            if (((dragBodyName != DragBodyName.None) || dragMoonEdgesIsAllowed) && !waitForMoonToCI)
+            {
                 DragBody();
             }
             return;
@@ -387,7 +446,8 @@ public class TidalLockingSimulation : Simulation
             return;
         }
 
-        if (waitForMoonToCI) {
+        if (waitForMoonToCI)
+        {
             // Wait until Moon
             return;
         }
@@ -396,30 +456,34 @@ public class TidalLockingSimulation : Simulation
 
         switch (simulationType)
         {
-            case SimulationType.ContinuousSim: {
-                if (simIsStationary) {return;}
-                // Continuous simulation update done after the switch case.
-                break;
-            }
-            case SimulationType.DiscreteSim: {
-                if (simIsStationary) {return;}
-                UpdateSimDiscrete();
-                return;
-            }
-            case SimulationType.MoonBulgeOscillation: {
-                // Simulation needs to be stationary.
-                if (simIsStationary)
+            case SimulationType.ContinuousSim:
                 {
-                    UpdateSimMoonBulgeOscillation();
+                    if (simIsStationary) { return; }
+                    // Continuous simulation update done after the switch case.
+                    break;
                 }
-                return;
-            }
-            case SimulationType.MoonSquashing: {
-                // Moon Squashing Animation can be run even with StationarySim Bool True.
-                UpdateSimMoonSquashing();
-                if (simIsStationary) {return;}
-                break;
-            }
+            case SimulationType.DiscreteSim:
+                {
+                    if (simIsStationary) { return; }
+                    UpdateSimDiscrete();
+                    return;
+                }
+            case SimulationType.MoonBulgeOscillation:
+                {
+                    // Simulation needs to be stationary.
+                    if (simIsStationary)
+                    {
+                        UpdateSimMoonBulgeOscillation();
+                    }
+                    return;
+                }
+            case SimulationType.MoonSquashing:
+                {
+                    // Moon Squashing Animation can be run even with StationarySim Bool True.
+                    UpdateSimMoonSquashing();
+                    if (simIsStationary) { return; }
+                    break;
+                }
             default:
                 break;
         }
@@ -436,7 +500,8 @@ public class TidalLockingSimulation : Simulation
     private void UpdateSimMoonBulgeOscillation()
     {
         // Moon Bugle get pull back toward Earth when left mouse click is unpressed:
-        if (!draggingEdgeMoon) {
+        if (!draggingEdgeMoon)
+        {
             float substep = timeScale * Time.fixedDeltaTime / numSubsteps;
             for (int i = 1; i <= numSubsteps; i++)
             {
@@ -446,14 +511,15 @@ public class TidalLockingSimulation : Simulation
     }
 
     private void dampedHarmonicOscillation(float deltaTime)
-    {        
-        float a = (-oscillationK*oscillationX - oscillationB*oscillationV)/oscillationM;
-        oscillationV += a*deltaTime;
-        oscillationX += oscillationV*deltaTime;
-        
+    {
+        float a = (-oscillationK * oscillationX - oscillationB * oscillationV) / oscillationM;
+        oscillationV += a * deltaTime;
+        oscillationX += oscillationV * deltaTime;
+
         float rot = oscillationX;
-        moon.SetRotationSprite(new Vector3(0, oscillationXInvert-rot, 0));
-        if (rot180Moon) {
+        moon.SetRotationSprite(new Vector3(0, oscillationXInvert - rot, 0));
+        if (rot180Moon)
+        {
             rot += 180;
         }
 
@@ -468,14 +534,16 @@ public class TidalLockingSimulation : Simulation
     {
         prefabs.setMoonTidalVectors(NewtonG, moonDistance, vectorTidalScale);
 
-        if (squashingAnimation) {
+        if (squashingAnimation)
+        {
             StartCoroutine(MoonTidalAction(10f));
-            squashingAnimation=false;
+            squashingAnimation = false;
         }
     }
 
     // Continuous Simulation Update (One Body Problem Step) : 
-    private void UpdateSimContinuous() {
+    private void UpdateSimContinuous()
+    {
         if (resetAfterOnePeriod)
         {
             // Re-establish the system to exact initial positions after one period to avoid numerical errors
@@ -510,43 +578,50 @@ public class TidalLockingSimulation : Simulation
             // Sync moon spin speed:
             // Equivalent to sync the moon period factor in the UpdateSimDiscrete,
             // But we want to change the sprite UV offset!
-            if (sliderSync && sliderSync.sliderValueName==SliderSync.SliderValueName.MoonSpinSpeed)
+            if (sliderSync && sliderSync.sliderValueName == SliderSync.SliderValueName.MoonSpinSpeed)
             {
                 // Sync moon spin speed from slider range:
                 float currentSliderValue = sliderSync.sim2slider(MoonSpinSpeed);
                 float syncValueOffset = sliderSync.syncValue - currentSliderValue;
 
-                float newSliderValue; 
-                if (Mathf.Abs(syncValueOffset)<0.05) {
+                float newSliderValue;
+                if (Mathf.Abs(syncValueOffset) < 0.05)
+                {
                     // Arrived at the sync value:
-                    MoonSpinSpeed=0; // should be == to slider2sim(sliderSync.syncValue)
+                    MoonSpinSpeed = 0; // should be == to slider2sim(sliderSync.syncValue)
                     newSliderValue = sliderSync.syncValue;
-                } else {
+                }
+                else
+                {
                     // Step toward sync value:
-                    newSliderValue = currentSliderValue + 0.002f*syncValueOffset;
+                    newSliderValue = currentSliderValue + 0.002f * syncValueOffset;
                 }
 
                 sliderSync.updateValue(getMoonPeriod(), newSliderValue);
             }
-            else 
+            else
             {
                 // Sync moon period factor:
-                if (Mathf.Abs(moonSpinSpeed)<=0.1f) {
-                    MoonSpinSpeed=0;
-                } else {
-                    MoonSpinSpeed = moonSpinSpeed - 0.002f*moonSpinSpeed;
+                if (Mathf.Abs(moonSpinSpeed) <= 0.1f)
+                {
+                    MoonSpinSpeed = 0;
+                }
+                else
+                {
+                    MoonSpinSpeed = moonSpinSpeed - 0.002f * moonSpinSpeed;
                 }
             }
 
-            moon.IncrementRotationSprite(moonSpinSpeed*deltaAngle*Vector3.down);
-            float UV2Angle = moon.getUVoffset()*360;
-                        
+            moon.IncrementRotationSprite(moonSpinSpeed * deltaAngle * Vector3.down);
+            float UV2Angle = moon.getUVoffset() * 360;
+
             prefabs.SetMoonReferenceSystem(UV2Angle);
-            
-            if (topDownView) {
+
+            if (topDownView)
+            {
                 // vector following spin of the moon is index 1 in top down view.
                 Vector3 moonPos = moon.Position;
-                float theta = Mathf.Atan2(moonPos.z, moonPos.x)*Mathf.Rad2Deg;
+                float theta = Mathf.Atan2(moonPos.z, moonPos.x) * Mathf.Rad2Deg;
                 topDownView.SetRotationOfVector(-UV2Angle, 1);
                 topDownView.SetRotationOfVector(-UV2Angle, 2);
             }
@@ -576,21 +651,25 @@ public class TidalLockingSimulation : Simulation
     private void UpdateSimDiscrete()
     {
         // Interval timer: otherwise to fast for the user experience.
-        if (timerDiscreteSim <= timerIntervalSteps) {
+        if (timerDiscreteSim <= timerIntervalSteps)
+        {
             timerDiscreteSim += timeScale * Time.fixedDeltaTime;
-           return;
+            return;
         }
 
         // Timer for letting the moon orbits around the earth.
-        if (timerDiscreteSim <= timerIntervalSteps+timerOrbitMoon) {
+        if (timerDiscreteSim <= timerIntervalSteps + timerOrbitMoon)
+        {
             // Update of timerDiscreteSim is done in UpdateSimContinuous()
             UpdateSimContinuous();
             return;
         }
 
         // Timer to align the moon's bugle toward the earth.
-        if (timerDiscreteSim <= (timerIntervalSteps+timerOrbitMoon+(Time.fixedDeltaTime*2))) {
-            if (!angleOffsetIsCompute) {
+        if (timerDiscreteSim <= (timerIntervalSteps + timerOrbitMoon + (Time.fixedDeltaTime * 2)))
+        {
+            if (!angleOffsetIsCompute)
+            {
                 StartCoroutine(LerpMoonRotationAlongBulge(timerLerpBulgeAxis));
                 StartCoroutine(FadeInOutTidalVectors(timerLerpBulgeAxis));
                 angleOffsetIsCompute = true;
@@ -600,30 +679,37 @@ public class TidalLockingSimulation : Simulation
             return;
         }
 
-        if (sliderSync && sliderSync.sliderValueName==SliderSync.SliderValueName.MoonPeriodFactor)
+        if (sliderSync && sliderSync.sliderValueName == SliderSync.SliderValueName.MoonPeriodFactor)
         {
             // Sync moon period factor from slider range:
             float currentSliderValue = sliderSync.sim2slider(MoonPeriodFactor);
             float syncValueOffset = sliderSync.syncValue - currentSliderValue;
-            float newSliderValue; 
-            if (Mathf.Abs(syncValueOffset)<0.05) {
+            float newSliderValue;
+            if (Mathf.Abs(syncValueOffset) < 0.05)
+            {
                 // Arrived at the sync value:
-                MoonPeriodFactor=1; // should be == to slider2sim(sliderSync.syncValue)
+                MoonPeriodFactor = 1; // should be == to slider2sim(sliderSync.syncValue)
                 newSliderValue = sliderSync.syncValue;
-            } else {
+            }
+            else
+            {
                 // Step toward sync value:
-                newSliderValue = currentSliderValue + 0.3f*syncValueOffset;
+                newSliderValue = currentSliderValue + 0.3f * syncValueOffset;
             }
 
             sliderSync.updateValue(getMoonPeriod(), newSliderValue);
         }
-        else {
+        else
+        {
             // Sync moon period factor:
             float periodSlowDownOffset = 1f - MoonPeriodFactor;
-            if (Mathf.Abs(periodSlowDownOffset)<0.05) {
-                MoonPeriodFactor=1;
-            } else {
-                MoonPeriodFactor = MoonPeriodFactor + 0.3f*periodSlowDownOffset;
+            if (Mathf.Abs(periodSlowDownOffset) < 0.05)
+            {
+                MoonPeriodFactor = 1;
+            }
+            else
+            {
+                MoonPeriodFactor = MoonPeriodFactor + 0.3f * periodSlowDownOffset;
             }
         }
 
@@ -637,7 +723,7 @@ public class TidalLockingSimulation : Simulation
         // Disable coroutine if we click reset during a LerpMoonRotationAlongBulge;
         StopAllCoroutines();
 
-        simIsStationary=true;
+        simIsStationary = true;
 
         MoonPeriodFactor = 1;
         MoonSpinSpeed = 0;
@@ -654,7 +740,7 @@ public class TidalLockingSimulation : Simulation
 
         if (moon)
         {
-            initMoonPosition = new Vector3(moonDistance * Mathf.Cos(angleMoonOrbitInit*Mathf.Deg2Rad), 0, moonDistance * Mathf.Sin(angleMoonOrbitInit*Mathf.Deg2Rad));
+            initMoonPosition = new Vector3(moonDistance * Mathf.Cos(angleMoonOrbitInit * Mathf.Deg2Rad), 0, moonDistance * Mathf.Sin(angleMoonOrbitInit * Mathf.Deg2Rad));
             moonDistance = (initMoonPosition - earth.Position).magnitude;
 
             Vector3 targetRotation = new Vector3(0, angleMoonSpinInit, 0);
@@ -678,29 +764,31 @@ public class TidalLockingSimulation : Simulation
         prefabs.setMoonTidalVectors(NewtonG, moonDistance, vectorTidalScale);
     }
 
-    public void ResetSquashingAnim() {
+    public void ResetSquashingAnim()
+    {
         StopAllCoroutines();
 
         ActivationTidalVectors = false;
-        MoonIsSquashed=false;
+        MoonIsSquashed = false;
         squashingAnimation = true;
     }
     /* ************************************************************* */
-    private void SetMoonInitialCondition() {
+    private void SetMoonInitialCondition()
+    {
         resetTimer = 0;
-        initMoonPosition = new Vector3(moonDistance * Mathf.Cos(angleMoonOrbitInit*Mathf.Deg2Rad), 0, moonDistance * Mathf.Sin(angleMoonOrbitInit*Mathf.Deg2Rad));
+        initMoonPosition = new Vector3(moonDistance * Mathf.Cos(angleMoonOrbitInit * Mathf.Deg2Rad), 0, moonDistance * Mathf.Sin(angleMoonOrbitInit * Mathf.Deg2Rad));
         moonDistance = (initMoonPosition - earth.Position).magnitude;
 
         Vector3 targetRotation = new Vector3(0, angleMoonSpinInit, 0);
-        if (angleMoonSpinInit==404)
+        if (angleMoonSpinInit == 404)
         {
             targetRotation = new Vector3(0, 180, 0);
         }
 
         float currentAngle = Mathf.Atan2(moon.Position.z, moon.Position.x);
 
-        StartCoroutine(LerpMoonPositionAlongOrbit(currentAngle, angleMoonOrbitInit*Mathf.Deg2Rad, timerLerpToCI));
-        StartCoroutine(LerpMoonRotation(moon.transform.rotation.eulerAngles, targetRotation, timerLerpToCI-0.1f));
+        StartCoroutine(LerpMoonPositionAlongOrbit(currentAngle, angleMoonOrbitInit * Mathf.Deg2Rad, timerLerpToCI));
+        StartCoroutine(LerpMoonRotation(moon.transform.rotation.eulerAngles, targetRotation, timerLerpToCI - 0.1f));
         moon.SetRotationSprite(Vector3.zero);
 
         oscillationV = 0f;
@@ -712,12 +800,14 @@ public class TidalLockingSimulation : Simulation
     /* ************************************************************* */
     // Lerp Functions
 
-    IEnumerator LerpMoonPositionAlongOrbit(float start, float target, float lerpTime) {
+    IEnumerator LerpMoonPositionAlongOrbit(float start, float target, float lerpTime)
+    {
         float time = 0;
-        float angleSubstep = (target-start)/lerpTime*Time.fixedDeltaTime;
+        float angleSubstep = (target - start) / lerpTime * Time.fixedDeltaTime;
 
         float sAngle = start;
-        while (time < lerpTime) {
+        while (time < lerpTime)
+        {
             time += Time.fixedDeltaTime;
 
             sAngle += angleSubstep;
@@ -728,7 +818,7 @@ public class TidalLockingSimulation : Simulation
             prefabs.DrawLineEarthMoon();
             prefabs.DrawLineMoonBulge();
             prefabs.SetMoonReferenceSystem(0);
-            
+
             yield return null;
         }
         waitForMoonToCI = false;
@@ -736,26 +826,29 @@ public class TidalLockingSimulation : Simulation
         oscillationV = 0f;
         oscillationX = 0f;
         rot180Moon = true;
-        
+
         prefabs.SetMoonReferenceSystem(0);
     }
 
-    IEnumerator LerpMoonRotation(Vector3 start, Vector3 target, float lerpTime) {
+    IEnumerator LerpMoonRotation(Vector3 start, Vector3 target, float lerpTime)
+    {
         float time = 0;
 
-        while (time < lerpTime) {
+        while (time < lerpTime)
+        {
             time += Time.fixedDeltaTime;
-            moon.SetRotation(Vector3.Lerp(start, target, time/lerpTime));
+            moon.SetRotation(Vector3.Lerp(start, target, time / lerpTime));
 
             prefabs.setMoonTidalVectors(NewtonG, moonDistance, vectorTidalScale);
             prefabs.DrawLineMoonBulge();
             prefabs.SetMoonReferenceSystem(0);
-            
+
             yield return null;
         }
     }
 
-    IEnumerator LerpMoonRotationAlongBulge(float lerpTime) {
+    IEnumerator LerpMoonRotationAlongBulge(float lerpTime)
+    {
         float time = 0;
 
         float deltaAngle = (timeScale * resetTimer * 360 / Period);
@@ -763,50 +856,62 @@ public class TidalLockingSimulation : Simulation
         float start = moon.transform.eulerAngles.y;
 
         float substep;
-        if (moonPeriodFactor==1) {
-            substep=0;
+        if (moonPeriodFactor == 1)
+        {
+            substep = 0;
         }
-        else if (moonPeriodFactor>1) {
-            if (start<180) {
-                substep = (target-start)/lerpTime*Time.fixedDeltaTime;
-            } else {
-                substep = (360-start) + target;
-                substep = substep/lerpTime*Time.fixedDeltaTime;
+        else if (moonPeriodFactor > 1)
+        {
+            if (start < 180)
+            {
+                substep = (target - start) / lerpTime * Time.fixedDeltaTime;
             }
-        } else {
-            if (target<start) {
-                substep = (360-start) + target;
-                substep = substep/lerpTime*Time.fixedDeltaTime;
-            } else {
-                substep = (target-start)/lerpTime*Time.fixedDeltaTime;
+            else
+            {
+                substep = (360 - start) + target;
+                substep = substep / lerpTime * Time.fixedDeltaTime;
+            }
+        }
+        else
+        {
+            if (target < start)
+            {
+                substep = (360 - start) + target;
+                substep = substep / lerpTime * Time.fixedDeltaTime;
+            }
+            else
+            {
+                substep = (target - start) / lerpTime * Time.fixedDeltaTime;
             }
         }
 
-        while (time < lerpTime) {
+        while (time < lerpTime)
+        {
             time += Time.fixedDeltaTime;
             moon.IncrementRotation(new Vector3(0, substep, 0));
             moon.IncrementRotationSprite(new Vector3(0, -substep, 0));
 
             prefabs.setMoonTidalVectors(NewtonG, moonDistance, vectorTidalScale);
             prefabs.DrawLineMoonBulge();
-            
+
             yield return null;
         }
         moon.SetRotation(new Vector3(0, target, 0));
     }
 
-    private IEnumerator MoonTidalAction(float fadeTime, float startDelay=1f, float blinkFreq=2f)
+    private IEnumerator MoonTidalAction(float fadeTime, float startDelay = 1f, float blinkFreq = 2f)
     {
         yield return new WaitForSeconds(startDelay);
 
         float time = 0;
-        float index=1f;
+        float index = 1f;
         bool toggle = false;
 
         while (time < fadeTime)
         {
             time += Time.fixedDeltaTime;
-            if (time>(blinkFreq*index)) {
+            if (time > (blinkFreq * index))
+            {
                 toggle = !toggle;
                 index++;
                 ActivationTidalVectors = toggle;
@@ -837,11 +942,13 @@ public class TidalLockingSimulation : Simulation
         CelestialBody draggableBody = moon;
         CelestialBody centerBody = earth;
 
-        if (dragBodyName == DragBodyName.Earth) {
+        if (dragBodyName == DragBodyName.Earth)
+        {
             draggableBody = earth;
             centerBody = moon;
         }
-        if(Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0))
+        {
             // Do not need z component as the camera is "looking down",
             // simulation is in the plan (X, Y)
             Vector2 bodyPositionOnScreen = mainCamera.WorldToScreenPoint(draggableBody.Position);
@@ -853,7 +960,7 @@ public class TidalLockingSimulation : Simulation
             Vector2 distance = mousePositionOnClick - bodyPositionOnScreen;
             float distanceMag = distance.magnitude;
 
-            Vector3 a = new Vector3(draggableBody.transform.localScale.x/2, draggableBody.transform.localScale.x/2, 0);
+            Vector3 a = new Vector3(draggableBody.transform.localScale.x / 2, draggableBody.transform.localScale.x / 2, 0);
             Vector2 bodyRadius = mainCamera.WorldToScreenPoint(draggableBody.Position + a);
 
             Vector2 range = bodyRadius - bodyPositionOnScreen;
@@ -864,17 +971,17 @@ public class TidalLockingSimulation : Simulation
             float outerRangeMag = rangeMag * 1.3f;
 
             // Check that the mouse click is in the center of the moon
-            if (-innerRangeMag <= distanceMag && distanceMag <= innerRangeMag) 
+            if (-innerRangeMag <= distanceMag && distanceMag <= innerRangeMag)
             {
                 //moonStartAngle = Mathf.Atan2(moon.Position.y, moon.Position.x);
-                draggingMoonCenter = true;                
+                draggingMoonCenter = true;
             }
             else if ((-outerRangeMag <= distanceMag && distanceMag < -innerRangeMag) ||
-                     (innerRangeMag < distanceMag && distanceMag <= outerRangeMag)) 
+                     (innerRangeMag < distanceMag && distanceMag <= outerRangeMag))
             {
                 mouseStartAngle = Mathf.Atan2(distance.y, distance.x) * Mathf.Rad2Deg;
                 moonStartSpin = moon.transform.eulerAngles;
-                draggingEdgeMoon = true; 
+                draggingEdgeMoon = true;
             }
         }
 
@@ -883,10 +990,11 @@ public class TidalLockingSimulation : Simulation
             // Get mouse position and displacement
             Vector2 currentMousePosition = Input.mousePosition;
 
-            if (draggingMoonCenter && (dragBodyName!=DragBodyName.None)) {
+            if (draggingMoonCenter && (dragBodyName != DragBodyName.None))
+            {
                 Vector2 screenDisplacement = currentMousePosition - centerOfRotation;
                 float deltaAngle = Mathf.Atan2(screenDisplacement.y, screenDisplacement.x);
-                
+
                 // Compute new position
                 Vector3 vectorR = draggableBody.Position - centerBody.Position;
                 float r = vectorR.magnitude;
@@ -900,18 +1008,20 @@ public class TidalLockingSimulation : Simulation
                 // Assign new position
                 draggableBody.Position = centerBody.Position + position;
 
-                if (dragBodyName==DragBodyName.Earth) {
+                if (dragBodyName == DragBodyName.Earth)
+                {
                     // Moon Bulge follows Earth:
                     moon.SetRotation((deltaAngle * Mathf.Rad2Deg) * Vector3.down);
-                    moon.SetRotationSprite(new Vector3(0, deltaAngle * Mathf.Rad2Deg+180, 0));
+                    moon.SetRotationSprite(new Vector3(0, deltaAngle * Mathf.Rad2Deg + 180, 0));
                 }
 
                 prefabs.setMoonTidalVectors(NewtonG, moonDistance, vectorTidalScale);
                 prefabs.DrawLineEarthMoon();
                 prefabs.DrawLineMoonBulge();
-            } 
-            else if(draggingEdgeMoon && dragMoonEdgesIsAllowed) {
-                
+            }
+            else if (draggingEdgeMoon && dragMoonEdgesIsAllowed)
+            {
+
                 Vector2 screenDisplacement = currentMousePosition - centerOfSpin;
                 float deltaAngle = Mathf.Atan2(screenDisplacement.y, screenDisplacement.x) * Mathf.Rad2Deg;
 
@@ -923,14 +1033,16 @@ public class TidalLockingSimulation : Simulation
                 // 150 -> 179.9 -> 180 -> -179.9 -> -150
                 // and not: 
                 // 150 -> 179.9 -> 180 -> 180.1 -> 210
-                float newEulerY = (newEuler.y+360) % 360;
+                float newEulerY = (newEuler.y + 360) % 360;
                 newEuler.y = newEulerY;
 
-                if(draggableEdgesAngleRange!=0) {
+                if (draggableEdgesAngleRange != 0)
+                {
                     // We want newEulerY to stay in the range [angleMoonSpinInit-dragRange, angleMoonSpinInit+dragRange]
                     // eg: angleMoonSpinInit=180 dragRange=90
                     // [180-90, 180+90] -> [90, 270]
-                    if(newEulerY > angleMoonSpinInit+draggableEdgesAngleRange || newEulerY < angleMoonSpinInit-draggableEdgesAngleRange) {
+                    if (newEulerY > angleMoonSpinInit + draggableEdgesAngleRange || newEulerY < angleMoonSpinInit - draggableEdgesAngleRange)
+                    {
                         return;
                     }
                 }
@@ -940,16 +1052,20 @@ public class TidalLockingSimulation : Simulation
 
                 // Oscillation Logic:
                 oscillationX = newEulerY;
-                if (90 <= newEulerY && newEulerY <= 270) {
+                if (90 <= newEulerY && newEulerY <= 270)
+                {
                     rot180Moon = true;
                     oscillationX -= 180;
-                } else {
+                }
+                else
+                {
                     rot180Moon = false;
-                    if (newEulerY>270) {
-                        oscillationX = newEulerY-360;
+                    if (newEulerY > 270)
+                    {
+                        oscillationX = newEulerY - 360;
                     }
-                }                
-                oscillationXInvert = oscillationX + moon.getUVoffset()*360;
+                }
+                oscillationXInvert = oscillationX + moon.getUVoffset() * 360;
 
                 prefabs.setMoonTidalVectors(NewtonG, moonDistance, vectorTidalScale);
                 prefabs.DrawLineMoonBulge();
@@ -968,28 +1084,31 @@ public class TidalLockingSimulation : Simulation
     {
         switch (dragBodyName)
         {
-            case DragBodyName.None: {
-                if (earth) {earth.SetPointerHandlerBoolean(false);}
-                if (moon) 
+            case DragBodyName.None:
                 {
-                    if (dragMoonEdgesIsAllowed) {moon.SetPointerHandlerBoolean(true);}
-                    else {moon.SetPointerHandlerBoolean(false);}
+                    if (earth) { earth.SetPointerHandlerBoolean(false); }
+                    if (moon)
+                    {
+                        if (dragMoonEdgesIsAllowed) { moon.SetPointerHandlerBoolean(true); }
+                        else { moon.SetPointerHandlerBoolean(false); }
+                    }
+                    return;
                 }
-                return;
-            }
-            case DragBodyName.Earth: {
-                if (earth) {earth.SetPointerHandlerBoolean(true);}
-                if (moon) {moon.SetPointerHandlerBoolean(false);}
-                return;
-            }
-            case DragBodyName.Moon: {
-                if (earth) {earth.SetPointerHandlerBoolean(false);}
-                if (moon) {moon.SetPointerHandlerBoolean(true);}
-                return;
-            }
+            case DragBodyName.Earth:
+                {
+                    if (earth) { earth.SetPointerHandlerBoolean(true); }
+                    if (moon) { moon.SetPointerHandlerBoolean(false); }
+                    return;
+                }
+            case DragBodyName.Moon:
+                {
+                    if (earth) { earth.SetPointerHandlerBoolean(false); }
+                    if (moon) { moon.SetPointerHandlerBoolean(true); }
+                    return;
+                }
             default:
-                if (earth) {earth.SetPointerHandlerBoolean(false);}
-                if (moon) {moon.SetPointerHandlerBoolean(false);}
+                if (earth) { earth.SetPointerHandlerBoolean(false); }
+                if (moon) { moon.SetPointerHandlerBoolean(false); }
                 break;
         }
     }

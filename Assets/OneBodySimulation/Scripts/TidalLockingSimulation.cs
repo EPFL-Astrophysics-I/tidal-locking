@@ -449,6 +449,7 @@ public class TidalLockingSimulation : Simulation
         if (waitForMoonToCI)
         {
             // Wait until Moon
+            Debug.Log("Waiting for moon");
             return;
         }
 
@@ -650,14 +651,14 @@ public class TidalLockingSimulation : Simulation
     // Discrete case: 3 steps animation : 
     private void UpdateSimDiscrete()
     {
-        // Interval timer: otherwise to fast for the user experience.
+        // Interval timer: otherwise too fast for the user experience.
         if (timerDiscreteSim <= timerIntervalSteps)
         {
             timerDiscreteSim += timeScale * Time.fixedDeltaTime;
             return;
         }
 
-        // Timer for letting the moon orbits around the earth.
+        // Timer for letting the moon orbit around the earth.
         if (timerDiscreteSim <= timerIntervalSteps + timerOrbitMoon)
         {
             // Update of timerDiscreteSim is done in UpdateSimContinuous()

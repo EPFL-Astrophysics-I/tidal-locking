@@ -360,8 +360,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1739,7 +1739,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.1000061, y: 0.1000061}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &289273588
@@ -1789,8 +1789,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1799,7 +1799,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 8
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -0.85
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -2136,7 +2136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   languageToggle: {fileID: 1098925803}
   tmpUI: {fileID: 368665567}
-  FR: "Plus en d\xE9tail"
+  FR: Commandes
   EN: Controls
   posOffsetFR: {x: 0, y: 0, z: 0}
 --- !u!114 &368665567
@@ -2374,21 +2374,21 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 400882351}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.10133583}
-  m_LocalScale: {x: 1.0159472, y: 1.0159472, z: 1.0159472}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 772666897}
   - {fileID: 1597887946}
   - {fileID: 1169065636}
   - {fileID: 965731990}
-  m_Father: {fileID: 859417290}
-  m_RootOrder: 1
+  m_Father: {fileID: 980797205}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -250}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &400882353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3446,7 +3446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4396,8 +4396,8 @@ MonoBehaviour:
   tmpUI: {fileID: 688904925}
   FR: "Une chose importante \xE0 noter est que le renflement de la Lune est toujours
     d\xE9form\xE9 vers la Terre."
-  EN: An important thing to notice is that the bulge of the Moon is always reshaped
-    towards the Earth.
+  EN: It is important to notice that the bulge of the Moon is always reshaped towards
+    the Earth.
   posOffsetFR: {x: 0, y: 0, z: 0}
 --- !u!114 &688904925
 MonoBehaviour:
@@ -4418,7 +4418,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: An important thing to notice is that the bulge of the Moon is always reshaped
+  m_text: It is important to notice that the bulge of the Moon is always reshaped
     towards the Earth.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 350cfcf20da78478f9197161ac83b480, type: 2}
@@ -4909,7 +4909,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &772666897
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4918,18 +4918,18 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772666896}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.09974517}
+  m_LocalPosition: {x: 0, y: 0, z: -0.099745154}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 289273587}
   m_Father: {fileID: 400882352}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 21.9, y: -128.3}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -59.1, y: -12.9}
   m_SizeDelta: {x: 54.561684, y: 27.606445}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &772666898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5401,7 +5401,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 980797205}
-  - {fileID: 400882352}
   - {fileID: 6264859704455077569}
   - {fileID: 1965808769}
   m_Father: {fileID: 2866597030137718180}
@@ -5802,11 +5801,11 @@ RectTransform:
   m_Father: {fileID: 400882352}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 244.52, y: -130.65}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 38.7, y: -12.8}
   m_SizeDelta: {x: 101.08887, y: 22.89901}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &965731991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5994,7 +5993,8 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 400882352}
   m_Father: {fileID: 859417290}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6019,11 +6019,12 @@ MonoBehaviour:
   tmpUI: {fileID: 980797207}
   FR: "Mais il n'en a pas toujours \xE9t\xE9 ainsi. Lorsque la Lune s'est form\xE9e,
     sa vitesse de rotation et sa p\xE9riode orbitale n'\xE9taient pas synchronis\xE9es.
-    La Lune tournait plus vite ou plus lentement que le temps qu'il lui faut pour
-    tourner autour de la Terre."
+    La Lune tournait plus <color=#ff000000>vite</color> ou plus <color=#ff000000>lentement</color>
+    que le temps qu'il lui faut pour tourner autour de la Terre."
   EN: But it was not always this way. When the Moon initially formed, its rotation
     rate and orbital period were not synchronized with each other. The Moon rotated
-    faster or slower than the time it takes to orbit the Earth.
+    <color=#ff000000>faster</color> or <color=#ff000000>slower</color> than the time
+    it takes to orbit the Earth.
   posOffsetFR: {x: 0, y: 0, z: 0}
 --- !u!114 &980797207
 MonoBehaviour:
@@ -6046,7 +6047,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: But it was not always this way. When the Moon initially formed, its rotation
     rate and orbital period were not synchronized with each other. The Moon rotated
-    faster or slower than the time it takes to orbit the Earth.
+    <color=#ff000000>faster</color> or <color=#ff000000>slower</color> than the time
+    it takes to orbit the Earth.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 350cfcf20da78478f9197161ac83b480, type: 2}
   m_sharedMaterial: {fileID: -1129015340585624399, guid: 350cfcf20da78478f9197161ac83b480,
@@ -6074,8 +6076,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6226,8 +6228,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7154,11 +7156,11 @@ RectTransform:
   m_Father: {fileID: 400882352}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 102.07, y: -133.43}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -96.3, y: -12.8}
   m_SizeDelta: {x: 34.45362, y: 17.354641}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1169065637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7420,8 +7422,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7430,7 +7432,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 8
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -1.59
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -8157,8 +8159,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -10238,7 +10240,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1597887946
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10247,18 +10249,18 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597887945}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.09974517}
+  m_LocalPosition: {x: 0, y: 0, z: -0.099745154}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1984195488}
   m_Father: {fileID: 400882352}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 109.26, y: -134.04}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 19.4, y: -12.9}
   m_SizeDelta: {x: 63.167877, y: 16.132568}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1597887947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11458,7 +11460,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792705470}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -11738,7 +11740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -12625,7 +12627,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1947321302}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -12738,8 +12740,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12960,11 +12962,11 @@ RectTransform:
   m_Children:
   - {fileID: 394913570}
   m_Father: {fileID: 859417290}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 650, y: -295}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 250, y: -45}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1965808770
@@ -13330,8 +13332,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -13340,7 +13342,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 8
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -0.65
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -13538,8 +13540,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -13548,7 +13550,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 8
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -1.07
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -14736,7 +14738,7 @@ MonoBehaviour:
   header: {fileID: 553839831}
   showHeader: 1
   slideContainer: {fileID: 2866597030137718180}
-  currentSlideIndex: 6
+  currentSlideIndex: 4
   navigation: {fileID: 1054878523}
   clickableBubbles: 1
   fadeInTime: 0.3
@@ -15873,12 +15875,12 @@ RectTransform:
   - {fileID: 6264859704305572629}
   - {fileID: 6264859704815649605}
   m_Father: {fileID: 859417290}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 500}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6264859704455077570
 GameObject:

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using TMPro;
 using UnityEngine;
 
 public class SlideManager : MonoBehaviour
@@ -10,7 +9,7 @@ public class SlideManager : MonoBehaviour
 
     [Header("Slides")]
     [SerializeField] private Transform slideContainer;
-    [SerializeField] private int currentSlideIndex = 0;
+    public int currentSlideIndex = 0;
 
     [Header("Navigation")]
     [SerializeField] private Transform navigation;
@@ -47,6 +46,7 @@ public class SlideManager : MonoBehaviour
         {
             canvasGroup.alpha = 0;
             canvasGroup.blocksRaycasts = false;
+            canvasGroup.interactable = false;
         }
 
         // Turn off all simulations initially that have an associated SlideController
@@ -79,6 +79,7 @@ public class SlideManager : MonoBehaviour
         {
             canvasGroup.alpha = 1;
             canvasGroup.blocksRaycasts = true;
+            canvasGroup.interactable = true;
         }
         if (slide.TryGetComponent(out CameraController cameraController))
         {
@@ -88,7 +89,7 @@ public class SlideManager : MonoBehaviour
         foreach (var simSlideController in slide.GetComponents<SimulationSlideController>())
         {
             simSlideController.ActivateSimulation();
-            simSlideController.enabled = true;
+            // simSlideController.enabled = true;
         }
     }
 
@@ -127,6 +128,7 @@ public class SlideManager : MonoBehaviour
         if (prevSlide.TryGetComponent(out CanvasGroup prevCG))
         {
             prevCG.blocksRaycasts = false;
+            prevCG.interactable = false;
             StartCoroutine(FadeSlide(prevCG, 0, fadeOutTime, fadeOutDelay));
         }
         // Release the current slide's camera reference
@@ -138,7 +140,7 @@ public class SlideManager : MonoBehaviour
         foreach (var prevSSC in prevSlide.GetComponents<SimulationSlideController>())
         {
             prevSSC.DeactivateSimulation();
-            prevSSC.enabled = false;
+            // prevSSC.enabled = false;
         }
 
         // Turn on the new slide
@@ -146,6 +148,7 @@ public class SlideManager : MonoBehaviour
         if (nextSlide.TryGetComponent(out CanvasGroup nextCG))
         {
             nextCG.blocksRaycasts = true;
+            nextCG.interactable = true;
             StartCoroutine(FadeSlide(nextCG, 1, fadeInTime, fadeInDelay));
         }
         // Pass the camera reference to the new slide and move it to the right place
@@ -158,7 +161,7 @@ public class SlideManager : MonoBehaviour
         foreach (var nextSSC in nextSlide.GetComponents<SimulationSlideController>())
         {
             nextSSC.ActivateSimulation();
-            nextSSC.enabled = true;
+            // nextSSC.enabled = true;
         }
 
         currentSlideIndex = slideIndex;
@@ -192,5 +195,49 @@ public class SlideManager : MonoBehaviour
         {
             BroadcastMessage("SetDarkTheme", SendMessageOptions.DontRequireReceiver);
         }
+    }
+
+    public void LoadSlideImmediately(int slideIndex)
+    {
+        // Get reference to the Slides container if it exists
+        if (!slideContainer)
+        {
+            Debug.LogWarning("A SlideContainer has not been assigned.");
+            return;
+        }
+
+        // Hide all UI elements of each slide using its CanvasGroup
+        foreach (var cg in slideContainer.GetComponentsInChildren<CanvasGroup>())
+        {
+            cg.alpha = 0;
+            cg.blocksRaycasts = false;
+            cg.interactable = false;
+        }
+
+        // Turn off all simulations initially that have an associated SlideController
+        foreach (var slideController in slideContainer.GetComponentsInChildren<SimulationSlideController>())
+        {
+            slideController.DeactivateSimulation();
+        }
+
+        // Activate the correct slide
+        Transform slide = slideContainer.GetChild(slideIndex);
+        if (slide.TryGetComponent(out CanvasGroup canvasGroup))
+        {
+            canvasGroup.blocksRaycasts = true;
+            canvasGroup.interactable = true;
+            canvasGroup.alpha = 1;
+        }
+        // Pass the camera reference to the new slide and move it to the right place
+        if (slide.TryGetComponent(out CameraController nextCC))
+        {
+            nextCC.InitializeCameraImmediately(Camera.main);
+        }
+        // Activate all simulations associated to this slide
+        // foreach (var ssc in slide.GetComponents<SimulationSlideController>())
+        // {
+        //     ssc.ActivateSimulation();
+        //     ssc.enabled = true;
+        // }
     }
 }

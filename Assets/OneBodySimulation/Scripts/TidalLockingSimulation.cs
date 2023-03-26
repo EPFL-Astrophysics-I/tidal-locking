@@ -65,7 +65,7 @@ public class TidalLockingSimulation : Simulation
 
     // Lerp Timer:
     private float timerLerpBulgeAxis = 6;
-    private float timerLerpToCI = 5;
+    private float timerLerpToCI = 2;
 
     // Initial Condition:
     private bool resetEarthPos;
@@ -448,8 +448,8 @@ public class TidalLockingSimulation : Simulation
 
         if (waitForMoonToCI)
         {
-            // Wait until Moon
-            Debug.Log("Waiting for moon");
+            // Wait until Moon resets to initial conditions
+            Debug.Log("Waiting for moon to reset");
             return;
         }
 
@@ -574,6 +574,7 @@ public class TidalLockingSimulation : Simulation
         if (moonIsRotating)
         {
             float deltaAngle = timeScale * Time.fixedDeltaTime * 360 / moon.RotationPeriod;
+            Debug.Log(deltaAngle + " : " + moon.RotationPeriod);
             moon.IncrementRotation(deltaAngle * Vector3.down);
 
             // Sync moon spin speed:
@@ -655,6 +656,7 @@ public class TidalLockingSimulation : Simulation
         if (timerDiscreteSim <= timerIntervalSteps)
         {
             timerDiscreteSim += timeScale * Time.fixedDeltaTime;
+            Debug.Log("Waiting here");
             return;
         }
 
@@ -759,10 +761,13 @@ public class TidalLockingSimulation : Simulation
 
         oscillationXInvert = 0f;
 
-        prefabs.DrawLineEarthMoon();
-        prefabs.DrawLineMoonBulge();
+        if (prefabs)
+        {
+            prefabs.DrawLineEarthMoon();
+            prefabs.DrawLineMoonBulge();
 
-        prefabs.setMoonTidalVectors(NewtonG, moonDistance, vectorTidalScale);
+            prefabs.setMoonTidalVectors(NewtonG, moonDistance, vectorTidalScale);
+        }
     }
 
     public void ResetSquashingAnim()
@@ -852,45 +857,53 @@ public class TidalLockingSimulation : Simulation
     {
         float time = 0;
 
-        float deltaAngle = (timeScale * resetTimer * 360 / Period);
-        float target = 180 - deltaAngle;
-        float start = moon.transform.eulerAngles.y;
+        // Current angle of the moon in its orbit
+        float positionAngle = (timeScale * resetTimer * 360 / Period);
 
-        float substep;
-        if (moonPeriodFactor == 1)
-        {
-            substep = 0;
-        }
-        else if (moonPeriodFactor > 1)
-        {
-            if (start < 180)
-            {
-                substep = (target - start) / lerpTime * Time.fixedDeltaTime;
-            }
-            else
-            {
-                substep = (360 - start) + target;
-                substep = substep / lerpTime * Time.fixedDeltaTime;
-            }
-        }
-        else
-        {
-            if (target < start)
-            {
-                substep = (360 - start) + target;
-                substep = substep / lerpTime * Time.fixedDeltaTime;
-            }
-            else
-            {
-                substep = (target - start) / lerpTime * Time.fixedDeltaTime;
-            }
-        }
+        // Current rotation angle of the moon about its axis
+        float startRotationY = moon.transform.eulerAngles.y;
+        Debug.Log(startRotationY);
+
+        // 
+        float target = 180 - positionAngle;
+        float start = moon.transform.rotation.eulerAngles.y;
+
+        // float substep;
+        // if (moonPeriodFactor == 1)
+        // {
+        //     substep = 0;
+        // }
+        // else if (moonPeriodFactor > 1)
+        // {
+        //     if (start < 180)
+        //     {
+        //         substep = (target - start) / lerpTime * Time.fixedDeltaTime;
+        //     }
+        //     else
+        //     {
+        //         substep = (360 - start) + target;
+        //         substep = substep / lerpTime * Time.fixedDeltaTime;
+        //     }
+        // }
+        // else
+        // {
+        //     if (target < start)
+        //     {
+        //         substep = (360 - start) + target;
+        //         substep = substep / lerpTime * Time.fixedDeltaTime;
+        //     }
+        //     else
+        //     {
+        //         substep = (target - start) / lerpTime * Time.fixedDeltaTime;
+        //     }
+        // }
 
         while (time < lerpTime)
         {
             time += Time.fixedDeltaTime;
-            moon.IncrementRotation(new Vector3(0, substep, 0));
-            moon.IncrementRotationSprite(new Vector3(0, -substep, 0));
+            // moon.IncrementRotation(new Vector3(0, substep, 0));
+            // moon.IncrementRotationSprite(new Vector3(0, -substep, 0));
+
 
             prefabs.setMoonTidalVectors(NewtonG, moonDistance, vectorTidalScale);
             prefabs.DrawLineMoonBulge();

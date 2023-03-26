@@ -204,4 +204,12 @@ public class CameraController : MonoBehaviour
     {
         return (color1.r == color2.r) && (color1.g == color2.g) && (color1.b == color2.b);
     }
+
+    public void InitializeCameraImmediately(Camera camera)
+    {
+        camera.backgroundColor = backgroundColor;
+        camera.transform.position = position;
+        camera.transform.LookAt(lookAt);
+        camera.fieldOfView = fieldOfView;
+    }
 }

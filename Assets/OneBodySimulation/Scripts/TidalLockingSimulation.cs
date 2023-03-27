@@ -574,7 +574,6 @@ public class TidalLockingSimulation : Simulation
         if (moonIsRotating)
         {
             float deltaAngle = timeScale * Time.fixedDeltaTime * 360 / moon.RotationPeriod;
-            Debug.Log(deltaAngle + " : " + moon.RotationPeriod);
             moon.IncrementRotation(deltaAngle * Vector3.down);
 
             // Sync moon spin speed:
@@ -862,7 +861,6 @@ public class TidalLockingSimulation : Simulation
 
         // Current rotation angle of the moon about its axis
         float startRotationY = moon.transform.eulerAngles.y;
-        Debug.Log(startRotationY);
 
         // 
         float target = 180 - positionAngle;

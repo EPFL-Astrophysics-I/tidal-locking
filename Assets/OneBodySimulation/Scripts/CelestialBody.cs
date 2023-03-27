@@ -60,7 +60,8 @@ public class CelestialBody : MonoBehaviour
         And the cursor functionality will not work.
     */
     private MouseOverEvent mouseOverEvent;
-    void Start()
+
+    private void Awake()
     {
         TryGetComponent<Renderer>(out spriteRenderer);
         TryGetComponent<MouseOverEvent>(out mouseOverEvent);
@@ -121,12 +122,36 @@ public class CelestialBody : MonoBehaviour
         if (spriteRenderer)
         {
             Vector2 previousOffset = spriteRenderer.material.GetVector("Vector2_Offset_Sprite");
-            float radians = Mathf.Deg2Rad * (rotation.y % 360);
-            Vector2 vec_offset = new Vector2(
-                    radians / (Mathf.PI * 2),
-                    0
-                );
-            spriteRenderer.material.SetVector("Vector2_Offset_Sprite", previousOffset + vec_offset);
+            Vector2 newOffset = previousOffset + new Vector2(rotation.y / 360, 0);
+
+            // float radians = Mathf.Deg2Rad * (rotation.y % 360);
+            // Vector2 vec_offset = new Vector2(
+            //         radians / (Mathf.PI * 2),
+            //         0
+            //     );
+            // spriteRenderer.material.SetVector("Vector2_Offset_Sprite", previousOffset + vec_offset);
+            spriteRenderer.material.SetVector("Vector2_Offset_Sprite", newOffset);
+        }
+    }
+
+    public void SetTextureOffset(Vector2 offsetUV)
+    {
+        if (spriteRenderer) spriteRenderer.material.SetTextureOffset("_BaseMap", offsetUV);
+    }
+
+    public Vector2 GetTextureOffset()
+    {
+        Vector2 offset = Vector2.zero;
+        if (spriteRenderer) offset = spriteRenderer.material.GetTextureOffset("_BaseMap");
+        return offset;
+    }
+
+    public void IncrementTextureOffset(Vector2 deltaUV)
+    {
+        if (spriteRenderer)
+        {
+            Vector2 currentOffset = spriteRenderer.material.GetTextureOffset("_BaseMap");
+            spriteRenderer.material.SetTextureOffset("_BaseMap", currentOffset + deltaUV);
         }
     }
 

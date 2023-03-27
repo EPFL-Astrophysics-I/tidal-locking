@@ -9,9 +9,23 @@ public class AnimationSlideController : SimulationSlideController
     public Button resetButton;
     public RectTransform sliderCoverPanel;
 
+    [Header("Tidal Locking Parameters")]
+    // Rate of change of angular frequency towards synchrony (degrees / s^2)
+    public float angularAcceleration = 1;
+
     private TidalLockingAnimation sim;
 
     private float moonDefaultPeriod;  // Rotation period when synchronized
+
+    private void OnEnable()
+    {
+        TidalLockingAnimation.OnUpdateMoonRotationPeriod += HandleMoonRotationPeriodChanged;
+    }
+
+    private void OnDisable()
+    {
+        TidalLockingAnimation.OnUpdateMoonRotationPeriod -= HandleMoonRotationPeriodChanged;
+    }
 
     public override void InitializeSlide()
     {
@@ -24,9 +38,6 @@ public class AnimationSlideController : SimulationSlideController
             Debug.Log("No simulation assigned in AnimationSlideController");
             return;
         }
-
-        // Return the earth and moon to their starting positions
-        sim.Reset();
 
         // Store the moon's orbital period to initialize the rotation period slider
         moonDefaultPeriod = sim.OrbitalPeriod;
@@ -58,16 +69,25 @@ public class AnimationSlideController : SimulationSlideController
             }
         }
         if (sliderCoverPanel) sliderCoverPanel.gameObject.SetActive(false);
+
+        Reset();
+    }
+
+    public void HandleMoonRotationPeriodChanged(float newRotationPeriod)
+    {
+        if (moonPeriodSlider) moonPeriodSlider.value = newRotationPeriod;
     }
 
     public void StartAnimation()
     {
-        if (sim) sim.StartAnimation();
+        if (sim) sim.StartAnimation(Mathf.Sign(sim.MoonRotationPeriod - sim.OrbitalPeriod));
     }
 
     public void Reset()
     {
+        // Return the earth and moon to their starting positions
         if (sim) sim.Reset();
+
         if (moonPeriodSlider) moonPeriodSlider.value = moonDefaultPeriod;
     }
 

@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using static Units;
 
 public class TidalLockingAnimation : Simulation
 {
     public CelestialBody earth;
     public CelestialBody moon;
-    public Vector moonVector;
+    public Vector moonOrbitVector;
+    public Vector moonReferenceVector;
+    public LineRenderer orbitalRadius;
 
     // Factor by which to scale the earth and moon radii
     public float radiusScale = 10;
@@ -15,6 +16,7 @@ public class TidalLockingAnimation : Simulation
     // Simulation time scale
     public float timeScale = 1;
 
+    // Units system
     private UnitTime unitTime = UnitTime.Day;
     private UnitLength unitLength = UnitLength.EarthMoonDistance;
     private UnitMass unitMass = UnitMass.EarthMass;
@@ -25,10 +27,21 @@ public class TidalLockingAnimation : Simulation
 
     // Orbital period
     private float moonDistance = Units.LunarDistance(UnitLength.EarthMoonDistance);
-    public float OrbitalPeriod => 2 * Mathf.PI * Mathf.Sqrt(Mathf.Pow(moonDistance, 3) / NewtonG / Units.EarthMass(unitMass));
+    public float OrbitalPeriod
+    {
+        get
+        {
+            float ratio = Mathf.Pow(moonDistance, 3) / NewtonG / Units.EarthMass(unitMass);
+            return 2 * Mathf.PI * Mathf.Sqrt(ratio);
+        }
+    }
 
-    // Moon rotation period
-    public float moonRotationPeriod;
+    // Rotation period
+    public float MoonRotationPeriod => moon ? moon.RotationPeriod : 0;
+    public static event System.Action<float> OnUpdateMoonRotationPeriod;
+    private float periodDifferenceSign;
+
+    private bool animationIsPlaying;
 
     private void Awake()
     {
@@ -38,40 +51,59 @@ public class TidalLockingAnimation : Simulation
         Debug.Log("Orbital Period " + OrbitalPeriod + " " + unitTime.ToString());
     }
 
-    private void Start()
-    {
-        Reset();
-    }
-
     private void Update()
     {
         if (paused || !earth || !moon) return;
 
+        float deltaAngle = timeScale * Time.fixedDeltaTime * 360f;
+
         // Spin the earth on its axis
-        float deltaAngleEarthRotation = timeScale * Time.deltaTime * 360;
+        float deltaAngleEarthRotation = deltaAngle;
         earth.IncrementRotation(deltaAngleEarthRotation * Vector3.down);
 
         // Move the moon in its orbit
-        float deltaAngleOrbit = timeScale * Time.deltaTime * 360f / OrbitalPeriod;
+        float deltaAngleOrbit = deltaAngle / OrbitalPeriod;
         Vector3 moonPosition = moon.Position - earth.Position;
         moon.Position = earth.Position + Quaternion.Euler(deltaAngleOrbit * Vector3.down) * moonPosition;
 
         // Rotate the moon about its axis
-        float deltaAngleMoonRotation = timeScale * Time.deltaTime * 360f / moon.RotationPeriod;
-        moon.IncrementRotation(deltaAngleMoonRotation * Vector3.down);
+        float deltaAngleMoonRotation = deltaAngle / moon.RotationPeriod;
+        moon.IncrementRotation(deltaAngleOrbit * Vector3.down);
+        // moon.IncrementRotationSprite((deltaAngleMoonRotation - deltaAngleOrbit) * Vector3.down);
+        moon.IncrementTextureOffset(-(deltaAngleMoonRotation - deltaAngleOrbit) / 360f * Vector2.right);
 
-        // Rotate the moon orientation vector
-        if (moonVector)
+        // Rotate the moon orientation vector and orbital radius
+        RedrawMoonOrbitVector(false);
+        RedrawMoonReferenceVector(false);
+        RedrawOrbitalRadius();
+    }
+
+    private void LateUpdate()
+    {
+        if (!animationIsPlaying || moon.RotationPeriod == OrbitalPeriod) return;
+
+        float previousDelta = moon.RotationPeriod - OrbitalPeriod;
+
+        // Update the moon's rotation period
+        float percentDifference = Mathf.Abs(moon.RotationPeriod - OrbitalPeriod) / OrbitalPeriod;
+        float rateFactor = periodDifferenceSign * percentDifference;
+        moon.RotationPeriod -= 3 * rateFactor * timeScale * Time.deltaTime;
+        OnUpdateMoonRotationPeriod?.Invoke(moon.RotationPeriod);
+
+        // Stop condition for updating moon's rotation
+        float currentDelta = moon.RotationPeriod - OrbitalPeriod;
+        if (Mathf.Sign(previousDelta) != Mathf.Sign(currentDelta))
         {
-            moonVector.transform.position = moon.Position - 0.5f * moon.transform.localScale.x * moon.transform.right;
-            moonVector.components = -moonVector.components.magnitude * moon.transform.right;
-            moonVector.Redraw();
+            moon.RotationPeriod = OrbitalPeriod;
         }
     }
 
-    public void StartAnimation()
+    public void StartAnimation(float sign)
     {
+        periodDifferenceSign = sign;
+
         Resume();
+        animationIsPlaying = true;
 
         // float anglePerStep = 360f / numTimeSteps;
         // StartCoroutine(TakeDiscreteStep(anglePerStep));
@@ -79,6 +111,8 @@ public class TidalLockingAnimation : Simulation
 
     public void Reset()
     {
+        Debug.Log("TidalLockingAnimation > Reset()");
+
         if (earth)
         {
             earth.Position = Vector3.zero;
@@ -95,23 +129,73 @@ public class TidalLockingAnimation : Simulation
             moon.SetRadius(radiusScale * LunarRadius(unitLength));
             moonDistance = (moon.Position - earth.Position).magnitude;
             moon.SetRotation(Vector3.zero);
+            moon.SetTextureOffset(Vector2.zero);
+            // moon.SetRotationSprite(Vector3.zero);
 
-            // moon.RotationPeriod = Period * moonPeriodFactor;
+            // Recall that this starts a coroutine
+            moon.IsSquashed = true;
         }
 
-        if (moonVector)
-        {
-            moonVector.transform.position = moon.Position - 0.5f * moon.transform.localScale.x * moon.transform.right;
-            moonVector.components = 0.2f * Vector3.left;
-            moonVector.lineWidth = 0.05f;
-            moonVector.Redraw();
-        }
+        RedrawMoonOrbitVector(true);
+        RedrawMoonReferenceVector(true);
+        RedrawOrbitalRadius();
+
+        SetMoonRotationPeriod(OrbitalPeriod);
 
         Pause();
+        animationIsPlaying = false;
     }
 
     public void SetMoonRotationPeriod(float value)
     {
         if (moon) moon.RotationPeriod = value;
+    }
+
+    private void RedrawMoonOrbitVector(bool firstDraw)
+    {
+        if (moonOrbitVector && moon)
+        {
+            // Vector3 positionOffset = -0.49f * moon.transform.localScale.x * moon.transform.right;
+            moonOrbitVector.transform.position = moon.Position; // + positionOffset;
+            if (firstDraw)
+            {
+                moonOrbitVector.components = 0.35f * Vector3.left;
+            }
+            else
+            {
+                moonOrbitVector.components = -moonOrbitVector.components.magnitude * moon.transform.right;
+            }
+            moonOrbitVector.Redraw();
+        }
+    }
+
+    private void RedrawMoonReferenceVector(bool firstDraw)
+    {
+        if (moonReferenceVector && moon)
+        {
+            // Vector3 positionOffset = moon.transform.localScale.x * moon.transform.right;
+            moonReferenceVector.transform.position = moon.Position; // + positionOffset;
+            if (firstDraw)
+            {
+                moonReferenceVector.components = 0.35f * Vector3.left;
+            }
+            else
+            {
+                float angleOffset = moon.GetTextureOffset().x * 360f;
+                Vector3 components = -moonReferenceVector.components.magnitude * moon.transform.right;
+                // Rotate by angle offset
+                components = Quaternion.Euler(angleOffset * Vector3.up) * components;
+                moonReferenceVector.components = components;
+            }
+            moonReferenceVector.Redraw();
+        }
+    }
+
+    private void RedrawOrbitalRadius()
+    {
+        if (orbitalRadius && earth && moon)
+        {
+            orbitalRadius.SetPositions(new Vector3[2] { earth.Position, moon.Position });
+        }
     }
 }

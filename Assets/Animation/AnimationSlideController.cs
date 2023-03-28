@@ -13,6 +13,7 @@ public class AnimationSlideController : SimulationSlideController
 
     [Header("Options")]
     public bool useDiscreteSteps;
+    public int numSteps = 8;
     public float maxStepAngle = 30;
     public float timeScale = 1;
 
@@ -23,11 +24,13 @@ public class AnimationSlideController : SimulationSlideController
     private void OnEnable()
     {
         TidalLockingAnimation.OnUpdateMoonRotationPeriod += HandleMoonRotationPeriodChanged;
+        TidalLockingAnimation.OnDiscreteTidalLocking += HandleDiscreteTidalLocking;
     }
 
     private void OnDisable()
     {
         TidalLockingAnimation.OnUpdateMoonRotationPeriod -= HandleMoonRotationPeriodChanged;
+        TidalLockingAnimation.OnDiscreteTidalLocking -= HandleDiscreteTidalLocking;
     }
 
     public override void InitializeSlide()
@@ -97,6 +100,8 @@ public class AnimationSlideController : SimulationSlideController
         {
             sim.Reset();
             sim.SetTimeScale(timeScale);
+            sim.useDiscreteSteps = useDiscreteSteps;
+            sim.numSteps = numSteps;
         }
 
         if (useDiscreteSteps && moonRotationToggle)
@@ -105,6 +110,11 @@ public class AnimationSlideController : SimulationSlideController
         }
 
         if (moonPeriodSlider) moonPeriodSlider.value = moonDefaultPeriod;
+
+        if (useDiscreteSteps && tidalLockingLabel)
+        {
+            tidalLockingLabel.gameObject.SetActive(false);
+        }
     }
 
     public void CheckForTidalLocking()
@@ -115,6 +125,11 @@ public class AnimationSlideController : SimulationSlideController
             bool isTidallyLocked = Mathf.Abs(moonPeriodSlider.value - moonDefaultPeriod) < 0.1f;
             tidalLockingLabel.gameObject.SetActive(isTidallyLocked);
         }
+    }
+
+    public void HandleDiscreteTidalLocking()
+    {
+        if (tidalLockingLabel) tidalLockingLabel.gameObject.SetActive(true);
     }
 
     public void SetMoonRotationPeriod(float value)

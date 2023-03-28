@@ -20,6 +20,8 @@ public class TidalLockingAnimation : Simulation
     public int numSteps = 8;
     public float maxStepAngle = 45;
     private float orbitalAngleOffset = 0;
+    private float deltaPeriod;
+    public static event System.Action OnDiscreteTidalLocking;
 
     // Units system
     private UnitTime unitTime = UnitTime.Day;
@@ -54,7 +56,7 @@ public class TidalLockingAnimation : Simulation
         // Compute Newton's constant once at the start
         _newtonG = NewtonG;
 
-        Debug.Log("Orbital Period " + OrbitalPeriod + " " + unitTime.ToString());
+        // Debug.Log("Orbital Period " + OrbitalPeriod + " " + unitTime.ToString());
     }
 
     private void Update()
@@ -130,6 +132,9 @@ public class TidalLockingAnimation : Simulation
         useDiscreteSteps = animationIsDiscrete;
         maxStepAngle = stepAngle;
 
+        // Compute by how much to increment / decrement the moon's period after each step
+        deltaPeriod = (OrbitalPeriod - moon.RotationPeriod) / numSteps;
+
         Resume();
         animationIsPlaying = true;
     }
@@ -165,11 +170,19 @@ public class TidalLockingAnimation : Simulation
 
         yield return new WaitForSeconds(1.5f);
 
-        // TODO decrease / increase the period now !!
-        //
-        //  ...
-        //
-        //
+        // Increase / decrease the moon's rotation period toward synchrony
+        moon.RotationPeriod += deltaPeriod;
+        // Debug.Log("Period offset " + (OrbitalPeriod - moon.RotationPeriod));
+        // Debug.Log(moon.RotationPeriod);
+
+        // Check for tidal locking
+        if (Mathf.Abs(OrbitalPeriod - moon.RotationPeriod) < 0.01f)
+        {
+            // Proceed as continuous simulation
+            useDiscreteSteps = false;
+            timeScale = 1;
+            OnDiscreteTidalLocking?.Invoke();
+        }
 
         orbitalAngleOffset = 0;
         Resume();
@@ -177,7 +190,7 @@ public class TidalLockingAnimation : Simulation
 
     public void Reset()
     {
-        Debug.Log("TidalLockingAnimation > Reset()");
+        // Debug.Log("TidalLockingAnimation > Reset()");
 
         if (reshapeAnimation != null)
         {
@@ -216,11 +229,12 @@ public class TidalLockingAnimation : Simulation
         Pause();
         animationIsPlaying = false;
         orbitalAngleOffset = 0;
+        deltaPeriod = 0;
     }
 
     public void SetMoonRotationPeriod(float value)
     {
-        Debug.Log("TidalLockingAnimation > Moon rotation period : " + value);
+        // Debug.Log("TidalLockingAnimation > Moon rotation period : " + value);
         if (moon) moon.RotationPeriod = value;
     }
 

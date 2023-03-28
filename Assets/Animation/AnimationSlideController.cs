@@ -35,7 +35,7 @@ public class AnimationSlideController : SimulationSlideController
 
     public override void InitializeSlide()
     {
-        Debug.Log("AnimationSlideController > InitializeSlide");
+        // Debug.Log("AnimationSlideController > InitializeSlide");
 
         // Get reference to the specific simulation
         sim = simulation as TidalLockingAnimation;

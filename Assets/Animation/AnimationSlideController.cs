@@ -3,15 +3,18 @@ using UnityEngine.UI;
 
 public class AnimationSlideController : SimulationSlideController
 {
+    [Header("UI")]
     public Slider moonPeriodSlider;  // Rotation period
+    public Toggle moonRotationToggle;  // Rotation rate
     public RectTransform tidalLockingLabel;
     public Button playButton;
     public Button resetButton;
     public RectTransform sliderCoverPanel;
 
-    [Header("Tidal Locking Parameters")]
-    // Rate of change of angular frequency towards synchrony (degrees / s^2)
-    public float angularAcceleration = 1;
+    [Header("Options")]
+    public bool useDiscreteSteps;
+    public float maxStepAngle = 30;
+    public float timeScale = 1;
 
     private TidalLockingAnimation sim;
 
@@ -80,13 +83,26 @@ public class AnimationSlideController : SimulationSlideController
 
     public void StartAnimation()
     {
-        if (sim) sim.StartAnimation(Mathf.Sign(sim.MoonRotationPeriod - sim.OrbitalPeriod));
+        if (sim)
+        {
+            float sign = Mathf.Sign(sim.MoonRotationPeriod - sim.OrbitalPeriod);
+            sim.StartAnimation(sign, useDiscreteSteps, maxStepAngle);
+        }
     }
 
     public void Reset()
     {
         // Return the earth and moon to their starting positions
-        if (sim) sim.Reset();
+        if (sim)
+        {
+            sim.Reset();
+            sim.SetTimeScale(timeScale);
+        }
+
+        if (useDiscreteSteps && moonRotationToggle)
+        {
+            SetMoonRotationPeriod(moonRotationToggle.isOn);
+        }
 
         if (moonPeriodSlider) moonPeriodSlider.value = moonDefaultPeriod;
     }
@@ -104,5 +120,14 @@ public class AnimationSlideController : SimulationSlideController
     public void SetMoonRotationPeriod(float value)
     {
         if (sim) sim.SetMoonRotationPeriod(value);
+    }
+
+    public void SetMoonRotationPeriod(bool rateIsFaster)
+    {
+        if (sim)
+        {
+            float rotationPeriod = rateIsFaster ? 15 : 150;
+            sim.SetMoonRotationPeriod(rotationPeriod);
+        }
     }
 }

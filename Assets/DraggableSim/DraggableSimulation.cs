@@ -92,7 +92,7 @@ public class DraggableSimulation : Simulation
         {
             clickableObject.interactable = false;
             float deltaAngle = Quaternion.Angle(moon.transform.localRotation, Quaternion.identity);
-            reshapeAnimation = StartCoroutine(ReshapeSequence(2 * deltaAngle / maxMoonRotationAngle));
+            reshapeAnimation = StartCoroutine(ReshapeSequence(1.8f * deltaAngle / maxMoonRotationAngle));
         }
         bodyBeingDragged = null;
     }

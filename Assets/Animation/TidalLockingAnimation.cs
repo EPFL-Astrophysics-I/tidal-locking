@@ -214,7 +214,7 @@ public class TidalLockingAnimation : Simulation
             moon.SetRadius(radiusScale * LunarRadius(unitLength));
             moonDistance = (moon.Position - earth.Position).magnitude;
             moon.SetRotation(Vector3.zero);
-            moon.SetTextureOffset(Vector2.zero);
+            moon.SetTextureOffset(0.5f * Vector2.right);
 
             // Recall that this starts a coroutine
             moon.IsSquashed = true;
@@ -268,7 +268,7 @@ public class TidalLockingAnimation : Simulation
             }
             else
             {
-                float angleOffset = moon.GetTextureOffset().x * 360f;
+                float angleOffset = (moon.GetTextureOffset().x - 0.5f) * 360f;
                 Vector3 components = -moonReferenceVector.components.magnitude * moon.transform.right;
                 // Rotate by angle offset
                 components = Quaternion.Euler(angleOffset * Vector3.up) * components;

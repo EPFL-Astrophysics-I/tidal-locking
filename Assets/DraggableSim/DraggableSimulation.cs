@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using static Units;
 
@@ -24,11 +25,21 @@ public class DraggableSimulation : Simulation
     public bool showOrbit;
     public bool showOrbitalRadius;
     public float maxMoonRotationAngle = 45;
+    public bool showTidalVectors;
+    public int numTidalVectors = 5;
+    public float tidalVectorScaleFactor = 500f;
+
+    private List<Arrow> tidalVectors;
+    private Transform tidalVectorsContainer;
 
     // Units system
     private UnitTime unitTime = UnitTime.Day;
     private UnitLength unitLength = UnitLength.EarthMoonDistance;
     private UnitMass unitMass = UnitMass.EarthMass;
+
+    // Gravitational constant
+    private float _newtonG;
+    public float NewtonG => (_newtonG != 0) ? _newtonG : Units.NewtonG(unitTime, unitLength, unitMass);
 
     // Moon distance in these units
     private float moonDistance = Units.LunarDistance(UnitLength.EarthMoonDistance);
@@ -39,6 +50,12 @@ public class DraggableSimulation : Simulation
 
     private Coroutine reshapeAnimation;
     private float angleOffsetSign;
+
+    private void Awake()
+    {
+        // Compute Newton's constant once at the start
+        _newtonG = NewtonG;
+    }
 
     private void Start()
     {
@@ -74,7 +91,8 @@ public class DraggableSimulation : Simulation
         if (clickableObject.CompareTag("Moon"))
         {
             clickableObject.interactable = false;
-            reshapeAnimation = StartCoroutine(ReshapeSequence(2));
+            float deltaAngle = Quaternion.Angle(moon.transform.localRotation, Quaternion.identity);
+            reshapeAnimation = StartCoroutine(ReshapeSequence(2 * deltaAngle / maxMoonRotationAngle));
         }
         bodyBeingDragged = null;
     }
@@ -165,6 +183,8 @@ public class DraggableSimulation : Simulation
                 }
             }
         }
+
+        if (showTidalVectors) RedrawTidalVectors();
     }
 
     public void Reset()
@@ -175,11 +195,12 @@ public class DraggableSimulation : Simulation
             reshapeAnimation = null;
         }
 
-        Debug.Log("DraggableSimulation > Reset()");
+        // Debug.Log("DraggableSimulation > Reset()");
         ResetEarth();
         ResetMoon();
         RedrawOrbit();
         RedrawOrbitalRadius();
+        RedrawTidalVectors();
 
         bodyBeingDragged = null;
 
@@ -244,6 +265,81 @@ public class DraggableSimulation : Simulation
         }
     }
 
+    private void RedrawTidalVectors()
+    {
+        if (tidalVectors == null)
+        {
+            if (tidalVectorPrefab && numTidalVectors > 0)
+            {
+                // Debug.Log("Creating tidal vectors");
+                tidalVectors = new List<Arrow>();
+
+                tidalVectorsContainer = new GameObject("Tidal Vectors").transform;
+                tidalVectorsContainer.transform.SetParent(transform);
+
+                for (int i = 0; i < numTidalVectors; i++)
+                {
+                    Arrow arrow = Instantiate(tidalVectorPrefab, tidalVectorsContainer).GetComponent<Arrow>();
+                    arrow.gameObject.name = "Tidal Vector " + (i + 1);
+                    arrow.transform.parent = tidalVectorsContainer.transform;
+                    tidalVectors.Add(arrow);
+                }
+            }
+        }
+
+        if (tidalVectors.Count > 0)
+        {
+            Vector3 rCM = moon.Position - earth.Position;
+            Vector3 gravForceAtCM = (-NewtonG * earth.Mass * moon.Mass / (moonDistance * moonDistance)) * (rCM.normalized);
+
+            float substep = 360 * Mathf.Deg2Rad / (numTidalVectors - 1);
+
+            for (int i = 0; i < tidalVectors.Count; i++)
+            {
+                float moonRadiusX = moon.transform.localScale.x / 2;
+                float moonRadiusZ = moon.transform.localScale.z / 2;
+
+                if (tidalVectors[i].headInPlanXY)
+                {
+                    moonRadiusZ = moon.transform.localScale.y / 2; ;
+                }
+
+                float angleStep = substep * i;
+
+                float moonRadiusXZ = (moonRadiusX * moonRadiusZ);
+                float cos = Mathf.Cos(angleStep);
+                float sin = Mathf.Sin(angleStep);
+                moonRadiusXZ /= (Mathf.Sqrt(moonRadiusX * moonRadiusX * sin * sin + moonRadiusZ * moonRadiusZ * cos * cos));
+
+                Vector3 position = getTidalPosition(!tidalVectors[i].headInPlanXY, moon.Position, angleStep, moonRadiusXZ, moon.transform.localEulerAngles);
+                tidalVectors[i].transform.position = position;
+
+                Vector3 vectorR = position - earth.Position;
+                float r_dm = vectorR.sqrMagnitude;
+                float dm = moon.Mass * 1f;
+                Vector3 gravForce = (-NewtonG * earth.Mass * dm / r_dm) * (vectorR.normalized);
+
+                tidalVectors[i].SetComponents((gravForce - gravForceAtCM) * tidalVectorScaleFactor);
+            }
+        }
+
+        tidalVectorsContainer.gameObject.SetActive(showTidalVectors);
+    }
+
+    private Vector3 getTidalPosition(bool planXZ, Vector3 bodyPositionInWorld, float tidalPosAngle, float radiusBody, Vector3 moonEulerSpin)
+    {
+        Vector3 pointPositionFromBody;
+        if (planXZ)
+        {
+            pointPositionFromBody = new Vector3(radiusBody * Mathf.Cos(tidalPosAngle), 0, radiusBody * Mathf.Sin(tidalPosAngle));
+        }
+        else
+        {
+            pointPositionFromBody = new Vector3(radiusBody * Mathf.Cos(tidalPosAngle), radiusBody * Mathf.Sin(tidalPosAngle), 0);
+        }
+        return bodyPositionInWorld + (Quaternion.Euler(moonEulerSpin) * pointPositionFromBody);
+    }
+
     private IEnumerator ReshapeSequence(float lerpTime)
     {
         Quaternion startRotation = moon.transform.localRotation;
@@ -264,6 +360,8 @@ public class DraggableSimulation : Simulation
             float offset = Mathf.Lerp(startTextureOffset, targetTextureOffset, t);
             moon.SetTextureOffset(offset * Vector2.right);
 
+            if (showTidalVectors) RedrawTidalVectors();
+
             yield return null;
         }
 
@@ -280,7 +378,6 @@ public class DraggableSimulation : Simulation
             {
                 if (hit.collider.CompareTag("Moon"))
                 {
-                    Debug.Log("Still hovering moon");
                     clickableObject.OnMouseEnter();
                 }
             }

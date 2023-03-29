@@ -6,12 +6,13 @@ public class DraggableSimSlideController : SimulationSlideController
     public DraggableSimulation.DraggableBody draggableBody = default;
     public bool showOrbit;
     public bool showOrbitalRadius;
+    public bool showTidalVectors;
 
     private DraggableSimulation sim;
 
     public override void InitializeSlide()
     {
-        Debug.Log("DraggableSimSlideController > InitializeSlide");
+        // Debug.Log("DraggableSimSlideController > InitializeSlide");
 
         // Get reference to the specific simulation
         sim = simulation as DraggableSimulation;
@@ -22,9 +23,9 @@ public class DraggableSimSlideController : SimulationSlideController
         }
 
         sim.draggableBody = draggableBody;
-
         sim.showOrbit = showOrbit;
         sim.showOrbitalRadius = showOrbitalRadius;
+        sim.showTidalVectors = showTidalVectors;
 
         Reset();
     }

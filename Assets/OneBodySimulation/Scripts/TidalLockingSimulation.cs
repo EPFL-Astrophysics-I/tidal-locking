@@ -449,7 +449,7 @@ public class TidalLockingSimulation : Simulation
         if (waitForMoonToCI)
         {
             // Wait until Moon resets to initial conditions
-            Debug.Log("Waiting for moon to reset");
+            // Debug.Log("Waiting for moon to reset");
             return;
         }
 

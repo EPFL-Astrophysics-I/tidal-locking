@@ -71,9 +71,9 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Positions:
-  - {x: 1.9367545, y: 0.96837723, z: 0.07071068}
+  - {x: 1.9810263, y: 0.99051315, z: 0.021213202}
   - {x: 2, y: 1, z: 0}
-  - {x: 1.9367545, y: 0.96837723, z: -0.07071068}
+  - {x: 1.9810263, y: 0.99051315, z: -0.021213202}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -82,7 +82,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.05
+        value: 0.015
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -91,7 +91,7 @@ LineRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0.05
+        value: 0.015
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -221,7 +221,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.625
+        value: 0.1875
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -230,7 +230,7 @@ LineRenderer:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1
-        value: 0.625
+        value: 0.1875
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -293,7 +293,7 @@ MonoBehaviour:
   headInPlanXY: 0
   components: {x: 2, y: 1, z: 0}
   color: {r: 0.513, g: 0.882, b: 0.709, a: 1}
-  lineWidth: 0.05
+  lineWidth: 0.015
   sortingOrder: 1
   headLR: {fileID: 6306062916368855156}
   headAngle: 45

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - EN
   - FR
+  - Earth
+  - Moon
   layers:
   - Default
   - TransparentFX

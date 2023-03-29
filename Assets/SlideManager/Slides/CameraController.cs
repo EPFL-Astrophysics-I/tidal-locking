@@ -26,6 +26,8 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private AnimationCurve rotationCurve;
 
+    public static event System.Action OnInPosition;
+
     private Camera mainCamera;
     private Coroutine cameraMoving;
     private Coroutine cameraChangingColor;
@@ -151,6 +153,10 @@ public class CameraController : MonoBehaviour
             cameraMoving = StartCoroutine(MoveToPosition(mainCamera.transform.position, position, mainCamera.transform.rotation,
                 targetRotation, mainCamera.fieldOfView, fieldOfView, moveTime));
         }
+        else
+        {
+            OnInPosition?.Invoke();
+        }
 
         cameraStartPosition = mainCamera.transform.position;
         cameraStartRotation = mainCamera.transform.rotation;
@@ -182,6 +188,7 @@ public class CameraController : MonoBehaviour
             mainCamera.orthographic = true;
         }
 
+        OnInPosition?.Invoke();
         cameraMoving = null;
     }
 

@@ -169,7 +169,17 @@ public class DraggableSimulation : Simulation
                 if (Mathf.Abs(angle) < 0.5f * Mathf.PI)
                 {
                     // Clicked on the right side
-                    angle = Mathf.Clamp(angle, -maxRadians, maxRadians);
+                    float angleClamped = Mathf.Clamp(angle, -maxRadians, maxRadians);
+                    if (angleClamped != angle)
+                    {
+                        if (bodyBeingDragged.TryGetComponent(out ClickableObject clickableObject))
+                        {
+                            clickableObject.ResetCursor();
+                            HandleClickableObjectMouseUp(clickableObject);
+                        }
+                        return;
+                    }
+                    angle = angleClamped;
                     bodyBeingDragged.transform.right = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle));
                     angleOffsetSign = Mathf.Sign(angle);
                 }
@@ -177,7 +187,17 @@ public class DraggableSimulation : Simulation
                 {
                     // Clicked the left side
                     angle = Mathf.Sign(angle) * Mathf.PI - angle;
-                    angle = Mathf.Clamp(angle, -maxRadians, maxRadians);
+                    float angleClamped = Mathf.Clamp(angle, -maxRadians, maxRadians);
+                    if (angleClamped != angle)
+                    {
+                        if (bodyBeingDragged.TryGetComponent(out ClickableObject clickableObject))
+                        {
+                            clickableObject.ResetCursor();
+                            HandleClickableObjectMouseUp(clickableObject);
+                        }
+                        return;
+                    }
+                    angle = angleClamped;
                     bodyBeingDragged.transform.right = new Vector3(Mathf.Cos(angle), 0, -Mathf.Sin(angle));
                     angleOffsetSign = Mathf.Sign(-angle);
                 }

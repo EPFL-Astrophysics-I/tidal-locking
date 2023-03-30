@@ -26,6 +26,11 @@ public class ClickableObject : MonoBehaviour
     {
         if (!interactable || mouseIsDown) return;
 
+        ResetCursor();
+    }
+
+    public void ResetCursor()
+    {
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
@@ -41,7 +46,7 @@ public class ClickableObject : MonoBehaviour
     {
         if (!interactable) return;
 
-        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        ResetCursor();
 
         mouseIsDown = false;
         OnObjectMouseUp?.Invoke(this);
